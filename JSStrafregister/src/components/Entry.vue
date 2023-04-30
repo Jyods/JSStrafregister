@@ -1,0 +1,54 @@
+<script setup>
+import { onMounted, ref } from 'vue'
+import Case from './Case.vue'
+
+const props = defineProps({
+    entry: {
+        type: Object,
+        required: true
+    }
+})
+
+const extended = ref(false)
+
+onMounted(() => {
+    console.log(props.entry)
+})
+
+function extend() {
+    extended.value = !extended.value
+}
+</script>
+
+<template>
+    <div class="wrapper">
+        <div class="entry" @click="extend">
+            <h3>{{props.entry.CloneID}}</h3>
+            <div class="extendet" v-if="extended">
+                <p>Alter: {{props.entry.age}}</p>
+            </div>
+        </div>
+        <Case v-if="extended" v-for="Case in props.entry.cases" :case="Case" :key="Case.id"/>
+    </div>
+</template>
+
+<style scoped>
+.wrapper {
+    background-color: grey;
+    border-color: rgb(99, 99, 99);
+    border-style: solid;
+    margin-left: 200px;
+}
+.entry {
+    height: fit-content;
+}
+
+.entry:hover {
+    cursor: pointer;
+}
+
+.extendet {
+    height: fit-content;
+    border-color: aqua;
+}
+</style>
