@@ -37,7 +37,6 @@ function extend() {
     background-color: grey;
     border-color: rgb(99, 99, 99);
     border-style: solid;
-    margin-left: 200px;
 }
 .entry {
     height: fit-content;

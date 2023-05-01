@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 
 const router = useRouter()
 
@@ -11,10 +11,12 @@ const props = defineProps({
     }
 })
 
+const caseEntry = ref('')
 const extended = ref(false)
 
 onMounted(() => {
-    console.log(props.case)
+    caseEntry.value = props.case
+    console.log(caseEntry.value)
 })
 
 function call() {
@@ -40,7 +42,7 @@ function redirect() {
                 <p>{{props.case.description}}</p>
                 <p>Haftzeit: {{ props.case.haftzeit }}</p>
                 <p>Paragrafen: {{  props.case.artikel }}</p>
-                <button :to="{ name: 'Case', query: { CaseID: props.case.id }}" @click="redirect">Redirect</button>
+                <RouterLink :to="{ name: 'Case', query: { CaseID: props.case.id }}" :case="caseEntry">Redirect</RouterLink>
             </div>
     </div>
 </template>
