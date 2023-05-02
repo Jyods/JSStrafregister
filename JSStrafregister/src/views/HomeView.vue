@@ -3,15 +3,16 @@
   import Entry from '../components/Entry.vue'
   import { onMounted, ref, computed } from 'vue'
   import {RouterView} from 'vue-router'
+  import { getFiles } from '../api/requests.js'
 
-  const props = defineProps({
+  /*const props = defineProps({
     entries: {
         type: Object,
         required: true
     }
-})
+})*/
 
-  const entries = ref('')
+  const entries = ref([])
 
   const search = ref('')
 
@@ -21,14 +22,18 @@
     }
     const searchLower = search.value.toLowerCase();
     return entries.value.filter((entry) => {
-      return entry.CloneID.toLowerCase().includes(searchLower);
+      return entry.identification.toLowerCase().includes(searchLower);
     });
   });
 
 
-  onMounted(() => {
-    entries.value = props.entries
-    console.log(entries)
+  onMounted(async() => {
+
+    console.log("Home View")
+    //entries.value = props.entries
+    let files = await getFiles() 
+    entries.value = files.data
+    console.log(entries.value)
   })
 </script>
 

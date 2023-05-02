@@ -11,17 +11,30 @@ const props = defineProps({
     }
 })
 
+const isRestricted = ref(false)
 const caseEntry = ref('')
 const extended = ref(false)
 
 onMounted(() => {
     caseEntry.value = props.case
     console.log(caseEntry.value)
+    if (caseEntry.value.isRestricted == 1)
+    isRestricted.value = true
+    else
+    isRestricted.value = false
 })
 
 function call() {
     console.log(props.case)
+    if(isRestricted.value == true)
+    {
+        //TODO: Check if User is permitted to enter
+        alert("Dieser Eintrag ist nicht öffentlich zugänglich!")
+        return
+    }
+    else {
     extended.value = !extended.value
+    }
 }
 
 function redirect() {
@@ -32,16 +45,16 @@ function redirect() {
 
 <template>
     <div class="casewrapper">
-        <div class="case" @click="call">
+        <div class="case" :class="{restricted : isRestricted}" @click="call">
             <div class="info">
-                <p>{{props.case.name}}</p>
-                <p>Datum des Eintrags: {{  props.case.date }}</p>
+                <p>{{caseEntry.definition}}</p>
+                <p>Datum des Eintrags: {{  caseEntry.date }}</p>
             </div>
         </div>
         <div class="extendet" v-if="extended">
                 <p>{{props.case.description}}</p>
-                <p>Haftzeit: {{ props.case.haftzeit }}</p>
-                <p>Paragrafen: {{  props.case.artikel }}</p>
+                <p>Haftzeit: {{ caseEntry.fine }} Jahre</p>
+                <p>Paragrafen: §{{  caseEntry.article }}</p>
                 <RouterLink :to="{ name: 'Case', query: { CaseID: props.case.id }}" :case="caseEntry">Redirect</RouterLink>
             </div>
     </div>
@@ -53,6 +66,9 @@ function redirect() {
     background-color: grey;
     border-color: rgb(99, 99, 99);
     border-style: solid;
+}
+.restricted {
+    background-color: red;
 }
 .case:hover {
     background-color: aqua;

@@ -12,7 +12,6 @@ const props = defineProps({
 const extended = ref(false)
 
 onMounted(() => {
-    console.log(props.entry)
 })
 
 function extend() {
@@ -21,14 +20,14 @@ function extend() {
 </script>
 
 <template>
-    <div class="wrapper">
+    <div class="wrapper" >
         <div class="entry" @click="extend">
-            <h3>{{props.entry.CloneID}}</h3>
+            <h3>{{props.entry.identification}}</h3>
             <div class="extendet" v-if="extended">
                 <p>Alter: {{props.entry.age}}</p>
             </div>
         </div>
-        <Case v-if="extended" v-for="Case in props.entry.cases" :case="Case" :key="Case.id"/>
+        <Case v-if="extended" v-for="Case in props.entry.files" :case="Case" :key="Case.id"/>
     </div>
 </template>
 
@@ -37,6 +36,9 @@ function extend() {
     background-color: grey;
     border-color: rgb(99, 99, 99);
     border-style: solid;
+}
+.restricted {
+    background-color: red;
 }
 .entry {
     height: fit-content;
