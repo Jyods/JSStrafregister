@@ -1,27 +1,42 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue'
-import { getCase,getFiles } from '../api/requests';
+    import { onMounted, ref, computed } from 'vue'
+    import { getCase,getFiles } from '../api/requests';
   
-  const searchParams = new URLSearchParams(window.location.search);
-  const caseID = searchParams.get('CaseID');
+    const searchParams = new URLSearchParams(window.location.search);
+    const caseID = searchParams.get('CaseID');
 
-  const entries = ref([])
+    const isLoading = ref(true)
 
-  const activeCase = ref('');
+    const entries = ref([])
+
+    const activeCase = ref('');
 
 
-  onMounted(async() => {
-    let files = await getFiles() 
-    entries.value = files.data
-    const usedID = parseInt(caseID)
-    activeCase.value = entries.value.find(entry => entry.files.some(c => c.id === usedID)).files.find(c => c.id === usedID)
-    console.log(activeCase.value);
-})
+    onMounted(async() => {
+        isLoading.value = true
+        let files = await getFiles() 
+        entries.value = files.data
+        const usedID = parseInt(caseID)
+        activeCase.value = entries.value.find(entry => entry.files.some(c => c.id === usedID)).files.find(c => c.id === usedID)
+        console.log(activeCase.value);
+        isLoading.value = false
+    })
 
 </script>
 <template>
-    <h1>{{ activeCase.definition }}</h1>
-    <h2>{{ activeCase.date }}</h2>
+    <div class="loading" v-if="isLoading">
+        <img src="../assets/Loading.svg" alt="loading"/>
+    </div>
+        <div class="CaseContent" v-else>
+        <h1>{{ activeCase.definition }}</h1>
+        <h2>{{ activeCase.date }}</h2>
+    </div>
 </template>
 <style scoped>
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 </style>

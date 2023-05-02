@@ -21,6 +21,10 @@ const router = createRouter({
           name: 'Case',
           component: CaseView,
           props: (route) => ({ CaseID: route.query.CaseID }),
+          children: [{
+            path: '/{CaseID}',
+            component: CaseView,
+        }]
         },
       ]
     },

@@ -12,6 +12,8 @@
     }
 })*/
 
+  const isLoading = ref(true)
+
   const entries = ref([])
 
   const search = ref('')
@@ -28,22 +30,33 @@
 
 
   onMounted(async() => {
-
+    isLoading.value = true
     console.log("Home View")
     //entries.value = props.entries
     let files = await getFiles() 
     entries.value = files.data
     console.log(entries.value)
+    isLoading.value = false
   })
 </script>
 
 <template>
-  
-  <input type="text" placeholder="Suche" class="search" v-model="search"/>
-  <Entry class="entries" v-for="entry in filteredEntries" :entry="entry" :key="entry.id"/>
+  <div class="loading" v-if="isLoading">
+    <img src="../assets/Loading.svg" alt="loading"/>
+  </div>
+  <div v-else>
+    <input type="text" placeholder="Suche" class="search" v-model="search"/>
+    <Entry class="entries" v-for="entry in filteredEntries" :entry="entry" :key="entry.id"/>
+  </div>
 </template>
 
 <style scoped>
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 .fg {
   z-index: 1;
 }
