@@ -3,7 +3,7 @@
   import Entry from '../components/Entry.vue'
   import { onMounted, ref, computed } from 'vue'
   import {RouterView} from 'vue-router'
-  import { getFiles } from '../api/requests.js'
+  import { getEntries } from '../api/requests.js'
 
   /*const props = defineProps({
     entries: {
@@ -33,7 +33,7 @@
     isLoading.value = true
     console.log("Home View")
     //entries.value = props.entries
-    let files = await getFiles() 
+    let files = await getEntries() 
     entries.value = files.data
     console.log(entries.value)
     isLoading.value = false

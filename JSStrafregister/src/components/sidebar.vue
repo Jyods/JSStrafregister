@@ -7,7 +7,7 @@
         </div>
         <ul class="sidebar-list">
         <li class="sidebar-list-item">
-            <a href="#home">Home</a>
+            <a href="/">Home</a>
         </li>
         <li class="sidebar-list-item">
             <a href="#about">About</a>

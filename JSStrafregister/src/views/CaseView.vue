@@ -14,10 +14,11 @@
 
     onMounted(async() => {
         isLoading.value = true
-        let files = await getFiles() 
+        let files = await getCase(caseID) 
         entries.value = files.data
-        const usedID = parseInt(caseID)
-        activeCase.value = entries.value.find(entry => entry.files.some(c => c.id === usedID)).files.find(c => c.id === usedID)
+        console.log(entries.value)
+        /*const usedID = parseInt(caseID)
+        activeCase.value = entries.value.find(entry => entry.files.some(c => c.id === usedID)).files.find(c => c.id === usedID)*/
         console.log(activeCase.value);
         isLoading.value = false
     })
@@ -28,13 +29,13 @@
         <img src="../assets/Loading.svg" alt="loading"/>
     </div>
         <div class="CaseContent" v-else>
-        <h1>Definition: {{ activeCase.definition }}</h1>
-        <h2>Created At: {{ activeCase.date }}</h2>
-        <h3>Articles: {{ activeCase.article }}</h3>
-        <h3>Imprisonment: {{ activeCase.fine }}</h3>
+        <h1>Definition: {{ entries.definition }}</h1>
+        <h2>Created At: {{ entries.date }}</h2>
+        <h3>Articles: {{ entries.article }}</h3>
+        <h3>Imprisonment: {{ entries.fine }}</h3>
         <br>
-        <h2>{{ activeCase.member.type }}</h2>
-        <h3>{{ activeCase.member.identification }}</h3>
+        <h2>{{ entries.member.type }}</h2>
+        <RouterLink :to="{ name: 'Member', query: { MemberID: entries.member.id }}">{{ entries.member.identification }}</RouterLink>
     </div>
 </template>
 <style scoped>
