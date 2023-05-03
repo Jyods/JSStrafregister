@@ -24,7 +24,7 @@ function extend() {
         <div class="entry" @click="extend">
             <h3>{{props.entry.identification}}</h3>
             <div class="extendet" v-if="extended">
-                <p>Alter: {{props.entry.age}}</p>
+                <p><RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}">Redirect</RouterLink></p>
             </div>
         </div>
         <Case v-if="extended" v-for="Case in props.entry.files" :case="Case" :key="Case.id"/>

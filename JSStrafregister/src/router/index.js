@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import CaseView from '../views/CaseView.vue'
 import MainView from '../views/MainView.vue'
 import LoginView from '../views/LoginView.vue'
+import EntryView from '../views/EntryView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +16,12 @@ const router = createRouter({
         {
           path: '',
           component: HomeView
+        },
+        {
+          path: '/entry',
+          name: 'Entry',
+          component: EntryView,
+          props: (route) => ({ EntryID: route.query.EntryID }),
         },
         {
           path: '/case',

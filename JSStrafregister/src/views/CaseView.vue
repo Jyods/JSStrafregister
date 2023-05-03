@@ -28,8 +28,13 @@
         <img src="../assets/Loading.svg" alt="loading"/>
     </div>
         <div class="CaseContent" v-else>
-        <h1>{{ activeCase.definition }}</h1>
-        <h2>{{ activeCase.date }}</h2>
+        <h1>Definition: {{ activeCase.definition }}</h1>
+        <h2>Created At: {{ activeCase.date }}</h2>
+        <h3>Articles: {{ activeCase.article }}</h3>
+        <h3>Imprisonment: {{ activeCase.fine }}</h3>
+        <br>
+        <h2>{{ activeCase.member.type }}</h2>
+        <h3>{{ activeCase.member.identification }}</h3>
     </div>
 </template>
 <style scoped>
