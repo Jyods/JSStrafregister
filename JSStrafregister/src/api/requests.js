@@ -25,3 +25,41 @@ export async function getMember(MemberID) {
     const response = await fetch(`${backend}/members/${MemberID}`);
     return await response.json();
 }
+
+export async function createFile(data) {
+    const response = await fetch(`${backend}/files/create`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
+/*
+export async function getCurrentUser() {
+    const response = await fetch(`${backend}/user`);
+    return await response.json();
+}
+
+export async function authenticateUser(email, password) {
+    const response = await fetch(`${backend}/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email, password})
+    });
+    return await response.json();
+}
+
+export async function auth() {
+    const response = await fetch(`${backend}/auth`);
+    return await response.json();
+}
+
+export async function checkPermission(permission) {
+    const response = await fetch(`${backend}/permission/${permission}`);
+    return await response.json();
+}*/

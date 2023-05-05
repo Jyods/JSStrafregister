@@ -7,13 +7,13 @@
         </div>
         <ul class="sidebar-list">
         <li class="sidebar-list-item">
-            <a href="/">Home</a>
+            <a href="/">Register</a>
         </li>
         <li class="sidebar-list-item">
-            <a href="#about">About</a>
+            <a href="/create/entry">Neuer Eintrag</a>
         </li>
         <li class="sidebar-list-item">
-            <a href="#contact">Contact</a>
+            <a href="/articles">Gesetzesartikel</a>
         </li>
         </ul>
     </div>

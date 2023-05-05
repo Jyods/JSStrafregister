@@ -5,6 +5,8 @@ import MainView from '../views/MainView.vue'
 import LoginView from '../views/LoginView.vue'
 import EntryView from '../views/EntryView.vue'
 import MemberView from '../views/MemberView.vue'
+import CreateView from '../views/CreateView.vue'
+import CreateEntry from '../components/CreateEntry.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +18,7 @@ const router = createRouter({
       children: [
         {
           path: '',
+          name: 'Home',
           component: HomeView
         },
         {
@@ -29,6 +32,33 @@ const router = createRouter({
           name: 'Member',
           component: MemberView,
           props: (route) => ({ MemberID: route.query.MemberID }),
+        },
+        {
+          path: 'create',
+          name: 'Create',
+          component: CreateView,
+          children: [
+            {
+              path: '',
+              name: 'CreateHome',
+              component: HomeView
+            },
+            {
+              path: 'entry',
+              name: 'CreateEntry',
+              component: CreateEntry,
+            },
+            {
+              path: '/member',
+              name: 'CreateMember',
+              component: MemberView,
+            },
+            {
+              path: '/case',
+              name: 'CreateCase',
+              component: CaseView,
+            },
+          ]
         },
         {
           path: '/case',

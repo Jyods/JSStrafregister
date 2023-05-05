@@ -5,8 +5,8 @@
 </script>
 
 <template>
-  <navbar class="fg"/>
   <sidebar class="bg"/>
+  <navbar class="fg"/>
   <div class="viewContent">
     <RouterView />
   </div>

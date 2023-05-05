@@ -1,10 +1,12 @@
 <script setup>
 import { ref } from 'vue'
+//import getUser from '../api/requests.js'
 </script>
 <template>
         <main>
           <body>
             <div class="nav">
+              <!--ADD USER INFOS-->
               <a href="#home">Home</a>
               <a href="#about">About</a>
               <a href="#contact">Contact</a>

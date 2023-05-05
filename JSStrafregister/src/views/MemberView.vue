@@ -28,14 +28,13 @@ onMounted(async() => {
     <img src="../assets/Loading.svg" alt="loading"/>
 </div>
 <div v-else>
-    <h1>Members</h1>
     <div class="members">
         <div class="member">
-            <h2>{{ member.type }}</h2>
-            <h3>{{ member.identification }}</h3>
-            <h3>{{ member.age }}</h3>
-            <h3>{{ member.is_active }}</h3>
-            <h3>{{ member.entry }}</h3>
+            <h1>{{ member.type }}</h1>
+            <h3>Identifikation: {{ member.identification }}</h3>
+            <h3>Alter: {{ member.age }}</h3>
+            <h3>Aktives Mitglied: {{ member.isActive }}</h3>
+            <h3>Eintritt: {{ member.entry }}</h3>
         </div>
     </div>
 </div>
