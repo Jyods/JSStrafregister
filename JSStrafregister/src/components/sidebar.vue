@@ -51,7 +51,7 @@ async function logoutUser() {
             <p>Gesetzesartikel</p>
         </li>
         </RouterLink>
-        <RouterLink to="/member" v-if="permissions">
+        <RouterLink to="/AdminMember" v-if="permissions">
         <li class="sidebar-list-item">
             <p>Mitglieder</p>
         </li>

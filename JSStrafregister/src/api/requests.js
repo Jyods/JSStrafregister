@@ -10,8 +10,11 @@ export async function getFiles() {
 }
 
 export async function getCase(CaseID) {
-    console.log(`${backend}/files/${CaseID}`)
-    const response = await fetch(`${backend}/files/id/${CaseID}`);
+    const response = await fetch(`${backend}/files/id/${CaseID}`,{
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            });
     return await response.json();
 }
 
@@ -25,7 +28,11 @@ export async function getEntries() {
 }
 
 export async function getEntry(EntryID) {
-    const response = await fetch(`${backend}/entries/${EntryID}`);
+    const response = await fetch(`${backend}/entries/${EntryID}`,{
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            });
     return await response.json();
 }
 

@@ -6,6 +6,7 @@ import MainView from '../views/MainView.vue'
 import LoginView from '../views/LoginView.vue'
 import EntryView from '../views/EntryView.vue'
 import MemberView from '../views/MemberView.vue'
+import AdminMemberView from '../views/AdminMemberView.vue'
 import CreateView from '../views/CreateView.vue'
 import CreateEntry from '../components/CreateEntry.vue'
 
@@ -33,6 +34,11 @@ const router = createRouter({
           name: 'Member',
           component: MemberView,
           props: (route) => ({ MemberID: route.query.MemberID }),
+        },
+        {
+          path: '/adminmember',
+          name: 'AdminMember',
+          component: AdminMemberView,
         },
         {
           path: 'create',
