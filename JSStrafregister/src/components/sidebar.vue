@@ -1,7 +1,8 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { getPermissions } from '../api/requests.js'
+import {logout } from '../api/requests.js'
 
 const permissions = ref(false)
 
@@ -15,6 +16,19 @@ onMounted(async () => {
         permissions.value = false
     }
 })
+
+const router = useRouter()
+
+async function logoutUser() {
+    let data = await logout()
+    if (data.message == "Logged out")
+    {
+        router.push({ name: 'Login'})
+    }
+    else {
+        console.log("Logout failed")
+    }
+}
 </script>
 <template>
     <div class="sidebar">
@@ -42,6 +56,9 @@ onMounted(async () => {
             <p>Mitglieder</p>
         </li>
         </RouterLink>
+        <li class="sidebar-list-item" @click="logoutUser">
+            <p>Logout</p>
+        </li>
         </ul>
     </div>
 </template>
@@ -62,6 +79,7 @@ onMounted(async () => {
     padding: 10px;
     background-color: rgb(224, 224, 224);
     border-color: black;
+    color: black;
     border-style: solid;
     border-width: 1px;
     margin-bottom: 3px;
@@ -71,6 +89,7 @@ onMounted(async () => {
 
 .sidebar-list-item:hover {
     background-color: rgb(187, 187, 187);
+    cursor: pointer;
 }
 
 a {

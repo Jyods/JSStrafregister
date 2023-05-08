@@ -154,6 +154,17 @@ export async function createUser(data) {
     return false;
 }
 
+export async function logout() {
+    const response = await fetch(`${backend}/logout`,{
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            });
+            const data = await response.json();
+            console.log(data)
+    return data;
+}
+
 /*
 
 export async function checkPermission(permission) {

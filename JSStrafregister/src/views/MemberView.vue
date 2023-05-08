@@ -1,7 +1,7 @@
 <script setup>
     import { ref, onMounted, computed } from 'vue'
-    import { RouterLink, RouterView } from 'vue-router'
-    import { getMembers, createUser } from '../api/requests.js'
+    import { RouterLink, RouterView, useRouter } from 'vue-router'
+    import { getMembers, createUser, getPermissions } from '../api/requests.js'
     import Member from '../components/Member.vue'
     import CreateMember from '../components/CreateMember.vue'
 
@@ -10,13 +10,23 @@
     const onlyActive = ref(false)
     const newMembers = ref([])
 
+
+    const router = useRouter()    
+
 onMounted(async() => {
     isLoading.value = true
-    console.log("Member View")
-    let fetch = await getMembers()
-    members.value = fetch.data
-    console.log(members.value)
-    isLoading.value = false
+    let data = await getPermissions()
+    if (data.data >= 10)
+    {
+        console.log("Member View")
+        let fetch = await getMembers()
+        members.value = fetch.data
+        console.log(members.value)
+        isLoading.value = false
+    }
+    else {
+        router.push({ name: 'Home'})
+    }
 })
 
 const search = ref('')

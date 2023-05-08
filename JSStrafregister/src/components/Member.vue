@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
-import { auth } from '../api/requests.js'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
 
 const props = defineProps({
     member: {
@@ -9,7 +8,6 @@ const props = defineProps({
         required: true
     }
 })
-
 
 </script>
 <template>
