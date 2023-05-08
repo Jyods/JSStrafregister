@@ -21,17 +21,22 @@ function extend() {
 
 <template>
     <div class="wrapper" >
-        <div class="entry" @click="extend">
+        <div class="entry flex" @click="extend">
             <h3>{{props.entry.identification}}</h3>
-            <div class="extendet" v-if="extended">
-                <p><RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}">Redirect</RouterLink></p>
-            </div>
+                <p><RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="link">
+                    <img src="../assets/Arrow.svg" alt="loading" height="15" width="15"/>
+                    Redirect
+                </RouterLink></p>
         </div>
         <Case v-if="extended" v-for="Case in props.entry.files" :case="Case" :key="Case.id"/>
     </div>
 </template>
 
 <style scoped>
+.right {
+    display: flex;
+    align-items: center;
+}
 .wrapper {
     background-color: grey;
     border-color: rgb(99, 99, 99);
@@ -44,6 +49,14 @@ function extend() {
     height: fit-content;
 }
 
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
 .entry:hover {
     cursor: pointer;
 }
@@ -51,5 +64,15 @@ function extend() {
 .extendet {
     height: fit-content;
     border-color: aqua;
+}
+
+.link {
+    color: black;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: red;
+    text-decoration: underline;
 }
 </style>

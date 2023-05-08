@@ -1,138 +1,126 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import jwt_decode from 'jwt-decode';
+import { ref, onMounted } from 'vue'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { authenticateUser, auth } from '../api/requests.js'
 
-const router = useRouter();
-const state = ref(null);
+    const router = useRouter()
 
-onMounted(async () => {
-  let auth = await getAuth();
-  console.warn(auth);
-  if (auth){
-    console.warn('Pushed');
-    router.push('/admin');
-  }
-});
+    const isLoading = ref(false)
 
-async function getAuth() {
-    const token = sessionStorage.getItem('token');
-    if (token) {
-        try {
-            const decoded = jwt_decode(token);
-            if (decoded.exp * 1000 > new Date().getTime()) {
-                console.log('Authenticated');
-                const authenticated = await fetchLoginStatus(token);
-                if (authenticated) {
-                    console.log('Token verified by server');
-                    return true;
-                }
-            }
-            else {
-                console.log('Token expired');
-            }
-        } catch (error) {
-            console.log('Invalid token');
+    onMounted(async() => {
+        //checks if auth has status 200, if true then redirect to home
+        isLoading.value = true
+        if (await auth() == true) {
+            router.push({ name: 'Home'})
         }
+        isLoading.value = false
     }
-    console.log('Not authenticated AdminView');
-    return false;
-} 
+    )
 
-async function login() {
-  let tries = parseInt(localStorage.getItem('tries')) || 0;
-  const lastAttempt = parseInt(localStorage.getItem('lastAttempt')) || 0;
-
-  if (tries >= 3 && Date.now() - lastAttempt < 600000) { // 10 minutes = 600000 milliseconds
-    state.value = 'Too many tries, please try again later';
-    return;
-  }
-
-  try {
-    const token = await fetchLogin(email.value, password.value);
-    sessionStorage.setItem('token', token);
-    router.push('/admin');
-  } catch (error) {
-    tries++;
-    localStorage.setItem('tries', tries);
-    localStorage.setItem('lastAttempt', Date.now());
-    console.warn(error);
-    state.value = error.message;
-  }
-};
+    async function submitForm() {
+        console.log("Login")
+        isLoading.value = true
+        let email = document.getElementById("email").value
+        let password = document.getElementById("password").value
+        let response = await authenticateUser(email, password)
+        if (response) {
+            console.warn("Login successful")
+            router.push({ name: 'Home'})
+        }
+        else {
+            console.warn("Login failed")
+        }
+        isLoading.value = false
+    }
 
 
 </script>
 
 <template>
-<div class="wrapper flex">
-    <form @submit.prevent="login">
-        <div class="form-group">
+    <!--Login Form with email and password-->
+    <div class="login">
+    <div class="loading" v-if="isLoading">
+        <img src="../assets/Loading.svg" alt="loading"/>
+    </div>
+        <div class="login_wrapper">
+        <h1>Identifikation</h1>
+        <form class="wrapper" @submit.prevent="submitForm">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email" v-bind="{error: state != null}" />
-        </div>
-        <div class="form-group">
+            <input type="email" id="email" name="email" placeholder="Email" required>
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" />
-        </div>
-        <div class="flex2">
-            <RouterLink to="/">Back</RouterLink>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-        <div v-if="state != null" class="error">
-            {{ state }}
-        </div>
-    </form>
-</div>
-
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="submit" :disabled="isLoading">Login</button>
+        </form>
+    </div>
+    </div>
 </template>
 
 <style scoped>
-.wrapper {
-    border-style: solid;
-    border-width: 1px;
-    border-color: #1a1a1a;
-    background-color: #0d0d0d;
-    width: auto;
-    border-radius: 5px;
-    margin: 15% 600px 600px 600px;
-    padding: 15px 0px;
-    font-size: 1.5em;
-    min-width: 500px;
+.loading {
+        position:fixed;
 }
+    .login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+        background-color: rgb(72, 71, 71);
+    }
 
-input {
-    margin: 10px 10px;
-    width: 300px;
-    height: 30px;
-    border-radius: 5px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #1a1a1a;
-    background-color: #0d0d0d;
-    color: #ffffff;
-}
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: larger;
+        padding-top: 20px;
+    }
 
-.flex {
-    display: flex;
-    flex-flow: wrap;
-    justify-content: space-around;
-    /*justify-content: center; */
-}
+    .login_wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(117, 117, 117);
+        border-radius: 10px;
+        padding: 50px 100px 50px 100px;
+        box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.75);
+    }
 
-.flex2 {
-    display: flex;
-    flex-flow: wrap;
-    justify-content: space-evenly;
-    /*justify-content: center; */
-}
+    input {
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        width: 200px;
+        background-color: rgb(95, 95, 95);
+        color: white;
+    }
 
+    input:hover {
+        background-color: rgb(72, 71, 71);
+    }
 
-.error {
-    color: red;
-    height: 70px;
-    text-align: center;
-    font-size: 1em;
-    padding-top: 20px;
-}
+    input:focus {
+        background-color: rgb(247, 0, 0);
+    }
+
+    ::placeholder {
+        color: white;
+    }
+
+    button {
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        width: 200px;
+        background-color: rgb(95, 95, 95);
+        color: white;
+    }
+
+    button:hover {
+        background-color: rgb(72, 71, 71);
+    }
 </style>

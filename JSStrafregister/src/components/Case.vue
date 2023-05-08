@@ -55,7 +55,11 @@ function redirect() {
                 <p>{{props.case.description}}</p>
                 <p>Haftzeit: {{ caseEntry.fine }} Jahre</p>
                 <p>Paragrafen: §{{  caseEntry.article }}</p>
-                <RouterLink :to="{ name: 'Case', query: { CaseID: props.case.id }}" :case="caseEntry">Redirect</RouterLink>
+                
+                <RouterLink :to="{ name: 'Case', query: { CaseID: props.case.id }}" :case="caseEntry" class="link">
+                    <img src="../assets/Arrow.svg" alt="loading" height="15" width="15"/>
+                    Redirect
+                </RouterLink>
             </div>
     </div>
 </template>
@@ -66,6 +70,7 @@ function redirect() {
     background-color: grey;
     border-color: rgb(99, 99, 99);
     border-style: solid;
+    padding-left: 20px;
 }
 .restricted {
     background-color: red;
@@ -84,5 +89,16 @@ function redirect() {
     height: max-content;
     border-color: rgb(109, 109, 109);
     border-style: solid;
+    padding-left: 30px;
+}
+
+.link {
+    color: black;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: rgb(131, 0, 0);
+    cursor: pointer;
 }
 </style>

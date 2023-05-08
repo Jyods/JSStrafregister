@@ -30,12 +30,13 @@
     </div>
         <div class="CaseContent" v-else>
         <h1>Definition: {{ entries.definition }}</h1>
+        <h3>Beschreibung: {{ entries.description }}</h3>
         <h2>Created At: {{ entries.date }}</h2>
         <h3>Articles: {{ entries.article }}</h3>
         <h3>Imprisonment: {{ entries.fine }}</h3>
         <br>
-        <h2>{{ entries.member.type }}</h2>
-        <RouterLink :to="{ name: 'Member', query: { MemberID: entries.member.id }}">{{ entries.member.identification }}</RouterLink>
+        <h2>{{ entries.user.type }}</h2>
+        <RouterLink :to="{ name: 'Member', query: { MemberID: entries.user.id }}">{{ entries.user.identification }}</RouterLink>
     </div>
 </template>
 <style scoped>

@@ -1,12 +1,28 @@
 <script setup>
-    import { onMounted, ref } from 'vue'
-    import {getEntries, createFile} from '../api/requests.js'
+    import { onMounted, ref, computed } from 'vue'
+    import {getEntries, createFile, createEntry} from '../api/requests.js'
 
     const isLoading = ref(true)
 
     const entries = ref([])
 
+    const userEntry = ref(null)
+
     const isRestricted = ref(false)
+
+    //checks if the identification exists in the entries when not return set own const to true, when the document isn't loaded return false
+    const newEntry = computed(() => {
+        if (userEntry === null) {
+            console.log("Document not loaded")
+            return false
+        }
+        let getID = entries.value.find(entry => entry.identification === userEntry.value)
+        if (getID === undefined) {
+            console.log("New Entry")
+            return true
+        }
+        return false
+    })
 
     onMounted(async() => {
         isLoading.value = true
@@ -19,7 +35,14 @@
     })
 
     async function submitForm() {
-        //Check if the identification exists in the entries, when true then get the id
+        
+        if (newEntry.value === true) {
+            if(await createNewEntry() == false) {
+                alert("Die Identifikation konnte nicht bearbeitet werden!")
+                return
+            }
+        }
+
         let getID = entries.value.find(entry => entry.identification === document.getElementById("identification").value)
 
         if (getID === undefined) {
@@ -31,6 +54,9 @@
 
         //timePlace: document.getElementById("timePlace").value,
 
+        //if restrictionClass is null then set it to 0
+        
+
         let data = {
             entry_id: getID.id,
             definition: document.getElementById("definition").value,
@@ -39,7 +65,7 @@
             fine: document.getElementById("punishment").value,
             article: document.getElementById("articles").value,
             isRestricted: isRestricted.value,
-            restrictionClass: document.getElementById("restrictionClass").value,
+            restrictionClass: 0,
         }
 
         console.log(data)
@@ -47,6 +73,21 @@
         const response = await createFile(data)
 
         console.log(response)
+    }
+
+    async function createNewEntry() {
+        let data = {
+            identification: document.getElementById("identification").value,
+            age: document.getElementById("alter").value,
+        }
+
+        const response = await createEntry(data)
+
+        entries.value.push(response.data)
+
+        console.log(entries.value)
+
+        return true
     }
 
 </script>
@@ -60,12 +101,14 @@
             <h1>Neue File</h1>
             <form @submit.prevent="submitForm">
                 <label for="identification">Identifikation</label>
-                <input type="text" name="identification" id="identification" placeholder="Identifikation" list="entry" required>
+                <input type="text" name="identification" v-model="userEntry" id="identification" placeholder="Identifikation" list="entry" required>
                     <datalist id="entry">
                         <option v-for="entry in entries" :key="entry.id" :value="entry.identification" />
                     </datalist>
-                <label for="definition">Definition</label>
-                <input type="text" name="definition" id="definition" placeholder="Mord" required>
+                    <label for="alter">Alter</label>
+                    <input type="number" name="alter" id="alter" placeholder="Alter">
+                    <label for="definition">Definition</label>
+                    <input type="text" name="definition" id="definition" placeholder="Mord" required>
                 <label for="timeDate">Tat Datum</label>
                 <input type="date" name="timeDate" id="timeDate" placeholder="03.04.2022" required>
                 <label for="timeTime">Tat Zeit</label>
@@ -75,18 +118,16 @@
                 <label for="description">Beschreibung</label>
                 <textarea name="description" id="description" placeholder="Beschreibung" required></textarea>
                 <label for="punishment">Hafteinheiten</label>
-                <div class="punishment">
-                    <input type="number" name="punishment" id="punishment" placeholder="Lebenslänglich" required>
-                    Einheiten
-                </div>
+                    <div class="punishment"><input type="number" name="punishment" id="punishment" placeholder="Lebenslänglich" required>
+                    Einheiten</div>
                 <!--Multicheckbox with articles-->
                 <label for="articles">Artikel</label>
                 <input type="description" name="articles" id="articles" placeholder="Artikel" required>
                 <label for="isActive">Is Restricted</label>
-                <input type="checkbox" v-model="isRestricted" name="isActive" id="isActive" placeholder="Aktives Mitglied" required>
+                <input type="checkbox" v-model="isRestricted" name="isActive" id="isActive" placeholder="Aktives Mitglied" class="checkbox">
                 <div class="isRestricted" v-if="isRestricted">
                 <label for="restrictionClass">Restriction Class</label>
-                    <input type="number" name="restrictionClass" id="restrictionClass" placeholder="1" required>
+                    <input type="number" name="restrictionClass" id="restrictionClass" placeholder="1">
                 </div>
                 <button type="submit">Submit</button>
             </form>
@@ -96,7 +137,44 @@
 </template>
 
 <style scoped>
+button {
+    width: 100%;
+    height: 50px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #1e1e1e;
+    color: #f9f9f9;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
+button:hover {
+    background-color: #3f3f3f;
+}
+
+input[type='checkbox'] {
+    width: 15px;
+    height: 15px;
+    margin: 10px;
+}
+input[type='checkbox']:hover {
+    cursor: pointer;
+}
+.isRestricted {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.punishment {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
 .form {
     display: flex;
     flex-direction: column;
@@ -113,6 +191,30 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+input {
+    width: 75%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.checkbox {
+    width: 10%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    width: 75%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 </style>

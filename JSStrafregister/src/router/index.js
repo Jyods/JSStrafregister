@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { auth } from '../api/requests.js'
 import HomeView from '../views/HomeView.vue'
 import CaseView from '../views/CaseView.vue'
 import MainView from '../views/MainView.vue'
@@ -72,12 +73,22 @@ const router = createRouter({
         },
       ]
     },
+    //create a new route for the login page but test if the user is already logged in
     {
       path: '/login',
-      name: 'login',
+      name: 'Login',
       component: LoginView,
     },
   ]
+})
+
+router.beforeEach(async (to, from, next) => {
+  const isAuthenticated = await auth() // Hier können Sie Ihre eigene Authentifizierungsfunktion implementieren
+  if (to.name !== 'Login' && !isAuthenticated) {
+    next({ name: 'Login' })
+  } else {
+    next()
+  }
 })
 
 export default router
