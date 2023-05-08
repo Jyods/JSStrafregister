@@ -54,7 +54,8 @@ export async function createFile(data) {
     const response = await fetch(`${backend}/files/create`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
         body: JSON.stringify(data)
     });

@@ -10,6 +10,8 @@
 
     const isRestricted = ref(false)
 
+    const newRestrictionClass = ref(0)
+
     //checks if the identification exists in the entries when not return set own const to true, when the document isn't loaded return false
     const newEntry = computed(() => {
         if (userEntry === null) {
@@ -55,7 +57,7 @@
         //timePlace: document.getElementById("timePlace").value,
 
         //if restrictionClass is null then set it to 0
-        
+    
 
         let data = {
             entry_id: getID.id,
@@ -65,7 +67,7 @@
             fine: document.getElementById("punishment").value,
             article: document.getElementById("articles").value,
             isRestricted: isRestricted.value,
-            restrictionClass: 0,
+            restrictionClass: newRestrictionClass.value,
         }
 
         console.log(data)
@@ -105,8 +107,8 @@
                     <datalist id="entry">
                         <option v-for="entry in entries" :key="entry.id" :value="entry.identification" />
                     </datalist>
-                    <label for="alter">Alter</label>
-                    <input type="number" name="alter" id="alter" placeholder="Alter">
+                    <label for="alter" v-if="newEntry">Alter</label>
+                    <input type="number" name="alter" id="alter" placeholder="Alter" v-if="newEntry">
                     <label for="definition">Definition</label>
                     <input type="text" name="definition" id="definition" placeholder="Mord" required>
                 <label for="timeDate">Tat Datum</label>
@@ -127,7 +129,7 @@
                 <input type="checkbox" v-model="isRestricted" name="isActive" id="isActive" placeholder="Aktives Mitglied" class="checkbox">
                 <div class="isRestricted" v-if="isRestricted">
                 <label for="restrictionClass">Restriction Class</label>
-                    <input type="number" name="restrictionClass" id="restrictionClass" placeholder="1">
+                    <input type="number" name="restrictionClass" v-model="newRestrictionClass" placeholder="1">
                 </div>
                 <button type="submit">Submit</button>
             </form>
