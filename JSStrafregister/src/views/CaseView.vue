@@ -29,11 +29,12 @@
         <img src="../assets/Loading.svg" alt="loading"/>
     </div>
         <div class="CaseContent" v-else>
-        <h1>Definition: {{ entries.definition }}</h1>
-        <h3>Beschreibung: {{ entries.description }}</h3>
-        <h2>Created At: {{ entries.date }}</h2>
-        <h3>Articles: {{ entries.article }}</h3>
-        <h3>Imprisonment: {{ entries.fine }}</h3>
+        <h3 class="item">Akte: {{ entries.id }}</h3>
+        <h1 class="title item">Titel: {{ entries.definition }}</h1>
+        <h3 class="description item">Beschreibung: {{ entries.description }}</h3>
+        <h2 class="creation item">Datum: {{ entries.date }}</h2>
+        <h3 class="article item">StGB: {{ entries.article }}</h3>
+        <h3 class="punishment item">Haftzeit: {{ entries.fine }}</h3>
         <br>
         <h2>{{ entries.user.type }}</h2>
         <RouterLink :to="{ name: 'Member', query: { MemberID: entries.user.id }}">{{ entries.user.identification }}</RouterLink>
@@ -46,4 +47,25 @@
   align-items: center;
   height: 100vh;
 }
+
+.CaseContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: rgb(117, 117, 117);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 50px 100px 50px 100px;
+    box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.75);
+    min-height: 500px;
+}
+
+.item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
 </style>
