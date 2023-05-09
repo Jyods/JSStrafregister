@@ -13,11 +13,34 @@ const props = defineProps({
 const member = ref(props.member)
 
 //create a event 
-const emit = defineEmits(['pushNewMember'])
+const emit = defineEmits(['pushNewMember', 'abortMember'])
 
 function pushMember(member) {
-    console.log("Push Member")
-    emit('pushNewMember', member)
+    let response = checkIfAllFieldsFilled()
+    console.log(response)
+    if(response)
+    {
+        console.log("Push Member")
+        emit('pushNewMember', member)
+    }
+    else {
+        alert("Bitte alle Felder ausfüllen")
+    }
+}
+
+function abort(memberID) {
+    console.log("Abort")
+    emit('abortMember', memberID)
+}
+
+function checkIfAllFieldsFilled() {
+    if (member.value.identification != undefined && member.value.age != undefined && member.value.email != undefined && member.value.password != undefined && member.value.restrictionClass != undefined) {
+        console.log(member.value.identification + " " + member.value.age + " " + member.value.email + " " + member.value.password + " " + member.value.restrictionClass)
+        return true
+    }
+    else {
+        return false
+    }
 }
 
 </script>
@@ -37,7 +60,10 @@ function pushMember(member) {
                 <input type="number" v-model="member.restrictionClass">
             </h3>
             <h3>Eintritt: {{ member.entry }}</h3>
-            <button @click="pushMember(member)">Speichern</button>
+            <div class="wrapper">
+                <button @click="pushMember(member)">Speichern</button>
+                <button @click="abort(member.id)">Abbrechen</button>
+            </div>
         </div>
 </template>
 <style scoped>
@@ -51,5 +77,27 @@ function pushMember(member) {
         padding: 20px;
         margin: 20px;
         border-radius: 10px;
+    }
+    .wrapper {
+        padding-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+    }
+    button {
+        width: 100px;
+        height: 20px;
+        border-radius: 10px;
+        border: none;
+        background-color: rgb(117, 117, 117);
+        color: white;
+        font-weight: bold;
+        box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.75);
+    }
+    button:hover {
+        background-color: rgb(0, 0, 0);
+        cursor: pointer;
     }
 </style>

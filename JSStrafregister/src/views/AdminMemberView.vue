@@ -81,6 +81,13 @@ async function pushMember(member) {
     isLoading.value = false
 }
 
+function abortEntry(memberID) {
+    newMembers.value = newMembers.value.filter((newMember) => {
+        return newMember.id != memberID
+    })
+
+}
+
 </script>
 
 
@@ -94,7 +101,7 @@ async function pushMember(member) {
         <input type="checkbox" v-model="onlyActive"/>
         <input type="text" placeholder="Suche" class="search" v-model="search"/>
         <button class="add" @click="addMember">+</button>
-        <CreateMember v-for="member in newMembers" :member="member" :key="members.id" @pushNewMember="pushMember"/>
+        <CreateMember v-for="member in newMembers" :member="member" :key="members.id" @pushNewMember="pushMember" @abortMember="abortEntry"/>
         <Member v-for="member in filteredMembers" :member="member" :key="members.id"/>
     </div>
 </div>
