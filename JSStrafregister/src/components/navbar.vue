@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-import { getCurrentUser } from '../api/requests.js'
+import { getCurrentUser, logout } from '../api/requests.js'
 
   const userInfo = ref([])
 
@@ -10,6 +10,10 @@ onMounted(async() => {
     const request = await getCurrentUser()
     userInfo.value = request
     userInfo.value.isActive = userInfo.value.isActive ? "Ja" : "Nein"
+    if (userInfo.value.isActive == "Nein")
+    {
+      await logout()
+    }
     console.log(userInfo.value)
 })
 //import getUser from '../api/requests.js'

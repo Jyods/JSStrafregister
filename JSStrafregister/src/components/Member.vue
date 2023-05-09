@@ -9,6 +9,12 @@ const props = defineProps({
     }
 })
 
+const emit = defineEmits(['changeActiv'])
+
+function changeActiv(memberID) {
+    emit('changeActiv', memberID)
+}
+
 </script>
 <template>
     <div class="member">
@@ -19,6 +25,7 @@ const props = defineProps({
             <h3>RestrictionClass: {{ member.restrictionClass }}</h3>
             <h3>Aktives Mitglied: {{ member.isActive }}</h3>
             <h3>Eintritt: {{ member.entry }}</h3>
+            <button @click="changeActiv(member.id)">Switch Active</button>
         </div>
 </template>
 <style scoped>
@@ -32,5 +39,17 @@ const props = defineProps({
         padding: 20px;
         margin: 20px;
         border-radius: 10px;
+    }
+    button {
+        background-color: #939393;
+        color: white;
+        border-radius: 10px;
+        padding: 10px;
+        border: none;
+        margin: 10px;
+    }
+    button:hover {
+        background-color: #727272;
+        cursor: pointer;
     }
 </style>

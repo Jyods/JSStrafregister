@@ -173,6 +173,15 @@ export async function logout() {
     return data;
 }
 
+export async function switchActive(id) {
+    const response = await fetch(`${backend}/switchActive/${id}`,{
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
 /*
 
 export async function checkPermission(permission) {

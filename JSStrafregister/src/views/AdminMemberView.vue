@@ -1,7 +1,7 @@
 <script setup>
     import { ref, onMounted, computed } from 'vue'
     import { RouterLink, RouterView, useRouter } from 'vue-router'
-    import { getMembers, createUser, getPermissions } from '../api/requests.js'
+    import { getMembers, createUser, getPermissions, switchActive } from '../api/requests.js'
     import Member from '../components/Member.vue'
     import CreateMember from '../components/CreateMember.vue'
 
@@ -9,6 +9,7 @@
     const members = ref([])
     const onlyActive = ref(false)
     const newMembers = ref([])
+    const editMembers = ref([])
 
 
     const router = useRouter()    
@@ -85,8 +86,21 @@ function abortEntry(memberID) {
     newMembers.value = newMembers.value.filter((newMember) => {
         return newMember.id != memberID
     })
-
 }
+
+//create function editMember where the member is set to newMembers and the old member is hidden, when user aborts the edit the old member is shown again and the newMember is deleted
+function changeActive(memberID) {
+    console.log("Change Active")
+    switchActive(memberID)
+    members.value = members.value.map((member) => {
+        if (member.id == memberID) {
+            member.isActive = !member.isActive
+        }
+        return member
+    })
+}
+
+
 
 </script>
 
@@ -102,7 +116,7 @@ function abortEntry(memberID) {
         <input type="text" placeholder="Suche" class="search" v-model="search"/>
         <button class="add" @click="addMember">+</button>
         <CreateMember v-for="member in newMembers" :member="member" :key="members.id" @pushNewMember="pushMember" @abortMember="abortEntry"/>
-        <Member v-for="member in filteredMembers" :member="member" :key="members.id"/>
+        <Member v-for="member in filteredMembers" :member="member" :key="members.id" @changeActiv="changeActive"/>
     </div>
 </div>
 
