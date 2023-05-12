@@ -84,13 +84,13 @@ export async function getCurrentUser() {
     return await response.json();
 }
 
-export async function authenticateUser(email, password) {
+export async function authenticateUser(identification, password) {
     const response = await fetch(`${backend}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({email, password})
+        body: JSON.stringify({identification, password})
     });
     let data = await response.json();
     console.log(data);
@@ -120,6 +120,12 @@ export async function auth() {
   
     // if response status is 500, remove token from document.cookie
     if (response.status === 500) {
+        sessionStorage.removeItem('token');
+        console.log("Token removed")
+        return false;
+    }
+
+    if(response.status === 401) {
         sessionStorage.removeItem('token');
         console.log("Token removed")
         return false;

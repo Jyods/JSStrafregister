@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { authenticateUser, auth } from '../api/requests.js'
+import messageHandler from '../components/messageHandler.vue'
 
     const router = useRouter()
 
@@ -20,9 +21,9 @@ import { authenticateUser, auth } from '../api/requests.js'
     async function submitForm() {
         console.log("Login")
         isLoading.value = true
-        let email = document.getElementById("email").value
+        let identification = document.getElementById("identification").value
         let password = document.getElementById("password").value
-        let response = await authenticateUser(email, password)
+        let response = await authenticateUser(identification, password)
         if (response) {
             console.warn("Login successful")
             router.push({ name: 'Home'})
@@ -38,6 +39,7 @@ import { authenticateUser, auth } from '../api/requests.js'
 
 <template>
     <!--Login Form with email and password-->
+    <messageHandler />
     <div class="login">
     <div class="loading" v-if="isLoading">
         <img src="../assets/Loading.svg" alt="loading"/>
@@ -45,8 +47,8 @@ import { authenticateUser, auth } from '../api/requests.js'
         <div class="login_wrapper">
         <h1>Identifikation</h1>
         <form class="wrapper" @submit.prevent="submitForm">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Email" required>
+            <label for="identification">Identification</label>
+            <input type="text" id="identification" name="identification" placeholder="CT-0000" required>
             <label for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Password" required>
             <button type="submit" :disabled="isLoading">Login</button>
