@@ -198,6 +198,15 @@ export async function switchActive(id) {
     return await response.json();
 }
 
+export async function getLaws() {
+    const response = await fetch(`${backend}/law`,{
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
 /*
 
 export async function checkPermission(permission) {

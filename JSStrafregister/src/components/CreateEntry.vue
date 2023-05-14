@@ -1,6 +1,6 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue'
-    import {getOnlyEntries, createFile, createEntry} from '../api/requests.js'
+    import {getOnlyEntries, createFile, createEntry, getLaws} from '../api/requests.js'
 
     const isLoading = ref(true)
 
@@ -11,6 +11,8 @@
     const isRestricted = ref(false)
 
     const newRestrictionClass = ref(0)
+
+    const laws = ref([])
 
     //checks if the identification exists in the entries when not return set own const to true, when the document isn't loaded return false
     const newEntry = computed(() => {
@@ -32,6 +34,7 @@
         //entries.value = props.entries
         let files = await getOnlyEntries() 
         entries.value = files.data
+        laws.value = await getLaws()
         console.log(entries.value)
         isLoading.value = false
     })
