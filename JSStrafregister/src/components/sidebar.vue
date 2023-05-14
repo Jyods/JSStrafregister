@@ -19,10 +19,13 @@ onMounted(async () => {
 
 const router = useRouter()
 
+const emit = defineEmits(['add-to-array'])
+
 async function logoutUser() {
     let data = await logout()
     if (data.message == "Logged out")
     {
+        emit('add-to-array', data.message)
         router.push({ name: 'Login'})
     }
     else {

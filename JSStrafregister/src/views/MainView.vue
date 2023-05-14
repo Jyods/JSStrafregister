@@ -5,10 +5,16 @@
   import { RouterLink, RouterView } from 'vue-router'
   import { auth } from '../api/requests.js'
 
+  const emit = defineEmits(['add-to-array'])
+
+  function addToArray(message) {
+    emit('add-to-array', message)
+  }
+
 </script>
 
 <template>
-  <sidebar class="bg"/>
+  <sidebar class="bg" @add-to-array="addToArray"/>
   <navbar class="fg"/>
   <div class="viewContent">
     <RouterView />
