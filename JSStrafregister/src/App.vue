@@ -6,7 +6,8 @@
   const messages = ref([])
 
   function deleteFromArray(id) {
-    messages.value = messages.value.filter(message => message.id != id)
+    let index = messages.value.findIndex(message => message.id == id)
+    messages.value.splice(index, 1)
   }
 
   function addToArray(message) {
@@ -16,7 +17,7 @@
 </script>
 
 <template>
-    <messageHandler :messages="messages" @delete-from-array="deleteFromArray"/>
+    <messageHandler :messages="messages" @remove-item="deleteFromArray"/>
     <RouterView  @add-to-array="addToArray" />
 </template>
 
