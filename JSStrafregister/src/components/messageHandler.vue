@@ -2,20 +2,18 @@
 import message from './message.vue'
 import { ref, onMounted } from 'vue'
 
-const banane = ref([
-    {
-        message: "Test"
-    },
-    {
-        message: "Test2"
+const props = defineProps({
+    messages: {
+        type: Array,
+        required: true
     }
-])
+})
 </script>
 
 <template>
     <div class="wrapper">
         <div class="messageWrapper">
-            <message v-for="banan in banane" :kabum="banan" />
+            <message v-for="message in messages" :message="message" />
         </div>
     </div> 
 </template>

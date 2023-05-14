@@ -31,9 +31,10 @@ async function logoutUser() {
 }
 </script>
 <template>
+    <div class="title"><img src="../assets/Strafregister.png" width="200" class="header_image"/></div>
     <div class="sidebar">
         <div class="sidebar-header">
-        <h2>Strafregister</h2>
+        <!--<h2>Strafregister</h2>-->
         </div>
         <ul class="sidebar-list">
         <RouterLink to="/">
@@ -63,13 +64,20 @@ async function logoutUser() {
     </div>
 </template>
 <style scoped>
+.header_image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 50px;
+    z-index: 1;
+}
 .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
     width: 200px;
-    background-color: grey;;
+    background-color: grey;
     color: red;
     padding-top: 50px;
 }

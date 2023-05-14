@@ -24,40 +24,66 @@ import messageHandler from '../components/messageHandler.vue'
         let identification = document.getElementById("identification").value
         let password = document.getElementById("password").value
         let response = await authenticateUser(identification, password)
-        if (response) {
+        if (sessionStorage.getItem("token") != undefined || sessionStorage.getItem("token" != null)) {
             console.warn("Login successful")
             router.push({ name: 'Home'})
         }
         else {
+            addToArray(response.message)
             console.warn("Login failed")
         }
         isLoading.value = false
     }
 
+    const emit = defineEmits(['add-to-array'])
+
+    function addToArray(message) {
+        emit('add-to-array', message)
+        console.log(message)
+    }
 
 </script>
 
 <template>
     <!--Login Form with email and password-->
-    <messageHandler />
     <div class="login">
     <div class="loading" v-if="isLoading">
         <img src="../assets/Loading.svg" alt="loading"/>
     </div>
+    <div class="background_image">
         <div class="login_wrapper">
-        <h1>Identifikation</h1>
+        <div class="header_image"></div>
         <form class="wrapper" @submit.prevent="submitForm">
-            <label for="identification">Identification</label>
+            <label for="identification"><img src="../assets/Identification.png" /> </label>
             <input type="text" id="identification" name="identification" placeholder="CT-0000" required>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <button type="submit" :disabled="isLoading">Login</button>
+            <label for="password"><img src="../assets/Password.png" /></label>
+            <input type="password" id="password" name="password" placeholder="*******" required>
+            <button type="submit" :disabled="isLoading"><img src="../assets/Login.png" width="120" height="20" /> </button>
         </form>
+        </div>
     </div>
     </div>
 </template>
 
 <style scoped>
+.background_image {
+    background-image: url("../assets/Background.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    z-index: 1;
+    padding: 40px;
+}
+.header_image {
+    background-image: url("../assets/Strafregister.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 150%;
+    height: 70px;
+    /*background-color: blue;*/
+}
 .loading {
         position:fixed;
 }
@@ -67,7 +93,7 @@ import messageHandler from '../components/messageHandler.vue'
         align-items: center;
         height: 100vh;
         flex-direction: column;
-        background-color: rgb(72, 71, 71);
+        background-color: rgb(99, 0, 0);
     }
 
     .wrapper {
@@ -84,10 +110,19 @@ import messageHandler from '../components/messageHandler.vue'
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: rgb(117, 117, 117);
+        background-color: rgba(0, 247, 255, 0.7);
         border-radius: 10px;
         padding: 50px 100px 50px 100px;
-        box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.75);
+        box-shadow: 1px 1px 10px 5px rgba(54, 198, 255, 0.584);
+    }
+
+    .login_wrapper::before {
+        content: "";
+        position: absolute;
+        width: 85.3%;
+        height: 20px;
+        background: linear-gradient(1deg, transparent, rgba(254, 254, 254, 0.2), transparent);
+        animation: hologram-animation 3s linear infinite;
     }
 
     input {
@@ -96,16 +131,16 @@ import messageHandler from '../components/messageHandler.vue'
         border-radius: 5px;
         border: none;
         width: 200px;
-        background-color: rgb(95, 95, 95);
+        background-color: rgba(15, 0, 128, 0.201);
         color: white;
     }
 
     input:hover {
-        background-color: rgb(72, 71, 71);
+        background-color:  rgba(15, 0, 128, 0.104);
     }
 
     input:focus {
-        background-color: rgb(247, 0, 0);
+        background-color: rgba(15, 0, 128, 0.104);
     }
 
     ::placeholder {
@@ -118,11 +153,23 @@ import messageHandler from '../components/messageHandler.vue'
         border-radius: 5px;
         border: none;
         width: 200px;
-        background-color: rgb(95, 95, 95);
+        background-color: rgb(50, 105, 255, 0.742);
         color: white;
     }
 
     button:hover {
-        background-color: rgb(72, 71, 71);
+        background-color: rgba(50, 105, 255);
+    }
+
+    @keyframes hologram-animation {
+        0% {
+            transform: translateY(-1000%);
+        }
+        50% {
+            transform: translateY(1000%);
+        }
+        100% {
+            transform: translateY(-1000%);
+        }
     }
 </style>

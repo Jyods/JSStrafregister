@@ -19,7 +19,16 @@ export async function getCase(CaseID) {
 }
 
 export async function getEntries() {
-    const response = await fetch(`${backend}/entries`,{
+    const response = await fetch(`${backend}/entries/index`,{
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function getOnlyEntries() {
+    const response = await fetch(`${backend}/entries/onlyEntry`,{
         headers: {
             Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
@@ -28,7 +37,7 @@ export async function getEntries() {
 }
 
 export async function getEntry(EntryID) {
-    const response = await fetch(`${backend}/entries/${EntryID}`,{
+    const response = await fetch(`${backend}/entries/index/${EntryID}`,{
         headers: {
             Authorization: `Bearer ${sessionStorage.getItem('token')}`,
                 },
@@ -88,7 +97,7 @@ export async function authenticateUser(identification, password) {
     const response = await fetch(`${backend}/login`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({identification, password})
     });
@@ -96,9 +105,10 @@ export async function authenticateUser(identification, password) {
     console.log(data);
     if(data.message == "Login failed")
     {
-        return false;
+        return data;
     }
     sessionStorage.setItem('token', data.token);
+    console.log(data.status)
     return data;
 }
 

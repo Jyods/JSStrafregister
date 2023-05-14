@@ -7,13 +7,14 @@ const router = useRouter()
 const message = ref([])
 
 const props = defineProps({
-    kabum: {
+    message: {
         type: Object,
         required: true
     }
 })
 
 onMounted (() => {
+    message.value = props.message
     console.log(props.kabum)
 })
 
@@ -22,7 +23,7 @@ onMounted (() => {
 <template>
     <div class="wrapper">
         <div class="message">
-            <p>{{ prop.kabum.message }}</p>
+            <p>{{ message.message }}</p>
         </div>
     </div>
 </template>

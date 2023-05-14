@@ -1,6 +1,6 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue'
-    import {getEntries, createFile, createEntry} from '../api/requests.js'
+    import {getOnlyEntries, createFile, createEntry} from '../api/requests.js'
 
     const isLoading = ref(true)
 
@@ -30,7 +30,7 @@
         isLoading.value = true
         console.log("Home View")
         //entries.value = props.entries
-        let files = await getEntries() 
+        let files = await getOnlyEntries() 
         entries.value = files.data
         console.log(entries.value)
         isLoading.value = false
