@@ -80,7 +80,8 @@ async function logoutUser() {
     left: 0;
     height: 100%;
     width: 200px;
-    background-color: grey;
+    /*background-color: grey;*/
+    background-color: rgba(0, 247, 255, 0.7);
     color: red;
     padding-top: 50px;
 }

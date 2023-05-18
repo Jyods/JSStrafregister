@@ -125,6 +125,15 @@ import messageHandler from '../components/messageHandler.vue'
         animation: hologram-animation 3s linear infinite;
     }
 
+    .login_wrapper::after {
+        content: "";
+        position: absolute;
+        width: 85.3%;
+        height: 20px;
+        background: linear-gradient(1deg, transparent, rgba(254, 254, 254, 0.2), transparent);
+        animation: hologram-animation 4s linear infinite;
+    }
+
     input {
         margin: 10px;
         padding: 10px;

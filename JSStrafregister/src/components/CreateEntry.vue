@@ -1,6 +1,7 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue'
     import {getOnlyEntries, createFile, createEntry, getLaws} from '../api/requests.js'
+    import Article from '../components/Article.vue'
 
     const isLoading = ref(true)
 
@@ -10,9 +11,13 @@
 
     const isRestricted = ref(false)
 
+    const userArticle = ref(null)
+
     const newRestrictionClass = ref(0)
 
     const laws = ref([])
+
+    const selectedLaws = ref([])
 
     //checks if the identification exists in the entries when not return set own const to true, when the document isn't loaded return false
     const newEntry = computed(() => {
@@ -34,8 +39,11 @@
         //entries.value = props.entries
         let files = await getOnlyEntries() 
         entries.value = files.data
-        laws.value = await getLaws()
+        files = await getLaws()
+        laws.value = files.data
+        console.log(laws.value)
         console.log(entries.value)
+        console.log(laws.value)
         isLoading.value = false
     })
 
@@ -95,6 +103,32 @@
         return true
     }
 
+    function addArticle() {
+        //check if the article name is already in selectedLaws
+        let getID = selectedLaws.value.find(entry => entry.name === document.getElementById("article").value)
+        if (getID !== undefined) {
+            alert("Der Artikel existiert bereits!")
+            return
+        }
+        //add the article as a object to the selectedLaws
+        let name = document.getElementById("article").value
+        //split the name by ' ' and get the second part
+        let Paragraph = name.split(' ')[1]
+        let id = selectedLaws.value.length
+        selectedLaws.value.push({id: id, name: name, paragraph: Paragraph})
+        userArticle.value = ""
+    }
+
+    function removeArticle(id) {
+        console.warn("id: " + id)
+        //search the article by id and remove it
+        let getID = selectedLaws.value.find(entry => entry.id === id)
+        if (getID === undefined) {
+            alert("Der Artikel existiert nicht!")
+            return
+        }
+        selectedLaws.value.splice(selectedLaws.value.indexOf(getID), 1)
+    }
 </script>
 
 <template>
@@ -126,8 +160,18 @@
                     <div class="punishment"><input type="number" name="punishment" id="punishment" placeholder="Lebenslänglich" required>
                     Einheiten</div>
                 <!--Multicheckbox with articles-->
+                <div class="article__wrapper">
                 <label for="articles">Artikel</label>
-                <input type="description" name="articles" id="articles" placeholder="Artikel" required>
+                <div class="article__input">
+                   <Article v-for="selectedLaw in selectedLaws" :key="selectedLaw.id" :article="selectedLaw" @removeArticle="removeArticle"/>
+                </div>
+                <input type="text" name="articles" v-model="userArticle" id="article" placeholder="Art. 11" list="articles" required>
+                    <datalist id="articles">
+                        <option v-for="article in laws" :key="article.id" :value="'Art. ' + article.Paragraph + ' ' + article.Title" />
+                    </datalist>
+                    <button type="button" @click="addArticle">Add</button>
+                </div>
+                <!--<input type="description" name="articles" id="articles" placeholder="Artikel" required>-->
                 <label for="isActive">Is Restricted</label>
                 <input type="checkbox" v-model="isRestricted" name="isActive" id="isActive" placeholder="Aktives Mitglied" class="checkbox">
                 <div class="isRestricted" v-if="isRestricted">
@@ -142,6 +186,12 @@
 </template>
 
 <style scoped>
+.article__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 button {
     width: 100%;
     height: 50px;
