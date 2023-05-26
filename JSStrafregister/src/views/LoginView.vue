@@ -11,9 +11,11 @@ import messageHandler from '../components/messageHandler.vue'
     onMounted(async() => {
         //checks if auth has status 200, if true then redirect to home
         isLoading.value = true
+        document.title = 'Loading'
         if (await auth() == true) {
             router.push({ name: 'Home'})
         }
+        document.title = 'Strafregister'
         isLoading.value = false
     }
     )
@@ -21,6 +23,7 @@ import messageHandler from '../components/messageHandler.vue'
     async function submitForm() {
         console.log("Login")
         isLoading.value = true
+        document.title = 'Loading'
         let identification = document.getElementById("identification").value
         let password = document.getElementById("password").value
         let response = await authenticateUser(identification, password)
@@ -32,6 +35,7 @@ import messageHandler from '../components/messageHandler.vue'
             addToArray(response.message)
             console.warn("Login failed")
         }
+        document.title = 'Strafregister'
         isLoading.value = false
     }
 

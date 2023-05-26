@@ -28,7 +28,6 @@ function call() {
     console.log(props.case)
     if(isRestricted.value == true)
     {
-        //TODO: Check if User is permitted to enter
         alert("Dieser Eintrag ist nicht öffentlich zugänglich!")
         return
     }
