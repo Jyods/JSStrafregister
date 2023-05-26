@@ -54,8 +54,18 @@ function redirect() {
         <div class="extendet" v-if="extended">
                 <p>{{props.case.description}}</p>
                 <p>Haftzeit: {{ caseEntry.fine }} Jahre</p>
-                <p>Paragrafen: §{{  caseEntry.article }}</p>
-                
+                <div class="laws">
+                <p>Paragrafen:                 </p>
+                    <p v-for="law in props.case.laws">
+                        <RouterLink 
+                        :to="{  name: 'Law', 
+                                query: { ArticleID: law.law.id }}"
+                                :law = "law"
+                                >
+                                §{{ law.law.Paragraph }}
+                        </RouterLink>
+                    </p>
+                </div>
                 <RouterLink :to="{ name: 'Case', query: { CaseID: props.case.id }}" :case="caseEntry" class="link">
                     <img src="../assets/Arrow.svg" alt="loading" height="15" width="15"/>
                     Redirect
@@ -65,6 +75,18 @@ function redirect() {
 </template>
 
 <style scoped>
+.laws {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    height: fit-content;
+    /*Add a Gap between the Elements*/
+    gap: 10px;
+}
 .case {
     height: fit-content;
     background-color: grey;

@@ -34,12 +34,14 @@ onMounted(async() => {
 </template>
 <style scoped>
   .nav {
-    padding-left: 200px;
-    background-color: #6d6d6d;
+    margin-left: 200px;
+    /*background-color: #6d6d6d;*/
+    background-color: rgba(0, 247, 255, 0.7);
+    box-shadow: 1px 1px 10px 5px rgba(54, 198, 255, 0.3);
     overflow: hidden;
     height: 50px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-}
+    }
 </style>

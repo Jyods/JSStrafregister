@@ -3,6 +3,7 @@ import { RouterLink, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { getPermissions } from '../api/requests.js'
 import {logout } from '../api/requests.js'
+import Navbar from './navbar.vue'
 
 const permissions = ref(false)
 
@@ -34,6 +35,7 @@ async function logoutUser() {
 }
 </script>
 <template>
+    <Navbar class="navbar" />
     <div class="title"><img src="../assets/Strafregister.png" width="200" class="header_image"/></div>
     <div class="sidebar">
         <div class="sidebar-header">
@@ -72,7 +74,12 @@ async function logoutUser() {
     top: 0;
     left: 0;
     height: 50px;
-    z-index: 1;
+    z-index: 3;
+}
+.navbar {
+    position: fixed;
+    margin-left: 0px;
+    width: 100%;    
 }
 .sidebar {
     position: fixed;
@@ -82,6 +89,7 @@ async function logoutUser() {
     width: 200px;
     /*background-color: grey;*/
     background-color: rgba(0, 247, 255, 0.7);
+    box-shadow: 1px 1px 10px 5px rgba(54, 198, 255, 0.584);
     color: red;
     padding-top: 50px;
 }

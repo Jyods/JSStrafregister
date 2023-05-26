@@ -1,6 +1,6 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue'
-    import {getOnlyEntries, createFile, createEntry, getLaws} from '../api/requests.js'
+    import {getOnlyEntries, createFile, createEntry, createFileLaw, getLaws,getPermissions} from '../api/requests.js'
     import Article from '../components/Article.vue'
 
     const isLoading = ref(true)
@@ -19,6 +19,10 @@
 
     const selectedLaws = ref([])
 
+    const permissions = ref(false)
+
+    const newEntryObj = ref(false)
+    
     //checks if the identification exists in the entries when not return set own const to true, when the document isn't loaded return false
     const newEntry = computed(() => {
         if (userEntry === null) {
@@ -45,6 +49,14 @@
         console.log(entries.value)
         console.log(laws.value)
         isLoading.value = false
+    let data = await getPermissions()
+    if (data.data >= 10)
+    {
+        permissions.value = true
+    }
+    else {
+        permissions.value = false
+    }
     })
 
     async function submitForm() {
@@ -76,14 +88,19 @@
             date: document.getElementById("timeDate").value,
             description: document.getElementById("description").value,
             fine: document.getElementById("punishment").value,
-            article: document.getElementById("articles").value,
+            article: 9999,
             isRestricted: isRestricted.value,
             restrictionClass: newRestrictionClass.value,
         }
-
+        
+        console.warn("Data")
         console.log(data)
 
+        newEntryObj.value = data
+
         const response = await createFile(data)
+
+        await crateFileLaws(response.id)
 
         console.log(response)
     }
@@ -113,9 +130,10 @@
         //add the article as a object to the selectedLaws
         let name = document.getElementById("article").value
         //split the name by ' ' and get the second part
-        let Paragraph = name.split(' ')[1]
+        let Paragraph = name.split(' ')[0]
+        let Title = name.split(' ')[1]
         let id = selectedLaws.value.length
-        selectedLaws.value.push({id: id, name: name, paragraph: Paragraph})
+        selectedLaws.value.push({id: id, name: name, paragraph: Paragraph, title: Title})
         userArticle.value = ""
     }
 
@@ -129,6 +147,23 @@
         }
         selectedLaws.value.splice(selectedLaws.value.indexOf(getID), 1)
     }
+
+    async function crateFileLaws(fileID)
+    {
+        console.log(selectedLaws.value)
+        //run through the selectedLaws and create a new file_law for each
+        for (let i = 0; i < selectedLaws.value.length; i++) {
+            console.log(selectedLaws.value[i])
+            let data = {
+                file_id: fileID,
+                paragraph: parseInt(selectedLaws.value[i].paragraph),
+            }
+            console.log(data)
+            await createFileLaw(data)
+        }
+
+        
+    }
 </script>
 
 <template>
@@ -141,13 +176,13 @@
             <form @submit.prevent="submitForm">
                 <label for="identification">Identifikation</label>
                 <input type="text" name="identification" v-model="userEntry" id="identification" placeholder="Identifikation" list="entry" required>
-                    <datalist id="entry">
-                        <option v-for="entry in entries" :key="entry.id" :value="entry.identification" />
-                    </datalist>
-                    <label for="alter" v-if="newEntry">Alter</label>
-                    <input type="number" name="alter" id="alter" placeholder="Alter" v-if="newEntry">
-                    <label for="definition">Definition</label>
-                    <input type="text" name="definition" id="definition" placeholder="Mord" required>
+                <datalist id="entry">
+                    <option v-for="entry in entries" :key="entry.id" :value="entry.identification" />
+                </datalist>
+                <label for="alter" v-if="newEntry">Alter</label>
+                <input type="number" name="alter" id="alter" placeholder="Alter" v-if="newEntry">
+                <label for="definition">Definition</label>
+                <input type="text" name="definition" id="definition" placeholder="Mord" required>
                 <label for="timeDate">Tat Datum</label>
                 <input type="date" name="timeDate" id="timeDate" placeholder="03.04.2022" required>
                 <label for="timeTime">Tat Zeit</label>
@@ -165,15 +200,17 @@
                 <div class="article__input">
                    <Article v-for="selectedLaw in selectedLaws" :key="selectedLaw.id" :article="selectedLaw" @removeArticle="removeArticle"/>
                 </div>
-                <input type="text" name="articles" v-model="userArticle" id="article" placeholder="Art. 11" list="articles" required>
-                    <datalist id="articles">
-                        <option v-for="article in laws" :key="article.id" :value="'Art. ' + article.Paragraph + ' ' + article.Title" />
-                    </datalist>
+                <select v-model="userArticle" id="article">
+                    <option disabled value="">Please select one</option>
+                        <option id="article_item" v-for="article in laws" :key="article.id">
+                            {{ article.Paragraph + ' ' + article.Title }}
+                        </option>
+            </select>
                     <button type="button" @click="addArticle">Add</button>
                 </div>
                 <!--<input type="description" name="articles" id="articles" placeholder="Artikel" required>-->
-                <label for="isActive">Is Restricted</label>
-                <input type="checkbox" v-model="isRestricted" name="isActive" id="isActive" placeholder="Aktives Mitglied" class="checkbox">
+                <label v-if="permissions" for="isActive">Is Restricted</label>
+                <input v-if="permissions" type="checkbox" v-model="isRestricted" name="isActive" id="isActive" placeholder="Aktives Mitglied" class="checkbox">
                 <div class="isRestricted" v-if="isRestricted">
                 <label for="restrictionClass">Restriction Class</label>
                     <input type="number" name="restrictionClass" v-model="newRestrictionClass" placeholder="1">
@@ -186,6 +223,18 @@
 </template>
 
 <style scoped>
+#article {
+    width: 200px;
+    height: 50px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
 .article__wrapper {
     display: flex;
     flex-direction: column;

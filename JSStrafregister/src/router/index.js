@@ -9,6 +9,8 @@ import MemberView from '../views/MemberView.vue'
 import AdminMemberView from '../views/AdminMemberView.vue'
 import CreateView from '../views/CreateView.vue'
 import CreateEntry from '../components/CreateEntry.vue'
+import LawView from '../views/LawView.vue'
+import LawArticle from '../views/LawArticle.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +41,23 @@ const router = createRouter({
           path: '/adminmember',
           name: 'AdminMember',
           component: AdminMemberView,
+        },
+        {
+          path: '/articles',
+          name: 'Law',
+          component: LawView,
+          children: [
+            {
+              path: '/{ArticleID}',
+              component: LawArticle ,
+              props: (route) => ({ ArticleID: route.query.ArticleID }),
+            },
+            {
+              path: '',
+              name: 'LawHome',
+              component: LawArticle,
+            }
+          ]
         },
         {
           path: 'create',

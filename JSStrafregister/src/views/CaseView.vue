@@ -33,7 +33,18 @@
         <h1 class="title item">Titel: {{ entries.definition }}</h1>
         <h3 class="description item">Beschreibung: {{ entries.description }}</h3>
         <h2 class="creation item">Datum: {{ entries.date }}</h2>
-        <h3 class="article item">StGB: {{ entries.article }}</h3>
+        <h3 v-if="entries.laws != 'Restricted'" class="article item">StGB:  
+            <p v-for="law in entries.laws">
+                        <RouterLink 
+                        :to="{  name: 'Law', 
+                                query: { ArticleID: law.law.id }}"
+                                :law = "law"
+                                >
+                                §{{ law.law.Paragraph }}
+                        </RouterLink>
+                    </p>
+        </h3>
+        <h3 v-else>StGB: {{ entries.laws }}</h3>
         <h3 class="punishment item">Haftzeit: {{ entries.fine }}</h3>
         <br>
         <h2>{{ entries.user.type }}</h2>

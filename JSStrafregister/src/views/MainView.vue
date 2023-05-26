@@ -15,7 +15,6 @@
 
 <template>
   <sidebar class="bg" @add-to-array="addToArray"/>
-  <navbar class="fg"/>
   <div class="viewContent">
     <RouterView />
   </div>
@@ -24,5 +23,6 @@
 <style scoped>
 .viewContent {
   padding-left: 200px;
+  padding-top: 50px;
 }
 </style>

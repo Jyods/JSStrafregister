@@ -207,6 +207,27 @@ export async function getLaws() {
     return await response.json();
 }
 
+export async function getLawID(id) {
+    const response = await fetch(`${backend}/law/${id}`,{
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function createFileLaw(data) {
+    const response = await fetch(`${backend}/filelaw`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
 /*
 
 export async function checkPermission(permission) {

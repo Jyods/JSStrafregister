@@ -86,6 +86,7 @@ import messageHandler from '../components/messageHandler.vue'
 }
 .loading {
         position:fixed;
+        z-index: 2;
 }
     .login {
         display: flex;

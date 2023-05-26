@@ -58,10 +58,10 @@
   height: 100vh;
 }
 .fg {
-  z-index: 1;
+  z-index: -1;
 }
 .bg {
-  z-index: 100;
+  z-index: -1;
 }
 .search {
   margin-top: 10px;
