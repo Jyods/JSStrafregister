@@ -228,6 +228,28 @@ export async function createFileLaw(data) {
     return await response.json();
 }
 
+export async function getRanks() {
+    const response = await fetch(`${backend}/ranks`,{
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function editUser(data) {
+    const response = await fetch(`${backend}/members`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    console.log(data)
+    return await response.json();
+}
+
 /*
 
 export async function checkPermission(permission) {

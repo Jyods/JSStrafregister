@@ -1,7 +1,7 @@
 <script setup>
     import { ref, onMounted, computed } from 'vue'
     import { RouterLink, RouterView, useRouter } from 'vue-router'
-    import { getMembers, createUser, getPermissions, switchActive } from '../api/requests.js'
+    import { getMembers, createUser, getPermissions, switchActive, getRanks } from '../api/requests.js'
     import Member from '../components/Member.vue'
     import CreateMember from '../components/CreateMember.vue'
 
@@ -10,6 +10,7 @@
     const onlyActive = ref(false)
     const newMembers = ref([])
     const editMembers = ref([])
+    const ranks = ref([])
 
 
     const router = useRouter()    
@@ -23,11 +24,14 @@ onMounted(async() => {
         let fetch = await getMembers()
         members.value = fetch.data
         console.log(members.value)
+        let fetchRanks = await getRanks()
+        ranks.value = fetchRanks.data
         isLoading.value = false
     }
     else {
         router.push({ name: 'Home'})
     }
+    console.log(ranks.value)
 })
 
 const search = ref('')
@@ -116,7 +120,7 @@ function changeActive(memberID) {
         <input type="text" placeholder="Suche" class="search" v-model="search"/>
         <button class="add" @click="addMember">+</button>
         <CreateMember v-for="member in newMembers" :member="member" :key="members.id" @pushNewMember="pushMember" @abortMember="abortEntry"/>
-        <Member v-for="member in filteredMembers" :member="member" :key="members.id" @changeActiv="changeActive"/>
+        <Member v-for="member in filteredMembers" :member="member" :ranks="ranks" :key="members.id" @changeActiv="changeActive"/>
     </div>
 </div>
 
