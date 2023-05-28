@@ -47,17 +47,15 @@ const laws = ref(undefined)
                 <div v-if="!mode" v-for="law in laws" class="law__wrapper">
                     <div class="law__content">
                         <h2>{{law.Title}}</h2>
-                        <p>Paragraph: §{{ law.Paragraph }}</p>
-                        <p>Gesetz: {{law.Category}}</p>
+                        <p>Paragraph: §{{ law.Paragraph }} {{law.Category}}</p>
                         <p>Kategorie: {{law.Severity}}</p>
                         <p>Beschreibung: {{law.ShortDescription}}</p>
-                        <button @click="gotoLaw(law.id)">Mehr</button>
+                        <button @click="gotoLaw(law.id)" class="button_goto">Mehr</button>
                     </div>
                 </div>
                 <div v-else class="law__solo">
                     <h2>{{laws.Title}}</h2>
-                    <p>Paragraph: §{{ laws.Paragraph }}</p>
-                    <p>Gesetz: {{laws.Category}}</p>
+                    <p>Paragraph: §{{ laws.Paragraph }} {{laws.Category}}</p>
                     <p>Kategorie: {{laws.Severity}}</p>
                     <p class="desc">Beschreibung: {{laws.Description}}</p>
                 </div>  
@@ -66,6 +64,15 @@ const laws = ref(undefined)
 </template>
 
 <style scoped>
+.button_goto {
+    background-color: #2c2c2c;
+    color: red;
+    border: none;   
+}
+.button_goto:hover {
+    color: orange;
+
+}
 .desc {
     width: 80%;
     text-align: center;
