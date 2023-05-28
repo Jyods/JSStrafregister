@@ -47,6 +47,7 @@ const laws = ref(undefined)
                 <div v-if="!mode" v-for="law in laws" class="law__wrapper">
                     <div class="law__content">
                         <h2>{{law.Title}}</h2>
+                        <p>Paragraph: §{{ law.Paragraph }}</p>
                         <p>Gesetz: {{law.Category}}</p>
                         <p>Kategorie: {{law.Severity}}</p>
                         <p>Beschreibung: {{law.ShortDescription}}</p>
@@ -55,6 +56,7 @@ const laws = ref(undefined)
                 </div>
                 <div v-else class="law__solo">
                     <h2>{{laws.Title}}</h2>
+                    <p>Paragraph: §{{ laws.Paragraph }}</p>
                     <p>Gesetz: {{laws.Category}}</p>
                     <p>Kategorie: {{laws.Severity}}</p>
                     <p class="desc">Beschreibung: {{laws.Description}}</p>

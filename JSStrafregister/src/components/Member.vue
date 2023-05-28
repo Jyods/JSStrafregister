@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed, onBeforeMount } from 'vue'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { editUser } from '../api/requests.js'
+import { editUser, getCurrentUser } from '../api/requests.js'
 
 const props = defineProps({
     member: {
@@ -28,12 +28,37 @@ function changeActiv(memberID) {
 
 async function save() {
     isLoading.value = true
+    if(await checkIfIEditMyself())
+    {
+        //create a alert that you can't edit yourself
+        alert("Du kannst dich nicht selber bearbeiten")
+        editMember.value = false
+        isLoading.value = false
+        return
+    }
     console.log(props.member)
     console.log("Save")
     await setRankToRankID(props.member.rank.rank)
     let response = await editUser(props.member)
     console.log(response)
+    editMember.value = false
     isLoading.value = false
+}
+
+async function checkIfIEditMyself(){
+    console.log("Check if I edit myself")
+    let response = await getCurrentUser()
+    console.log(response)
+    if (response.id == props.member.id)
+    {
+        console.log("I edit myself")
+        return true
+    }
+    else {
+        console.log("I don't edit myself")
+        return false
+    }
+
 }
 
 //get the rank_id from the rank and set it to the member
@@ -99,7 +124,7 @@ onMounted(() => {
             <h3>Eintritt: <input type="date" v-model="member.entry" disabled> </h3>
             <div class="btn">
                 <button @click="editMember = false">Abort</button>
-                <button @click="save">Save</button>
+                <button :disabled="isLoading" @click="save">Save</button>
             </div>
         </div>
 </template>
