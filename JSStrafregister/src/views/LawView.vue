@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, onBeforeMount } from 'vue'
 import {getLawID, getLaws} from '../api/requests.js'
 
 const props = defineProps({
@@ -34,44 +34,71 @@ const laws = ref(undefined)
         console.warn(laws.value)
     }
 
+    function gotoLaw(id) {
+        mode.value = true
+        window.location.href = "/articles?ArticleID=" + id
+    }
+
 </script>
 
 <template>
     <div class="law_wrapper">
-        <div class="law__mega">
             <div class="info">
-                <div v-if="!mode" v-for="law in laws" class="law">
-                    <p>{{law.Title}}</p>
-                    <p>{{law.Category}}</p>
+                <div v-if="!mode" v-for="law in laws" class="law__wrapper">
+                    <div class="law__content">
+                        <h2>{{law.Title}}</h2>
+                        <p>Gesetz: {{law.Category}}</p>
+                        <p>Kategorie: {{law.Severity}}</p>
+                        <p>Beschreibung: {{law.ShortDescription}}</p>
+                        <button @click="gotoLaw(law.id)">Mehr</button>
+                    </div>
                 </div>
-                <div v-else>
-                    <p>{{laws.Title}}</p>
-                    <p>{{laws.Category}}</p>
+                <div v-else class="law__solo">
+                    <h2>{{laws.Title}}</h2>
+                    <p>Gesetz: {{laws.Category}}</p>
+                    <p>Kategorie: {{laws.Severity}}</p>
+                    <p class="desc">Beschreibung: {{laws.Description}}</p>
                 </div>  
-        </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-.law {
-    background-color: #2c2c2c;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 50px 100px 50px 100px;
-    box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.75);
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+.desc {
+    width: 80%;
+    text-align: center;
 }
-.info {
+.law__wrapper {
+    background-color: #2c2c2c;
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+}
+.law__content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: white;
     height: 100%;
+    width: 100%;
+}
+.info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.law__solo {
+    background-color: #2c2c2c;
+    width: 500px;
+    height: 500px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
 }
 </style>

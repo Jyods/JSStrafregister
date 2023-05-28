@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, onBeforeMount } from 'vue'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { editUser } from '../api/requests.js'
 
@@ -20,16 +20,50 @@ const emit = defineEmits(['changeActiv'])
 
 const changedSomething = ref(false)
 
+const isLoading = ref(false)
+
 function changeActiv(memberID) {
     emit('changeActiv', memberID)
 }
 
 async function save() {
+    isLoading.value = true
     console.log(props.member)
     console.log("Save")
+    await setRankToRankID(props.member.rank.rank)
     let response = await editUser(props.member)
     console.log(response)
+    isLoading.value = false
 }
+
+//get the rank_id from the rank and set it to the member
+async function setRankToRankID(rank) {
+    console.log("Set Rank to RankID")
+    console.log(rank)
+    for (let i = 0; i < props.ranks.length; i++) {
+        if (props.ranks[i].rank == rank) {
+            console.log(props.ranks[i].rank)
+            let newRankID = props.ranks[i].id
+            console.log(newRankID)
+            props.member.rank_id = newRankID
+            console.log(props.member.rank_id)
+        }
+    }
+}
+
+onBeforeMount(() => {
+    if (props.member.isActive)
+    {
+        props.member.isActive = true
+    }
+    else {
+        props.member.isActive = false
+    }
+})
+
+onMounted(() => {
+    isLoading.value = false
+})
 
 </script>
 <template>
@@ -53,6 +87,7 @@ async function save() {
             </div>
         </div>
         <div v-else class="edit__member member">
+            <img src="../assets/data_loading.svg" alt="loading" v-if="isLoading" class="loading">
             <h1>{{ member.type }}</h1>
             <h3>Identifikation: <input type="text" v-model="member.identification"></h3>
             <h3>Email: <input type="email" v-model="member.email"></h3>
@@ -69,6 +104,9 @@ async function save() {
         </div>
 </template>
 <style scoped>
+.loading {
+    position: absolute;
+}
 .btn {
     display: flex;
     justify-content: center;

@@ -39,8 +39,8 @@ onMounted(async() => {
             <h3>Alter: {{ member.age }}</h3>
             <h3>Aktives Mitglied: {{ member.is_active }}</h3>
             <h3>Beitritt: {{ member.entry }}</h3>
-            <h3 v-if="!isActive">Austritt: {{ member.departure }}</h3>
-            <h3 v-if="!isActive">Grund: {{ member.reason }}</h3>
+            <h3 v-if="!member.isActive">Austritt: {{ member.departure }}</h3>
+            <h3 v-if="!member.isActive">Grund: {{ member.reason }}</h3>
         </div>
     </div>
 </div>

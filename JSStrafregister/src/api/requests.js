@@ -46,7 +46,12 @@ export async function getEntry(EntryID) {
 }
 
 export async function getMember(MemberID) {
-    const response = await fetch(`${backend}/members/${MemberID}`);
+    const response = await fetch(`${backend}/members/${MemberID}`,
+    {
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+    });
     return await response.json();
 }
 
@@ -75,7 +80,8 @@ export async function createEntry(data) {
     const response = await fetch(`${backend}/entries/create`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
         body: JSON.stringify(data)
     });

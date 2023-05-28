@@ -1,6 +1,6 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue'
-    import {getOnlyEntries, createFile, createEntry, createFileLaw, getLaws,getPermissions} from '../api/requests.js'
+    import {getOnlyEntries, createFile, createEntry, createFileLaw, getLaws,getPermissions, getRanks} from '../api/requests.js'
     import Article from '../components/Article.vue'
 
     const isLoading = ref(true)
@@ -20,6 +20,10 @@
     const selectedLaws = ref([])
 
     const permissions = ref(false)
+
+    const ranks = ref([])
+
+    const activeRank = ref(null)
 
     const newEntryObj = ref(false)
     
@@ -45,6 +49,8 @@
         entries.value = files.data
         files = await getLaws()
         laws.value = files.data
+        let rank = await getRanks()
+        ranks.value = rank.data
         console.log(laws.value)
         console.log(entries.value)
         console.log(laws.value)
@@ -200,14 +206,19 @@
                 <div class="article__input">
                    <Article v-for="selectedLaw in selectedLaws" :key="selectedLaw.id" :article="selectedLaw" @removeArticle="removeArticle"/>
                 </div>
+                <div class="article">
                 <select v-model="userArticle" id="article">
                     <option disabled value="">Please select one</option>
                         <option id="article_item" v-for="article in laws" :key="article.id">
                             {{ article.Paragraph + ' ' + article.Title }}
                         </option>
             </select>
-                    <button type="button" @click="addArticle">Add</button>
+                    <button class="button__plus" @click="addArticle"><img src="../assets/plus.svg" width="25" height="25" /> </button>
                 </div>
+            </div>
+            <h3>Rank: <select v-model="activeRank">
+                <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
+            </select> </h3>
                 <!--<input type="description" name="articles" id="articles" placeholder="Artikel" required>-->
                 <label v-if="permissions" for="isActive">Is Restricted</label>
                 <input v-if="permissions" type="checkbox" v-model="isRestricted" name="isActive" id="isActive" placeholder="Aktives Mitglied" class="checkbox">
@@ -223,6 +234,13 @@
 </template>
 
 <style scoped>
+.article {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
 #article {
     width: 200px;
     height: 50px;
@@ -241,7 +259,20 @@
     justify-content: center;
     align-items: center;
 }
-button {
+.button__plus {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: transparent;
+    color: #f9f9f9;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.button {
     width: 100%;
     height: 50px;
     margin: 10px;

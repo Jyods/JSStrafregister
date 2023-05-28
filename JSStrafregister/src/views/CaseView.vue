@@ -45,7 +45,8 @@
                     </p>
         </h3>
         <h3 v-else>StGB: {{ entries.laws }}</h3>
-        <h3 class="punishment item">Haftzeit: {{ entries.fine }}</h3>
+        <h3 class="punishment item">Haftzeit: {{ entries.fine }} Einheiten</h3>
+        <h3 class="rank item">Rang: {{ entries.rank[0].rank }}</h3>
         <br>
         <h2>{{ entries.user.type }}</h2>
         <RouterLink :to="{ name: 'Member', query: { MemberID: entries.user.id }}">{{ entries.user.identification }}</RouterLink>
@@ -58,7 +59,9 @@
   align-items: center;
   height: 100vh;
 }
-
+.article {
+    gap:5px;
+}
 .CaseContent {
     display: flex;
     flex-direction: column;
