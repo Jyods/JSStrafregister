@@ -1,11 +1,16 @@
 <script setup>
+import Info from './Tooltip.vue'
 import { ref, onMounted } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-import { auth } from '../api/requests.js'
+import { auth,  } from '../api/requests.js'
 
 const props = defineProps({
     member: {
         type: Object,
+        required: true
+    },
+    ranks: {
+        type: Array,
         required: true
     }
 })
@@ -29,19 +34,25 @@ function pushMember(member) {
 }
 
 function abort(memberID) {
-    console.log("Abort")
+    console.log("Abort", memberID)
     emit('abortMember', memberID)
 }
 
 function checkIfAllFieldsFilled() {
-    if (member.value.identification != undefined && member.value.age != undefined && member.value.email != undefined && member.value.password != undefined && member.value.restrictionClass != undefined) {
-        console.log(member.value.identification + " " + member.value.age + " " + member.value.email + " " + member.value.password + " " + member.value.restrictionClass)
+    if (member.value.identification != "" && member.value.email != "" && member.value.password != "" && member.value.restrictionClass != "" && member.value.rank != "")
+    {
         return true
     }
     else {
         return false
     }
+
 }
+
+onMounted(() => {
+    console.log("Mounted")
+    console.log(member.value)
+})
 
 </script>
 <template>
@@ -50,15 +61,20 @@ function checkIfAllFieldsFilled() {
             <h1>{{ member.type }}</h1>
             <h3>Identifikation: <input type="text" v-model="member.identification"></h3>
             <h3>Email: <input type="email" v-model="member.email"></h3>
-            <h3>RestrictionClass: <input type="number" v-model="member.restrictionClass"></h3>
+            <Info info="Das Passwort wird Ihnen nach der Erstellung einmalig bekannt gegeben.">
+                <h3>Passwort: <input type="password" v-model="member.password" disabled></h3>
+            </Info>
+            <h3>RestrictionClass: <input type="number" v-model="member.restrictionClass"/></h3>
             <h3>Aktives Mitglied: <input type="checkbox" v-model="member.isActive"></h3>
             <h3>Rank: <select v-model="member.rank">
                 <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
             </select> </h3>
-            <h3>Eintritt: <input type="date" v-model="member.entry" disabled> </h3>
+            <Info info="Das Eintrittsdatum kann nicht geändert werden.">
+            <h3>Eintritt: <input type="date" v-model="member.entry" disabled></h3>
+            </Info>
             <div class="btn">
-                <button @click="editMember = false">Abort</button>
-                <button :disabled="isLoading" @click="save">Save</button>
+                <button class="abort_btn" @click="abort(member.id)">Abort</button>
+                <button class="save_btn" @click="pushMember(member)">Save</button>
             </div>
         </div>
 </template>
@@ -69,7 +85,7 @@ function checkIfAllFieldsFilled() {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: green;
+        background-color: rgb(255, 255, 255);
         padding: 20px;
         margin: 20px;
         border-radius: 10px;
@@ -83,17 +99,45 @@ function checkIfAllFieldsFilled() {
         width: 100%;
     }
     button {
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 5px;
         width: 100px;
-        height: 20px;
-        border-radius: 10px;
-        border: none;
-        background-color: rgb(117, 117, 117);
-        color: white;
-        font-weight: bold;
-        box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.75);
+    }
+    .abort_btn {
+        background-color: rgb(255, 0, 0);
+    }
+    .save_btn {
+        background-color: rgb(0, 255, 0);
     }
     button:hover {
-        background-color: rgb(0, 0, 0);
         cursor: pointer;
+    }
+    .abort_btn:hover {
+        background-color: rgb(128, 0, 0);
+    }
+    .save_btn:hover {
+        background-color: rgb(0, 128, 0);
+    }
+    .btn {
+        padding-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+    }
+    input {
+        border: none;
+        border-bottom: 1px solid black;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    input:focus {
+        outline: none;
+    }
+    input[type="checkbox"] {
+        width: 15px;
+        height: 15px;
     }
 </style>

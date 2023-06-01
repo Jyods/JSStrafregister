@@ -88,6 +88,7 @@ onBeforeMount(() => {
 
 onMounted(() => {
     isLoading.value = false
+    console.log(props.member)
 })
 
 </script>
@@ -143,7 +144,7 @@ onMounted(() => {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: #d80000;
+        background-color: #d9d9d9;
         padding: 20px;
         margin: 20px;
         border-radius: 10px;

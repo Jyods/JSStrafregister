@@ -1,9 +1,10 @@
 <script setup>
     import { ref, onMounted, computed } from 'vue'
     import { RouterLink, RouterView, useRouter } from 'vue-router'
-    import { getMembers, createUser, getPermissions, switchActive, getRanks } from '../api/requests.js'
+    import { getMembers, createUser, getPermissions, switchActive, getRanks, getCurrentUser } from '../api/requests.js'
     import Member from '../components/Member.vue'
     import CreateMember from '../components/CreateMember.vue'
+    import Popup from '../components/Popup.vue'
 
     const isLoading = ref(true)
     const members = ref([])
@@ -11,6 +12,11 @@
     const newMembers = ref([])
     const editMembers = ref([])
     const ranks = ref([])
+    const addingMember = ref(false)
+
+    const showPopup = ref(false)
+
+    const newPassword = ref("")
 
 
     const router = useRouter()    
@@ -51,17 +57,28 @@ const filteredMembers = computed(() => {
 
 function addMember() {
     console.log("Add Member")
+    if(!addingMember.value) {
+    addingMember.value = true
     //push member to top of list newMembers
+    let password = generatePassword()
     newMembers.value.push({
         id: members.value.length + 1,
         type: "Mitglied",
-        identification: "123456789",
-        age: 18,
+        identification: "CT-0000",
         isActive: true,
-        entry: "01.01.2021",
-        email: "test@banana.com"
+        password: password,
+        restrictionClass: 0,
+        email: "max@gmail.com",
+        entry: new Date().toISOString().slice(0, 10),
+        rank: {
+            id: 1,
+            rank: "Private"
+        },
     })
-
+    }
+    else {
+        console.warn("You can't add a new member while you are adding a new member")
+    }
 
     /*members.value.unshift({
         id: members.value.length + 1,
@@ -73,9 +90,25 @@ function addMember() {
     })*/
 }
 
+function generatePassword() {
+    console.log("Generate Password")
+    let password = ""
+    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    for (let i = 0; i < 8; i++) {
+        password += characters.charAt(Math.floor(Math.random() * characters.length))
+    }
+    return password
+}
+
 async function pushMember(member) {
     isLoading.value = true
     console.log("Push Member")
+    //Alert user with the new password
+    alert("Das Passwort für " + member.identification + " lautet: " + member.password)
+    member.rank_id = member.rank.id
+    let currentUser = await getCurrentUser()
+    console.log(currentUser)
+    member.creator_name = currentUser.identification
     console.log(member)
     let fetch = await createUser(member)
     console.log("Return",fetch)
@@ -83,6 +116,7 @@ async function pushMember(member) {
     newMembers.value = newMembers.value.filter((newMember) => {
         return newMember.id != member.id
     })
+    addingMember.value = false
     isLoading.value = false
 }
 
@@ -90,6 +124,7 @@ function abortEntry(memberID) {
     newMembers.value = newMembers.value.filter((newMember) => {
         return newMember.id != memberID
     })
+    addingMember.value = false
 }
 
 //create function editMember where the member is set to newMembers and the old member is hidden, when user aborts the edit the old member is shown again and the newMember is deleted
@@ -110,16 +145,16 @@ function changeActive(memberID) {
 
 
 <template>
-
 <div class="loading" v-if="isLoading">
     <img src="../assets/Loading.svg" alt="loading"/>
 </div>
 <div v-else>
     <div class="members">
-        <input type="checkbox" v-model="onlyActive"/>
-        <input type="text" placeholder="Suche" class="search" v-model="search"/>
-        <button class="add" @click="addMember">+</button>
-        <CreateMember v-for="member in newMembers" :member="member" :key="members.id" @pushNewMember="pushMember" @abortMember="abortEntry"/>
+        <div class="">
+            <input type="text" placeholder="Suche" class="search" v-model="search"/>
+            <button class="add" @click="addMember">Neuer Benutzer</button>
+        </div>
+        <CreateMember v-for="member in newMembers" :member="member" :ranks="ranks" :key="members.id" @pushNewMember="pushMember" @abortMember="abortEntry"/>
         <Member v-for="member in filteredMembers" :member="member" :ranks="ranks" :key="members.id" @changeActiv="changeActive"/>
     </div>
 </div>
@@ -136,5 +171,31 @@ function changeActive(memberID) {
     padding: 20px;
     margin: 20px;
     border-radius: 10px;
+}
+button {
+    border: none;
+    background-color: #c5c5c5;
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #a5a5a5;
+}
+input {
+    border: none;
+    background-color: #c5c5c5;
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    border-bottom: 2px solid white;
+}
+input:focus {
+    outline: none;
 }
 </style>
