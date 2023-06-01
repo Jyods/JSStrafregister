@@ -45,24 +45,20 @@ function checkIfAllFieldsFilled() {
 
 </script>
 <template>
-    <div class="member">
+     <div class="edit__member member">
+            <img src="../assets/data_loading.svg" alt="loading" v-if="isLoading" class="loading">
             <h1>{{ member.type }}</h1>
-            <h3>Identifikation:
-                <input type="text" v-model="member.identification">
-            </h3>
-            <h3>Alter: <input type="number" v-model="member.age"></h3>
-            <h3>Aktives Mitglied: {{ member.isActive }} <input type="checkbox" v-model="member.isActive"></h3>
-            <h3>Email <input type="email" v-model="member.email"></h3>
-            <h3>Password: 
-                <input type="text" v-model="member.password">
-            </h3>
-            <h3>Restriction:
-                <input type="number" v-model="member.restrictionClass">
-            </h3>
-            <h3>Eintritt: {{ member.entry }}</h3>
-            <div class="wrapper">
-                <button @click="pushMember(member)">Speichern</button>
-                <button @click="abort(member.id)">Abbrechen</button>
+            <h3>Identifikation: <input type="text" v-model="member.identification"></h3>
+            <h3>Email: <input type="email" v-model="member.email"></h3>
+            <h3>RestrictionClass: <input type="number" v-model="member.restrictionClass"></h3>
+            <h3>Aktives Mitglied: <input type="checkbox" v-model="member.isActive"></h3>
+            <h3>Rank: <select v-model="member.rank">
+                <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
+            </select> </h3>
+            <h3>Eintritt: <input type="date" v-model="member.entry" disabled> </h3>
+            <div class="btn">
+                <button @click="editMember = false">Abort</button>
+                <button :disabled="isLoading" @click="save">Save</button>
             </div>
         </div>
 </template>
