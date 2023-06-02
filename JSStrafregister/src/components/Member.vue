@@ -138,6 +138,9 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
 }
+input{
+    width: max-content;
+}
     .member {
         display: flex;
         width: 50%;

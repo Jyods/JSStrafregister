@@ -70,7 +70,7 @@ onMounted(() => {
                 <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
             </select> </h3>
             <Info info="Das Eintrittsdatum kann nicht geändert werden.">
-            <h3>Eintritt: <input type="date" v-model="member.entry" disabled></h3>
+                <h3>Eintritt: <input type="date" v-model="member.entry" disabled></h3>
             </Info>
             <div class="btn">
                 <button class="abort_btn" @click="abort(member.id)">Abort</button>
