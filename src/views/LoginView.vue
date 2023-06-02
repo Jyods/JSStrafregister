@@ -27,7 +27,7 @@ import messageHandler from '../components/messageHandler.vue'
         let identification = document.getElementById("identification").value
         let password = document.getElementById("password").value
         let response = await authenticateUser(identification, password)
-        if (sessionStorage.getItem("token") != undefined || sessionStorage.getItem("token" != null)) {
+        if (localStorage.getItem("token") != undefined || localStorage.getItem("token" != null)) {
             console.warn("Login successful")
             router.push({ name: 'Home'})
         }

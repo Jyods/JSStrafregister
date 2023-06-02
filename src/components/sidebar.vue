@@ -89,7 +89,7 @@ async function logoutUser() {
     width: 200px;
     /*background-color: grey;*/
     background-color: rgba(0, 247, 255, 0.7);
-    box-shadow: 1px 1px 10px 5px rgba(54, 198, 255, 0.584);
+    box-shadow: 1px 55px 10px 5px rgba(54, 198, 255, 0.584);
     color: red;
     padding-top: 50px;
 }
