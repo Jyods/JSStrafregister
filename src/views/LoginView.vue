@@ -9,6 +9,17 @@ import messageHandler from '../components/messageHandler.vue'
     const isLoading = ref(false)
 
     onMounted(async() => {
+        //checks if the backend is online, if not then redirect to error page
+        let response = null
+        try {
+            response = await fetch('http://localhost:3000/api/auth')
+        }
+        catch (error) {
+            console.warn("Backend is offline")
+            router.push({ name: 'Error'})
+        }
+        
+        console.log(response)
         //checks if auth has status 200, if true then redirect to home
         isLoading.value = true
         document.title = 'Loading'
