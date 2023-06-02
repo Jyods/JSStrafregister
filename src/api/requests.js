@@ -3,7 +3,7 @@ const backend = 'http://jsstrafregisterbackend.test/api';
 export async function getFiles() {
     const response = await fetch(`${backend}/files`,{
     headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
         });
     return await response.json();
@@ -12,7 +12,7 @@ export async function getFiles() {
 export async function getCase(CaseID) {
     const response = await fetch(`${backend}/files/id/${CaseID}`,{
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
     return await response.json();
@@ -21,7 +21,7 @@ export async function getCase(CaseID) {
 export async function getEntries() {
     const response = await fetch(`${backend}/entries/index`,{
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
     return await response.json();
@@ -30,7 +30,7 @@ export async function getEntries() {
 export async function getOnlyEntries() {
     const response = await fetch(`${backend}/entries/onlyEntry`,{
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
     return await response.json();
@@ -39,7 +39,7 @@ export async function getOnlyEntries() {
 export async function getEntry(EntryID) {
     const response = await fetch(`${backend}/entries/index/${EntryID}`,{
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
     return await response.json();
@@ -49,7 +49,7 @@ export async function getMember(MemberID) {
     const response = await fetch(`${backend}/members/${MemberID}`,
     {
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
     });
     return await response.json();
@@ -58,7 +58,7 @@ export async function getMember(MemberID) {
 export async function getMembers() {
     const response = await fetch(`${backend}/members`,{
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
     return await response.json();
@@ -69,7 +69,7 @@ export async function createFile(data) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(data)
     });
@@ -81,7 +81,7 @@ export async function createEntry(data) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(data)
     });
@@ -90,10 +90,10 @@ export async function createEntry(data) {
 
 
 export async function getCurrentUser() {
-    console.log(sessionStorage.getItem('token'))
+    console.log(localStorage.getItem('token'))
     const response = await fetch(`${backend}/user`, {
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
     });
     return await response.json();
@@ -108,19 +108,22 @@ export async function authenticateUser(identification, password) {
         body: JSON.stringify({identification, password})
     });
     let data = await response.json();
+    //print the header from the response
+    console.log(response.status)
+
     console.log(data);
-    if(data.message == "Login failed")
+    if(response.status != 200)
     {
         return data;
     }
-    sessionStorage.setItem('token', data.token);
+    localStorage.setItem('token', data.token);
     console.log(data.status)
     return data;
 }
 
 export async function auth() {
     // read document.cookie token
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     console.log(token)
     if (!token) {
@@ -136,13 +139,13 @@ export async function auth() {
   
     // if response status is 500, remove token from document.cookie
     if (response.status === 500) {
-        sessionStorage.removeItem('token');
+        localStorage.removeItem('token');
         console.log("Token removed")
         return false;
     }
 
     if(response.status === 401) {
-        sessionStorage.removeItem('token');
+        localStorage.removeItem('token');
         console.log("Token removed")
         return false;
     }
@@ -158,7 +161,7 @@ export async function getPermissions() {
     const response = await fetch(`${backend}/getPermissions`,
     {
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
     });
     const data = await response.json();
@@ -171,7 +174,7 @@ export async function createUser(data) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(data)
     });
@@ -187,7 +190,7 @@ export async function createUser(data) {
 export async function logout() {
     const response = await fetch(`${backend}/logout`,{
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
             const data = await response.json();
@@ -198,7 +201,7 @@ export async function logout() {
 export async function switchActive(id) {
     const response = await fetch(`${backend}/switchActive/${id}`,{
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
     return await response.json();
@@ -207,7 +210,7 @@ export async function switchActive(id) {
 export async function getLaws() {
     const response = await fetch(`${backend}/law`,{
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
     return await response.json();
@@ -216,7 +219,7 @@ export async function getLaws() {
 export async function getLawID(id) {
     const response = await fetch(`${backend}/law/${id}`,{
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
     return await response.json();
@@ -227,7 +230,7 @@ export async function createFileLaw(data) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(data)
     });
@@ -237,7 +240,7 @@ export async function createFileLaw(data) {
 export async function getRanks() {
     const response = await fetch(`${backend}/ranks`,{
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
     return await response.json();
@@ -248,7 +251,7 @@ export async function editUser(data) {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(data)
     });
