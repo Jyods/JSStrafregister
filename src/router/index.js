@@ -107,7 +107,7 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(async (to, from, next) => {
+/*router.beforeEach(async (to, from, next) => {
   const isAuthenticated = await auth() // Hier können Sie Ihre eigene Authentifizierungsfunktion implementieren
   if (to.name !== 'Login' && !isAuthenticated) {
     //TODO: Add check if the User is still active
@@ -115,7 +115,7 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next()
   }
-})
+})*/
 
 
 export default router
