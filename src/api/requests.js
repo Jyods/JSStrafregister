@@ -101,6 +101,7 @@ export async function getCurrentUser() {
 
 export async function authenticateUser(identification, password) {
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    console.error(token);
     const response = await fetch(`${backend}/login`, {
         method: 'POST',
         headers: {
