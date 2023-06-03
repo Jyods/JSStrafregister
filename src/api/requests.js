@@ -100,19 +100,16 @@ export async function getCurrentUser() {
 }
 
 export async function authenticateUser(identification, password) {
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    console.error(token);
     const response = await fetch(`${backend}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': token
         },
         body: JSON.stringify({identification, password})
     });
     let data = await response.json();
     //print the header from the response
-    console.log(response.status)
+    console.log(response)
 
     console.log(data);
     if(response.status != 200)
