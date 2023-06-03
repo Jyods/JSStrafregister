@@ -1,4 +1,4 @@
-const backend = 'http://jsstrafregisterbackend.test/api';
+const backend = 'https://home-5013253951.app-ionos.space/public/api';
 
 export async function getFiles() {
     const response = await fetch(`${backend}/files`,{
@@ -109,7 +109,7 @@ export async function authenticateUser(identification, password) {
     });
     let data = await response.json();
     //print the header from the response
-    console.log(response.status)
+    console.log(response)
 
     console.log(data);
     if(response.status != 200)
