@@ -12,7 +12,7 @@ import messageHandler from '../components/messageHandler.vue'
         //checks if the backend is online, if not then redirect to error page
         let response = null
         try {
-            response = await fetch('http://localhost:3000/api/auth')
+            response = await fetch('https://home-5013253951.app-ionos.space/public/api/auth')
         }
         catch (error) {
             console.warn("Backend is offline")
