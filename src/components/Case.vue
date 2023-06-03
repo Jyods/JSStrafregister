@@ -44,8 +44,8 @@ function redirect() {
 </script>
 
 <template>
-    <div class="casewrapper" v-on:click.native="call">
-        <div class="case" :class="{restricted : isRestricted}" >
+    <div class="casewrapper" >
+        <div class="case" @click.native="call" :class="{restricted : isRestricted}" >
             <div class="info">
                 <p>{{caseEntry.definition}}</p>
                 <p>Datum des Eintrags: {{  caseEntry.date }}</p>

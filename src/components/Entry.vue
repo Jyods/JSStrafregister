@@ -21,7 +21,7 @@ function extend() {
 
 <template>
     <div class="wrapper" >
-        <div class="entry flex" @click="extend">
+        <div class="entry flex" @click.native="extend">
             <h3>{{props.entry.identification}}</h3>
                 <p><RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="link">
                     <img src="../assets/Arrow.svg" alt="loading" height="15" width="15"/>
