@@ -2,6 +2,7 @@
     import { onMounted, ref, computed } from 'vue'
     import {getOnlyEntries, createFile, createEntry, createFileLaw, getLaws,getPermissions, getRanks} from '../api/requests.js'
     import Article from '../components/Article.vue'
+    import Tooltip from '../components/Tooltip.vue'
 
     const isLoading = ref(true)
 
@@ -181,13 +182,13 @@
             <h1>Neue File</h1>
             <form @submit.prevent="submitForm">
                 <label for="identification">Identifikation</label>
-                <input type="text" name="identification" v-model="userEntry" id="identification" placeholder="Identifikation" list="entry" required>
-                <datalist id="entry">
-                    <option v-for="entry in entries" :key="entry.id" :value="entry.identification" />
-                </datalist>
-                <label for="alter" v-if="newEntry">Alter</label>
-                <input type="number" name="alter" id="alter" placeholder="Alter" v-if="newEntry">
-                <label for="definition">Definition</label>
+                <Tooltip info="Es wird ein neuer Straftäter erfasst" :show="newEntry">
+                    <input type="text" name="identification" v-model="userEntry" id="identification" placeholder="Identifikation" list="entry" required>
+                    <datalist id="entry">
+                        <option v-for="entry in entries" :key="entry.id" :value="entry.identification" />
+                    </datalist>
+                </Tooltip>
+                <label for="definition">Vergehen</label>
                 <input type="text" name="definition" id="definition" placeholder="Mord" required>
                 <label for="timeDate">Tat Datum</label>
                 <input type="date" name="timeDate" id="timeDate" placeholder="03.04.2022" required>
@@ -202,7 +203,7 @@
                     Einheiten</div>
                 <!--Multicheckbox with articles-->
                 <div class="article__wrapper">
-                <label for="articles">Artikel</label>
+                <label for="articles">Gesetze</label>
                 <div class="article__input">
                    <Article v-for="selectedLaw in selectedLaws" :key="selectedLaw.id" :article="selectedLaw" @removeArticle="removeArticle"/>
                 </div>
@@ -216,7 +217,7 @@
                     <button class="button__plus" @click="addArticle"><img src="../assets/plus.svg" width="25" height="25" /> </button>
                 </div>
             </div>
-            <h3>Rank: <select v-model="activeRank">
+            <h3>Rank: <select v-model="activeRank" id="article">
                 <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
             </select> </h3>
                 <!--<input type="description" name="articles" id="articles" placeholder="Artikel" required>-->
@@ -239,17 +240,17 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 10px;
+}
+label {
+    padding-top: 15px;
 }
 #article {
-    width: 200px;
-    height: 50px;
-    margin: 10px;
+    width: max-content;
+    height: auto;
+    padding: 5px;
     border-radius: 10px;
     border: none;
-    color: black;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: larger;
     cursor: pointer;
     transition: 0.2s;
 }
