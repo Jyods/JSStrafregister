@@ -51,7 +51,7 @@ function redirect() {
                 <p>Datum des Eintrags: {{  caseEntry.date }}</p>
             </div>
         </div>
-        <div class="extendet" :v-if="!extended">
+        <div class="extendet">
                 <p>{{props.case.description}}</p>
                 <p>Haftzeit: {{ caseEntry.fine }} Jahre</p>
                 <div class="laws">
