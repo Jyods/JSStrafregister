@@ -36,7 +36,7 @@ async function logoutUser() {
 </script>
 <template>
     <Navbar class="navbar" />
-    <div class="title"><img src="../assets/Strafregister.png" width="200" class="header_image"/></div>
+    <div class="title"><img src="../assets/Strafregister.png" width="160" class="header_image"/></div>
     <div class="sidebar">
         <div class="sidebar-header">
         <!--<h2>Strafregister</h2>-->
@@ -69,10 +69,11 @@ async function logoutUser() {
     </div>
 </template>
 <style scoped>
+.title {
+    padding-left: 20px;
+}
 .header_image {
     position: fixed;
-    top: 0;
-    left: 0;
     height: 50px;
     z-index: 3;
 }

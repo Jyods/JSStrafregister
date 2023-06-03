@@ -27,8 +27,8 @@ onMounted(async() => {
             <div class="nav">
               <!--ADD USER INFOS-->
               <p>Identifikation: {{ userInfo.identification }}</p>
-              <p v-if="true">Rank: {{ rank.rank }}</p>
-              <p>Aktives Mitglied: {{ userInfo.isActive}}</p>
+              <p v-if="true">Rang: {{ rank.rank }} ({{ rank.id }})</p>
+              <!--<p>Aktives Mitglied: {{ userInfo.isActive}}</p>-->
               <p>Eintritt: {{ userInfo.entry }}</p>
               <p>Berechtigungsstufe: {{ userInfo.restrictionClass }}</p>
             </div>
