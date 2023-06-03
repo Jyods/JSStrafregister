@@ -45,13 +45,13 @@ function redirect() {
 
 <template>
     <div class="casewrapper" >
-        <div class="case" @click.native="call" :class="{restricted : isRestricted}" >
+        <div class="case" @click.prevent="call" :class="{restricted : isRestricted}" >
             <div class="info">
                 <p>{{caseEntry.definition}}</p>
                 <p>Datum des Eintrags: {{  caseEntry.date }}</p>
             </div>
         </div>
-        <div class="extendet" v-if="extended">
+        <div class="extendet" :v-if="!extended">
                 <p>{{props.case.description}}</p>
                 <p>Haftzeit: {{ caseEntry.fine }} Jahre</p>
                 <div class="laws">

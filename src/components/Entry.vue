@@ -21,14 +21,14 @@ function extend() {
 
 <template>
     <div class="wrapper" >
-        <div class="entry flex" @click.native="extend">
+        <div class="entry flex" @click.prevent="extend">
             <h3>{{props.entry.identification}}</h3>
                 <p><RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="link">
                     <img src="../assets/Arrow.svg" alt="loading" height="15" width="15"/>
                     Redirect
                 </RouterLink></p>
         </div>
-        <Case v-if="extended" v-for="Case in props.entry.files" :case="Case" :key="Case.id"/>
+        <Case v-if="!extended" v-for="Case in props.entry.files" :case="Case" :key="Case.id"/>
     </div>
 </template>
 
