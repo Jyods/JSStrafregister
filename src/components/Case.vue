@@ -25,6 +25,7 @@ onMounted(() => {
 })
 
 function call() {
+    console.log("clicked")
     console.log(props.case)
     if(isRestricted.value == true)
     {
@@ -43,8 +44,8 @@ function redirect() {
 </script>
 
 <template>
-    <div class="casewrapper">
-        <div class="case" :class="{restricted : isRestricted}" @click="call">
+    <div class="casewrapper" @click="call">
+        <div class="case" :class="{restricted : isRestricted}" >
             <div class="info">
                 <p>{{caseEntry.definition}}</p>
                 <p>Datum des Eintrags: {{  caseEntry.date }}</p>
