@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import Case from './Case.vue'
+import Test from './Case.vue'
 
 const props = defineProps({
     entry: {
@@ -16,7 +16,6 @@ onMounted(() => {
 })
 
 function extend() {
-    console.log("Ben")
     extended.value = !extended.value
 }
 </script>
@@ -30,7 +29,7 @@ function extend() {
                     Redirect
                 </RouterLink></p>
         </div>
-        <Case v-for="Case in entry.files" :case="Case" :key="Case.id"/>
+        <Test v-for="Case in entry.files" :case="Case" :key="Case.id"/>
     </div>
 </template>
 
