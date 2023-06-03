@@ -232,7 +232,7 @@
                             {{ article.Paragraph + ' ' + article.Title }}
                         </option>
             </select>
-                    <button class="button__plus" @click="addArticle"><img src="../assets/plus.svg" width="25" height="25" /> </button>
+                    <button class="button__plus" @click.prevent="addArticle"><img src="../assets/plus.svg" width="25" height="25" /> </button>
                 </div>
             </div>
             <h3>Rank: <select v-model="activeRank" id="article">
