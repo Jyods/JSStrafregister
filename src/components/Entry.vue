@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import Test from './Case.vue'
+import Fall from './Case.vue'
 
 const props = defineProps({
     entry: {
@@ -29,7 +29,7 @@ function extend() {
                     Redirect
                 </RouterLink></p>
         </div>
-        <Test v-for="Case in entry.files" :case="Case" :key="Case.id"/>
+        <Fall v-if="extended" v-for="Case in entry.files" :case="Case" :key="Case.id"/>
     </div>
 </template>
 
