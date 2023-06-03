@@ -85,6 +85,7 @@
     })
 
     async function submitForm() {
+        isLoading.value = true
         
         if (newEntry.value === true) {
             if(await createNewEntry() == false) {
@@ -127,6 +128,7 @@
         await crateFileLaws(response.id)
 
         console.log(response)
+        isLoading.value = false
     }
 
     async function createNewEntry() {
