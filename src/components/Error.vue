@@ -32,7 +32,9 @@ const props = defineProps({
                 <p>{{ props.error }}</p>
             </div>
             <div class="error_footer">
-                <button class="button" @click="window.location.href = '/'">Go back</button>
+                <RouterLink :to="{ name: 'Home'}" class="link">
+                    {{ props.buttonText }}
+                </RouterLink>
                 <p>If the error persists, please contact  <a href="mailto:jyods.engagement@gmx.net">jyods.engagement@gmx.net</a></p>
             </div>
         </div>
@@ -72,7 +74,7 @@ const props = defineProps({
     font-size: smaller;
     padding-top: 20px;
 }
-button {
+.link {
     background-color: rgb(0, 0, 0);
     color: white;
     padding: 10px 20px;
@@ -80,6 +82,7 @@ button {
     border: none;
     cursor: pointer;
     margin: 10px;
+
 }
 a {
     text-decoration: none;

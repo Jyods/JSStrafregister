@@ -30,10 +30,19 @@ function extend() {
                 </RouterLink></p>
         </div>
         <Fall v-if="extended" v-for="Case in entry.files" :case="Case" :key="Case.id"/>
+        <p class="noEntry" v-if="extended && entry.files.length == 0">Keine Einträge</p>
     </div>
 </template>
 
 <style scoped>
+.noEntry {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    color:rgb(133, 0, 0);
+    text-decoration: underline;
+}
 .right {
     display: flex;
     align-items: center;
