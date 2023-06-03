@@ -22,7 +22,7 @@ function extend() {
 <template>
     <div class="wrapper" >
         <div class="entry flex" @click.prevent="extend">
-            <h3>{{props.entry.identification}}</h3>
+            <h3>{{props.entry.identification}} BANANE</h3>
                 <p><RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="link">
                     <img src="../assets/Arrow.svg" alt="loading" height="15" width="15"/>
                     Redirect
