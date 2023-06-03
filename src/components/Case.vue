@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, onBeforeMount } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 
 const router = useRouter()
@@ -15,7 +15,7 @@ const isRestricted = ref(false)
 const caseEntry = ref('')
 const extended = ref(false)
 
-onMounted(() => {
+onBeforeMount(() => {
     caseEntry.value = props.case
     console.log(caseEntry.value)
     if (caseEntry.value.isRestricted == 1)
@@ -51,7 +51,7 @@ function redirect() {
                 <p>Datum des Eintrags: {{  caseEntry.date }}</p>
             </div>
         </div>
-        <div class="extendet">
+        <div class="extendet" v-if="extended">
                 <p>{{props.case.description}}</p>
                 <p>Haftzeit: {{ caseEntry.fine }} Jahre</p>
                 <div class="laws">
