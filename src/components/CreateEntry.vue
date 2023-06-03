@@ -22,6 +22,22 @@
 
     const permissions = ref(false)
 
+    const userPermissions = ref(null)
+
+    const checkRestrictionClass = computed(() => {
+        if (userPermissions.value === null) {
+            return false
+        }
+        if (newRestrictionClass.value > userPermissions.value) {
+            newRestrictionClass.value = userPermissions.value
+            return true
+        } else if (newRestrictionClass.value < 0) {
+            newRestrictionClass.value = 0
+            return true
+        }
+        return false
+    })
+
     const ranks = ref([])
 
     const activeRank = ref(null)
@@ -57,12 +73,14 @@
         console.log(laws.value)
         isLoading.value = false
     let data = await getPermissions()
+    userPermissions.value = data.data
     if (data.data >= 10)
     {
         permissions.value = true
     }
     else {
-        permissions.value = false
+        permissions.value = true
+        //permissions.value = false
     }
     })
 
@@ -87,7 +105,6 @@
         //timePlace: document.getElementById("timePlace").value,
 
         //if restrictionClass is null then set it to 0
-    
 
         let data = {
             entry_id: getID.id,
@@ -95,9 +112,9 @@
             date: document.getElementById("timeDate").value,
             description: document.getElementById("description").value,
             fine: document.getElementById("punishment").value,
-            article: 9999,
             isRestricted: isRestricted.value,
-            restrictionClass: newRestrictionClass.value,
+            restrictionClass: newRestrictionClass.value === null ? 0 : newRestrictionClass.value,
+            rank_id: activeRank.value.id,
         }
         
         console.warn("Data")
@@ -115,7 +132,6 @@
     async function createNewEntry() {
         let data = {
             identification: document.getElementById("identification").value,
-            age: document.getElementById("alter").value,
         }
 
         const response = await createEntry(data)
@@ -221,11 +237,12 @@
                 <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
             </select> </h3>
                 <!--<input type="description" name="articles" id="articles" placeholder="Artikel" required>-->
-                <label v-if="permissions" for="isActive">Is Restricted</label>
-                <input v-if="permissions" type="checkbox" v-model="isRestricted" name="isActive" id="isActive" placeholder="Aktives Mitglied" class="checkbox">
+                <label v-if="permissions" for="isRestricted">Is Restricted</label>
+                <input v-if="permissions" type="checkbox" v-model="isRestricted" name="isRestricted" id="isRestricted" placeholder="Aktives Mitglied" class="checkbox">
                 <div class="isRestricted" v-if="isRestricted">
-                <label for="restrictionClass">Restriction Class</label>
-                    <input type="number" name="restrictionClass" v-model="newRestrictionClass" placeholder="1">
+                    <label for="restrictionClass">Restriction Class</label>
+                    <p v-if="checkRestrictionClass"></p>
+                        <input type="number" name="restrictionClass" v-model="newRestrictionClass" placeholder="1">
                 </div>
                 <button type="submit">Submit</button>
             </form>
