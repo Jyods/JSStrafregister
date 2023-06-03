@@ -12,9 +12,11 @@ const props = defineProps({
 const extended = ref(false)
 
 onMounted(() => {
+    console.log(props.entry)
 })
 
 function extend() {
+    console.log("Ben")
     extended.value = !extended.value
 }
 </script>
