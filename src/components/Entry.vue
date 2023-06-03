@@ -28,7 +28,7 @@ function extend() {
                     Redirect
                 </RouterLink></p>
         </div>
-        <Case v-if="extended" v-for="Case in props.entry.files" :case="Case" :key="Case.id"/>
+        <Case v-for="Case in props.entry.files" :case="Case" :key="Case.id"/>
     </div>
 </template>
 
