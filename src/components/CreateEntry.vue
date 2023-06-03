@@ -2,6 +2,7 @@
     import { onMounted, ref, computed } from 'vue'
     import {getOnlyEntries, createFile, createEntry, createFileLaw, getLaws,getPermissions, getRanks} from '../api/requests.js'
     import Article from '../components/Article.vue'
+    import Tooltip from '../components/Tooltip.vue'
 
     const isLoading = ref(true)
 
@@ -20,6 +21,22 @@
     const selectedLaws = ref([])
 
     const permissions = ref(false)
+
+    const userPermissions = ref(null)
+
+    const checkRestrictionClass = computed(() => {
+        if (userPermissions.value === null) {
+            return false
+        }
+        if (newRestrictionClass.value > userPermissions.value) {
+            newRestrictionClass.value = userPermissions.value
+            return true
+        } else if (newRestrictionClass.value < 0) {
+            newRestrictionClass.value = 0
+            return true
+        }
+        return false
+    })
 
     const ranks = ref([])
 
@@ -56,12 +73,14 @@
         console.log(laws.value)
         isLoading.value = false
     let data = await getPermissions()
+    userPermissions.value = data.data
     if (data.data >= 10)
     {
         permissions.value = true
     }
     else {
-        permissions.value = false
+        permissions.value = true
+        //permissions.value = false
     }
     })
 
@@ -86,7 +105,6 @@
         //timePlace: document.getElementById("timePlace").value,
 
         //if restrictionClass is null then set it to 0
-    
 
         let data = {
             entry_id: getID.id,
@@ -94,9 +112,9 @@
             date: document.getElementById("timeDate").value,
             description: document.getElementById("description").value,
             fine: document.getElementById("punishment").value,
-            article: 9999,
             isRestricted: isRestricted.value,
-            restrictionClass: newRestrictionClass.value,
+            restrictionClass: newRestrictionClass.value === null ? 0 : newRestrictionClass.value,
+            rank_id: activeRank.value.id,
         }
         
         console.warn("Data")
@@ -114,7 +132,6 @@
     async function createNewEntry() {
         let data = {
             identification: document.getElementById("identification").value,
-            age: document.getElementById("alter").value,
         }
 
         const response = await createEntry(data)
@@ -181,13 +198,13 @@
             <h1>Neue File</h1>
             <form @submit.prevent="submitForm">
                 <label for="identification">Identifikation</label>
-                <input type="text" name="identification" v-model="userEntry" id="identification" placeholder="Identifikation" list="entry" required>
-                <datalist id="entry">
-                    <option v-for="entry in entries" :key="entry.id" :value="entry.identification" />
-                </datalist>
-                <label for="alter" v-if="newEntry">Alter</label>
-                <input type="number" name="alter" id="alter" placeholder="Alter" v-if="newEntry">
-                <label for="definition">Definition</label>
+                <Tooltip info="Es wird ein neuer Straftäter erfasst" :show="newEntry">
+                    <input type="text" name="identification" v-model="userEntry" id="identification" placeholder="Identifikation" list="entry" required>
+                    <datalist id="entry">
+                        <option v-for="entry in entries" :key="entry.id" :value="entry.identification" />
+                    </datalist>
+                </Tooltip>
+                <label for="definition">Vergehen</label>
                 <input type="text" name="definition" id="definition" placeholder="Mord" required>
                 <label for="timeDate">Tat Datum</label>
                 <input type="date" name="timeDate" id="timeDate" placeholder="03.04.2022" required>
@@ -202,7 +219,7 @@
                     Einheiten</div>
                 <!--Multicheckbox with articles-->
                 <div class="article__wrapper">
-                <label for="articles">Artikel</label>
+                <label for="articles">Gesetze</label>
                 <div class="article__input">
                    <Article v-for="selectedLaw in selectedLaws" :key="selectedLaw.id" :article="selectedLaw" @removeArticle="removeArticle"/>
                 </div>
@@ -216,15 +233,16 @@
                     <button class="button__plus" @click="addArticle"><img src="../assets/plus.svg" width="25" height="25" /> </button>
                 </div>
             </div>
-            <h3>Rank: <select v-model="activeRank">
+            <h3>Rank: <select v-model="activeRank" id="article">
                 <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
             </select> </h3>
                 <!--<input type="description" name="articles" id="articles" placeholder="Artikel" required>-->
-                <label v-if="permissions" for="isActive">Is Restricted</label>
-                <input v-if="permissions" type="checkbox" v-model="isRestricted" name="isActive" id="isActive" placeholder="Aktives Mitglied" class="checkbox">
+                <label v-if="permissions" for="isRestricted">Is Restricted</label>
+                <input v-if="permissions" type="checkbox" v-model="isRestricted" name="isRestricted" id="isRestricted" placeholder="Aktives Mitglied" class="checkbox">
                 <div class="isRestricted" v-if="isRestricted">
-                <label for="restrictionClass">Restriction Class</label>
-                    <input type="number" name="restrictionClass" v-model="newRestrictionClass" placeholder="1">
+                    <label for="restrictionClass">Restriction Class</label>
+                    <p v-if="checkRestrictionClass"></p>
+                        <input type="number" name="restrictionClass" v-model="newRestrictionClass" placeholder="1">
                 </div>
                 <button type="submit">Submit</button>
             </form>
@@ -239,17 +257,17 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 10px;
+}
+label {
+    padding-top: 15px;
 }
 #article {
-    width: 200px;
-    height: 50px;
-    margin: 10px;
+    width: max-content;
+    height: auto;
+    padding: 5px;
     border-radius: 10px;
     border: none;
-    color: black;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: larger;
     cursor: pointer;
     transition: 0.2s;
 }
