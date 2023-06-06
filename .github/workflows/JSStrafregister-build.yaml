@@ -42,7 +42,7 @@ jobs:
       
       - name: Copy htaccess
         run: |
-          cp .htaccess dist/.htaccess
+          cp .htaccess.template dist/.htaccess.template
 
 # Please do not touch the following action
       - name: Store deployment content
