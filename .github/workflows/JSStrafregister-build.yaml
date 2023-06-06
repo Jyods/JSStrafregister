@@ -39,10 +39,6 @@ jobs:
         run: |
           npm ci
           npm run build
-      
-      - name: Copy htaccess
-        run: |
-          cp .htaccess.template dist/.htaccess.template
 
 # Please do not touch the following action
       - name: Store deployment content
