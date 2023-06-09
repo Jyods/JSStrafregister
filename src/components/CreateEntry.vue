@@ -146,6 +146,12 @@
     }
 
     function addArticle() {
+        //check if the article is empty
+        if (document.getElementById("article").value == "")
+        {
+            alert("Du kannst nicht nichts hinzufügen.")
+            return
+        }
         //check if the article name is already in selectedLaws
         let getID = selectedLaws.value.find(entry => entry.name === document.getElementById("article").value)
         if (getID !== undefined) {

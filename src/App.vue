@@ -17,12 +17,19 @@
 </script>
 
 <template>
-    <messageHandler :messages="messages" @remove-item="deleteFromArray"/>
+    <messageHandler class="notifications" :messages="messages" @remove-item="deleteFromArray"/>
     <RouterView  @add-to-array="addToArray" />
 </template>
 
 <style scoped>
 .viewContent {
   padding-left: 200px;
+}
+.notifications {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  z-index: 100;
 }
 </style>

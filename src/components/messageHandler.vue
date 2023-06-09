@@ -39,7 +39,6 @@ function removeItem (index) {
     align-items: center;
     width: max-content;
     height: max-content;
-    background-color: red;
 }
 
 .messageWrapper {
@@ -48,6 +47,5 @@ function removeItem (index) {
     align-items: flex-end;
     width: max-content;
     height: max-content;
-    background-color: red;
 }
 </style>

@@ -40,8 +40,8 @@ onMounted(async() => {
             <h3>Rang: {{ member.rank.rank }}</h3>
             <h3>Aktives Mitglied: {{ left }}</h3>
             <h3>Beitritt: {{ member.entry }}</h3>
-            <h3 v-if="!member.left">Austritt: {{ member.departure }}</h3>
-            <h3 v-if="!member.left">Grund: {{ member.reason }}</h3>
+            <h3 v-if="member.left == false">Austritt: {{ member.departure }}</h3>
+            <h3 v-if="member.left == false">Grund: {{ member.reason }}</h3>
         </div>
     </div>
 </div>
