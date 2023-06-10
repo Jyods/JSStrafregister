@@ -12,6 +12,7 @@ import CreateEntry from '../components/CreateEntry.vue'
 import LawView from '../views/LawView.vue'
 import LawArticle from '../views/LawArticle.vue'
 import ErrorView from '../views/ErrorView.vue'
+import Test from '../views/Test.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -110,6 +111,11 @@ const router = createRouter({
       name: 'Error',
       component: ErrorView,
     },
+    {
+      path: '/test/:id',
+      name: 'Test',
+      component: Test,
+    },
     { 
       path: '/:catchAll(.*)', 
       component: ErrorView,
@@ -124,7 +130,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   //check if the website isnt error page
   console.log(to.name)
-  if (to.name !== 'Error') {
+  if (to.name !== 'Error' || to.name !== 'Test') {
     const isAuthenticated = await auth() // Hier können Sie Ihre eigene Authentifizierungsfunktion implementieren
     if (to.name !== 'Login' && !isAuthenticated) {
       //TODO: Add check if the User is still active

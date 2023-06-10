@@ -40,13 +40,13 @@ import messageHandler from '../components/messageHandler.vue'
         let response = await authenticateUser(identification, password)
         if (localStorage.getItem("token") != undefined || localStorage.getItem("token" != null)) {
             console.warn("Login successful")
+            document.title = 'Redirect...'
             router.push({ name: 'Home'})
         }
         else {
             addToArray(response.message)
             console.warn("Login failed")
         }
-        document.title = 'Strafregister'
         isLoading.value = false
     }
 

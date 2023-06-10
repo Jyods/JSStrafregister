@@ -2,8 +2,20 @@
   import { ref, onMounted } from 'vue'
   import { RouterLink, RouterView } from 'vue-router'
   import messageHandler from './components/messageHandler.vue'
+  import MajorMessage from './components/MajorMessage.vue'
 
   const messages = ref([])
+
+  const majorMessages = ref([
+    {
+      id: 1,
+      message: "Bananen"
+    },
+    {
+      id: 2,
+      message: "Äpfel"
+    }
+  ])
 
   function deleteFromArray(id) {
     let index = messages.value.findIndex(message => message.id == id)
@@ -14,10 +26,16 @@
     messages.value.push({id: messages.value.length, message: message})
   }
 
+  function removeMajorMessage(id) {
+    let index = majorMessages.value.findIndex(majorMessages => majorMessages.id == id)
+    majorMessages.value.splice(index, 1)
+  }
+
 </script>
 
 <template>
     <messageHandler class="notifications" :messages="messages" @remove-item="deleteFromArray"/>
+    <MajorMessage class="majorMessages" v-for="message in majorMessages" :message="message" @remove-message="removeMajorMessage" />
     <RouterView  @add-to-array="addToArray" />
 </template>
 
