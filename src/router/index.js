@@ -113,6 +113,10 @@ const router = createRouter({
     { 
       path: '/:catchAll(.*)', 
       component: ErrorView,
+      name: 'PathNotFound',
+      meta: {
+        requiresAuth: false
+      }
     }
   ]
 })
@@ -130,6 +134,7 @@ router.beforeEach(async (to, from, next) => {
     }
   }
   else {
+    console.log('error page')
     next()
   }
 })
