@@ -9,12 +9,8 @@
   const majorMessages = ref([
     {
       id: 1,
-      message: "Bananen"
+      message: "Hier kommt eine wichtige Nachricht hin"
     },
-    {
-      id: 2,
-      message: "Äpfel"
-    }
   ])
 
   function deleteFromArray(id) {
