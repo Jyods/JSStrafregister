@@ -6,6 +6,11 @@ const props = defineProps({
     info: {
         type: String,
         required: true
+    },
+    show: {
+        type: Boolean,
+        required: false,
+        default: true
     }
 })
 
@@ -16,7 +21,7 @@ const hover = ref(false)
 <template>
     <div class="info">
         <slot></slot>
-        <img src="../assets/info.svg" alt="Das ist eine Info" class="arrow" height="25" width="25" @mouseover="hover = true" @mouseleave="hover = false">
+        <img v-if="show" src="../assets/info.svg" alt="Das ist eine Info" class="arrow" height="25" width="25" @mouseover="hover = true" @mouseleave="hover = false">
         <div v-if="hover" class="info__text">
             {{ info }}
         </div>
@@ -49,6 +54,6 @@ const hover = ref(false)
         justify-content: center;
         align-items: center;
         box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-        left: calc(50% + 210px);
+        left: calc(50% + 250px);
     }
 </style>

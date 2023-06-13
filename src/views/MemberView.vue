@@ -9,7 +9,7 @@
     const searchParams = new URLSearchParams(window.location.search);
     const memberID = searchParams.get('MemberID');
 
-    const isActive = ref(false)
+    const left = ref(false)
 
 onMounted(async() => {
     isLoading.value = true
@@ -18,8 +18,9 @@ onMounted(async() => {
     let fetch = await getMember(memberID)
     member.value = fetch.data
     console.log(member.value)
-    isActive.value = member.value.is_active
+    left.value = member.value.isActive == 1 ? true : false
     isLoading.value = false
+    console.log(left.value)
 })
 
 </script>
@@ -36,11 +37,11 @@ onMounted(async() => {
             <h1>Members</h1>
             <h2>Typ: {{ member.type }}</h2>
             <h3>Identifikation: {{ member.identification }}</h3>
-            <h3>Alter: {{ member.age }}</h3>
-            <h3>Aktives Mitglied: {{ member.is_active }}</h3>
+            <h3>Rang: {{ member.rank.rank }}</h3>
+            <h3>Aktives Mitglied: {{ left }}</h3>
             <h3>Beitritt: {{ member.entry }}</h3>
-            <h3 v-if="!member.isActive">Austritt: {{ member.departure }}</h3>
-            <h3 v-if="!member.isActive">Grund: {{ member.reason }}</h3>
+            <h3 v-if="member.left == false">Austritt: {{ member.departure }}</h3>
+            <h3 v-if="member.left == false">Grund: {{ member.reason }}</h3>
         </div>
     </div>
 </div>

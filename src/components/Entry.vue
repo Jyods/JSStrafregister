@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import Case from './Case.vue'
+import Fall from './Case.vue'
 
 const props = defineProps({
     entry: {
@@ -12,6 +12,7 @@ const props = defineProps({
 const extended = ref(false)
 
 onMounted(() => {
+    console.log(props.entry)
 })
 
 function extend() {
@@ -21,18 +22,27 @@ function extend() {
 
 <template>
     <div class="wrapper" >
-        <div class="entry flex" @click="extend">
+        <div class="entry flex" @click.prevent="extend">
             <h3>{{props.entry.identification}}</h3>
                 <p><RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="link">
                     <img src="../assets/Arrow.svg" alt="loading" height="15" width="15"/>
                     Redirect
                 </RouterLink></p>
         </div>
-        <Case v-if="extended" v-for="Case in props.entry.files" :case="Case" :key="Case.id"/>
+        <Fall v-if="extended" v-for="Case in entry.files" :case="Case" :key="Case.id"/>
+        <p class="noEntry" v-if="extended && entry.files.length == 0">Keine Einträge</p>
     </div>
 </template>
 
 <style scoped>
+.noEntry {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    color:rgb(133, 0, 0);
+    text-decoration: underline;
+}
 .right {
     display: flex;
     align-items: center;

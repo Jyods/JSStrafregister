@@ -32,7 +32,7 @@ function removeItem() {
             <p>{{ message.message }}</p>
         </div>
         <div class="button">
-            <button @click="removeItem">X</button>
+            <button class="xButton" @click="removeItem">x</button>
         </div>
     </div>
 </template>
@@ -40,16 +40,29 @@ function removeItem() {
 <style scoped>
 
 .wrapper {
+    background-color: red;
+    padding: 10px;
     width: max-content;
     height: max-content;
-    background-color: red;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    border-radius: 10px;
+    border-style: outset;
+    border-color: black;
+    margin: 5px;
+    /* smooth edges */
+    
 }
-.message {
-    background-color: red;
+.xButton {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: black;
+    padding: 0px;
+    margin: 0px;
 }
 
 button {
