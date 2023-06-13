@@ -13,7 +13,7 @@ const props = defineProps({
         <div class="majorMessage__container">
             <div class="majorMessage__content">
                 <div class="majorMessage__header">
-wawd
+                    Information
                 </div>
                 <div class="majorMessage__body">
                     {{ message.message }}
@@ -56,5 +56,9 @@ button {
     font-size: 30px;
     color: white;
     cursor: pointer;
+}
+.majorMessage__header {
+    font-size: 30px;
+    font-weight: bold;
 }
 </style>
