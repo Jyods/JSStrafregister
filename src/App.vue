@@ -4,7 +4,12 @@
   import messageHandler from './components/messageHandler.vue'
   import MajorMessage from './components/MajorMessage.vue'
 
-  const messages = ref([])
+  const messages = ref([
+    {
+      id: 1,
+      message: "Hier kommt eine Nachricht hin"
+    },
+  ])
 
   const majorMessages = ref([
     {
@@ -20,7 +25,7 @@
 
   function addToArray(message) {
     console.warn("Add toe array APP")
-    messages.value.push({id: messages.value.length, message: message})
+    messages.value.push({id: messages.value.length + 1, message: message})
   }
 
   function removeMajorMessage(id) {
