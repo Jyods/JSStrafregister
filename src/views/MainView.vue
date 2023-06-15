@@ -14,7 +14,7 @@
 </script>
 
 <template>
-  <sidebar class="bg" @add-to-array.prevent="addToArray"/>
+  <sidebar class="bg" @add-to-array="addToArray"/>
   <div class="viewContent">
     <div class="background_image"></div>
     <RouterView />
