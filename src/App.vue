@@ -30,9 +30,9 @@
 </script>
 
 <template>
-    <messageHandler class="notifications" :messages="messages" @remove-item="deleteFromArray"/>
-    <MajorMessage class="majorMessages" v-for="message in majorMessages" :message="message" @remove-message="removeMajorMessage" />
-    <RouterView  @add-to-array="addToArray" />
+    <messageHandler class="notifications" :messages="messages" @remove-item.prevent="deleteFromArray"/>
+    <MajorMessage class="majorMessages" v-for="message in majorMessages" :message="message" @remove-message.prevent="removeMajorMessage" />
+    <RouterView  @add-to-array.prevent="addToArray" />
 </template>
 
 <style scoped>
