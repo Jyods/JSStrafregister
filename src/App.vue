@@ -19,6 +19,7 @@
   }
 
   function addToArray(message) {
+    console.warn("Add toe array APP")
     messages.value.push({id: messages.value.length, message: message})
   }
 

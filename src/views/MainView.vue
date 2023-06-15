@@ -8,6 +8,7 @@
   const emit = defineEmits(['add-to-array'])
 
   function addToArray(message) {
+    console.warn("Add toe array MAINVIEW")
     emit('add-to-array', message)
   }
 

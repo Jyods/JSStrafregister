@@ -26,6 +26,7 @@ async function logoutUser() {
     let data = await logout()
     if (data.message == "Logged out")
     {
+        console.warn("Logout successful")
         emit('add-to-array', data.message)
         router.push({ name: 'Login'})
     }
