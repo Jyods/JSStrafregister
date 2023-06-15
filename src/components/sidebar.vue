@@ -62,7 +62,7 @@ async function logoutUser() {
             <p>Mitglieder</p>
         </li>
         </RouterLink>
-        <li class="sidebar-list-item" @click="logoutUser">
+        <li class="sidebar-list-item" @click.prevent="logoutUser">
             <p>Logout</p>
         </li>
         </ul>
