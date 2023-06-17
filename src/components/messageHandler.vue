@@ -15,13 +15,17 @@ function removeItem (index) {
     emit('removeItem', index)
 }
 
+onMounted(() => {
+    console.log(props.messages)
+})
+
 </script>
 
 <template>
     <div class="container">
         <div class="wrapper">
             <div class="messageWrapper">
-                <message v-for="message in messages" :message="message" @removeItem="removeItem" />
+                <message v-for="message in messages" :message="message" @removeItem.prevent="removeItem" />
             </div>
         </div> 
     </div>
