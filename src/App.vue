@@ -3,7 +3,7 @@
   import { RouterLink, RouterView } from 'vue-router'
   import messageHandler from './components/messageHandler.vue'
   import MajorMessage from './components/MajorMessage.vue'
-  import message from './components/message.vue'
+  import MinorMessage from './components/message.vue'
 
   const messages = ref([
     {
@@ -44,7 +44,7 @@
 
 <template>
     <div class="messageHandler">
-      <message class="notification_item" v-for="message in messages" :message="message" @removeItem="deleteFromArray"/>
+      <MinorMessage class="notification_item" v-for="message in messages" :message="message" @removeItem="deleteFromArray"/>
     </div>
     <MajorMessage class="majorMessages" v-for="message in majorMessages" :message="message" @remove-message="removeMajorMessage" />
     <RouterView  @add-to-array="addToArray" />
