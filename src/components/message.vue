@@ -1,8 +1,5 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 
 const message = ref([])
 
@@ -32,7 +29,7 @@ function removeItem() {
             <p>{{ message.message }}</p>
         </div>
         <div class="button">
-            <button class="xButton" @click="removeItem">x</button>
+            <button class="xButton" @click="$emit('removeItem', message.id)">x</button>
         </div>
     </div>
 </template>
