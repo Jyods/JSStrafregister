@@ -45,7 +45,7 @@ function removeItem() {
     width: max-content;
     height: max-content;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     border-radius: 10px;
@@ -58,11 +58,22 @@ function removeItem() {
 .xButton {
     background-color: transparent;
     border: none;
+    justify-content: center;
     font-size: 20px;
     cursor: pointer;
     color: black;
     padding: 0px;
     margin: 0px;
+}
+
+.message {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
 }
 
 button {
