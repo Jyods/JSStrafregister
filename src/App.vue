@@ -5,7 +5,12 @@
   import MajorMessage from './components/MajorMessage.vue'
   import message from './components/message.vue'
 
-  const messages = ref([])
+  const messages = ref([
+    {
+      id: 1,
+      message: "Test Nachricht 1"
+    }
+  ])
 
   const majorMessages = ref([
     {
