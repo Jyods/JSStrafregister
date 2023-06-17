@@ -15,7 +15,7 @@ const props = defineProps({
 
 onMounted (() => {
     message.value = props.message
-    console.log(props.kabum)
+    console.log(props.message)
 })
 
 const emit = defineEmits(['removeItem'])
@@ -32,7 +32,7 @@ function removeItem() {
             <p>{{ message.message }}</p>
         </div>
         <div class="button">
-            <button class="xButton" @click="removeItem">x</button>
+            <button class="xButton" @click.prevent="removeItem">x</button>
         </div>
     </div>
 </template>
