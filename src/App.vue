@@ -34,6 +34,12 @@
     majorMessages.value.splice(index, 1)
   }
 
+  onMounted(() => {
+    //add a console log with fancy colors
+    console.log("%cApp.vue", "color: green; font-size: 20px")
+    console.log(messages.value)
+  })
+
 </script>
 
 <template>
