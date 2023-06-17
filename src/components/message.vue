@@ -32,7 +32,7 @@ function removeItem() {
             <p>{{ message.message }}</p>
         </div>
         <div class="button">
-            <button class="xButton" @click.prevent="removeItem">x</button>
+            <button class="xButton" @click="removeItem">x</button>
         </div>
     </div>
 </template>
