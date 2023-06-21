@@ -1,7 +1,9 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 
 const message = ref([])
+
+const id = ref(0)
 
 const props = defineProps({
     message: {
@@ -11,8 +13,9 @@ const props = defineProps({
 })
 
 onMounted (() => {
-    message.value = props.message
-    console.log(props.message)
+    id.value = props.message.id
+    message.value = props.message.message
+    console.warn(message.value.length)
 })
 
 const emit = defineEmits(['removeItem'])
@@ -21,15 +24,28 @@ function removeItem() {
     emit('removeItem',message.value.id)
 }
 
+const longerThanFive = computed(() => {
+    return message.value.length > 20
+})
+
+const messagePreview = computed(() => {
+    return message.value.substring(0, 20) + "..."
+})
+
+const showAll = ref(false)
+
 </script>
 
 <template>
-    <div class="wrapper">
-        <div class="message">
-            <p>{{ message.message }}</p>
+    <div class="wrapper" @click.prevent="showAll = !showAll">
+        <div class="message_preview" v-if="longerThanFive && !showAll">
+            <p>{{ messagePreview }}</p>
+        </div>
+        <div class="message" v-else>
+            <p>{{ message }}</p>
         </div>
         <div class="button">
-            <button class="xButton" @click="$emit('removeItem', message.id)">x</button>
+            <button class="xButton" @click="$emit('removeItem', id)">x</button>
         </div>
     </div>
 </template>
@@ -37,6 +53,8 @@ function removeItem() {
 <style scoped>
 
 .wrapper {
+    min-width: 160px;
+    max-width: 160px;
     background-color: red;
     padding: 10px;
     width: max-content;

@@ -35,7 +35,7 @@ const props = defineProps({
     z-index: 200;
 }
 .majorMessage__content {
-    background-color: rgba(255, 255, 255, 0.511);
+    background-color: rgba(255, 255, 255, 0.841);
     border-style: groove;
     border-radius: 5px;
     

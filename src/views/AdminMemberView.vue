@@ -181,6 +181,7 @@ button {
     padding: 10px;
     margin: 10px;
     cursor: pointer;
+    width: max-content;
 }
 button:hover {
     background-color: #a5a5a5;

@@ -9,6 +9,10 @@
     {
       id: 1,
       message: "Test Nachricht 1"
+    },
+    {
+      id: 2,
+      message: "Dies ist eine mega lange Text Nachricht. Omg wie lange ist die bitte?!"
     }
   ])
 
@@ -17,9 +21,14 @@
       id: 1,
       message: "Hier kommt eine wichtige Nachricht hin"
     },
+    {
+      id: 2,
+      message: "Die Passwörter wurden geändert, bitte wenden Sie sich an Ihren Supervisor."
+    }
   ])
 
   function deleteFromArray(id) {
+    console.warn(id)
     let index = messages.value.findIndex(message => message.id == id)
     messages.value.splice(index, 1)
   }
