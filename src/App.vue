@@ -5,7 +5,7 @@
   import MajorMessage from './components/MajorMessage.vue'
   import MinorMessage from './components/message.vue'
 
-  const messages = ref([
+  const minorMessages = ref([
     {
       id: 1,
       message: "Test Nachricht 1"
@@ -27,10 +27,9 @@
     }
   ])
 
-  function deleteFromArray(id) {
-    console.warn(id)
-    let index = messages.value.findIndex(message => message.id == id)
-    messages.value.splice(index, 1)
+  function deleteFromMinorMessages(id) {
+    console.warn("Delete from array APP")
+    minorMessages.value = minorMessages.value.filter(item => item.id !== id);
   }
 
   function addToArray(message) {
@@ -46,14 +45,14 @@
   onMounted(() => {
     //add a console log with fancy colors
     console.log("%cApp.vue", "color: green; font-size: 20px")
-    console.log(messages.value)
+    console.log(minorMessages.value)
   })
 
 </script>
 
 <template>
     <div class="messageHandler">
-      <MinorMessage class="notification_item" v-for="message in messages" :message="message" @removeItem="deleteFromArray"/>
+      <MinorMessage class="notification_item" v-for="message in minorMessages" :key="message.id" :message="message" @removeItem="deleteFromMinorMessages"/>
     </div>
     <MajorMessage class="majorMessages" v-for="message in majorMessages" :message="message" @remove-message="removeMajorMessage" />
     <RouterView  @add-to-array="addToArray" />
