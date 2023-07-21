@@ -18,7 +18,7 @@
   <sidebar class="bg" @add-to-array="addToArray"/>
   <div class="viewContent">
     <div class="background_image"></div>
-    <RouterView />
+    <RouterView @add-to-array="addToArray"/>
   </div>
 </template>
 
