@@ -19,7 +19,7 @@ const props = defineProps({
                     {{ message.message }}
                 </div>
                 <div class="majorMessage__Button">
-                    <button @click="$emit('remove-message', message.id)">X</button>
+                    <button class="mm_button" @click="$emit('remove-message', message.id)">X</button>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@ const props = defineProps({
     justify-content: space-around;
     align-items: center;
 }
-button {
+.mm_button {
     background-color: red;
     border: none;
     border-radius: 50%;
