@@ -62,21 +62,22 @@ import messageHandler from '../components/messageHandler.vue'
 <template>
     <!--Login Form with email and password-->
     <div class="login">
-    <div class="loading" v-if="isLoading">
-        <img src="../assets/Loading.svg" alt="loading"/>
-    </div>
-    <div class="background_image">
-        <div class="login_wrapper">
-        <div class="header_image"></div>
-        <form class="wrapper" @submit.prevent="submitForm">
-            <label for="identification"><img src="../assets/Identification.png" /> </label>
-            <input type="text" id="identification" name="identification" placeholder="CT-0000" required>
-            <label for="password"><img src="../assets/Password.png" /></label>
-            <input type="password" id="password" name="password" placeholder="*******" required>
-            <button type="submit" :disabled="isLoading"><img src="../assets/Login.png" width="120" height="20" /> </button>
-        </form>
+        <div class="loading" v-if="isLoading">
+            <img src="../assets/Loading.svg" alt="loading"/>
         </div>
-    </div>
+        <div class="background_image">
+            <div class="login_wrapper">
+            <div class="header_image"></div>
+            <form class="wrapper" @submit.prevent="submitForm">
+                Huhuhuhu
+                <label for="identification"><img src="../assets/Identification.png" /> </label>
+                <input type="text" id="identification" name="identification" placeholder="CT-0000" required>
+                <label for="password"><img src="../assets/Password.png" /></label>
+                <input type="password" id="password" name="password" placeholder="*******" required>
+                <button type="submit" :disabled="isLoading"><img src="../assets/Login.png" width="120" height="20" /> </button>
+            </form>
+            </div>
+        </div>
     </div>
 </template>
 
