@@ -34,7 +34,7 @@
 
   function addToArray(message) {
     console.warn("Add toe array APP")
-    messages.value.push({id: messages.value.length + 1, message: message})
+    minorMessages.value.push({id: minorMessages.value.length + 1, message: message})
   }
 
   function removeMajorMessage(id) {
