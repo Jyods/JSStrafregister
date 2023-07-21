@@ -69,7 +69,6 @@ import messageHandler from '../components/messageHandler.vue'
             <div class="login_wrapper">
             <div class="header_image"></div>
             <form class="wrapper" @submit.prevent="submitForm">
-                Huhuhuhu
                 <label for="identification"><img src="../assets/Identification.png" /> </label>
                 <input type="text" id="identification" name="identification" placeholder="CT-0000" required>
                 <label for="password"><img src="../assets/Password.png" /></label>
