@@ -259,6 +259,25 @@ export async function editUser(data) {
     return await response.json();
 }
 
+export async function publishCase(id) {
+    console.warn(id)
+    const response = await fetch(`${backend}/publish/case/id/${id}`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function getPublishedCase(route) {
+    const response = await fetch(`${backend}/publish/case/route/${route}`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
 /*
 
 export async function checkPermission(permission) {

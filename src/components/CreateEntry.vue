@@ -9,6 +9,12 @@
     const entries = ref([])
 
     const userEntry = ref(null)
+    const definition = ref(null)
+    const date = ref(null)
+    const time = ref(null)
+    const place = ref(null)
+    const description = ref(null)
+    const punishment = ref(null)
 
     const isRestricted = ref(false)
 
@@ -43,6 +49,14 @@
     const activeRank = ref(null)
 
     const newEntryObj = ref(false)
+
+    const emit = defineEmits(['add-to-array'])
+
+    function addToArray(message) {
+        console.log("Add to array", message)
+        emit('add-to-array', message)
+    }
+
     
     //checks if the identification exists in the entries when not return set own const to true, when the document isn't loaded return false
     const newEntry = computed(() => {
@@ -84,34 +98,48 @@
     }
     })
 
-    async function submitForm() {
+    async function submitForm(e) {
+
+        console.error(e)
+
+        let identification = document.getElementById("identification").value
+
+        isLoading.value = true
         
         if (newEntry.value === true) {
-            if(await createNewEntry() == false) {
+            if(await createNewEntry(identification) == false) {
                 alert("Die Identifikation konnte nicht bearbeitet werden!")
                 return
             }
         }
 
-        let getID = entries.value.find(entry => entry.identification === document.getElementById("identification").value)
+        let getID = entries.value.find(entry => entry.identification === identification)
 
         if (getID === undefined) {
             alert("Die Identifikation existiert nicht!")
             return
         }
 
-        let formattedDate = document.getElementById("timeDate").value + " " + document.getElementById("timeTime").value
+        //let formattedDate = document.getElementById("timeDate").value + " " + document.getElementById("timeTime").value
 
         //timePlace: document.getElementById("timePlace").value,
 
-        //if restrictionClass is null then set it to 0
+        //if restrictionClass is nu ll then set it to 0
+
+        // const userEntry = ref(null)
+        // const definition = ref(null)
+        // const date = ref(null)
+        // const time = ref(null)
+        // const place = ref(null)
+        // const description = ref(null)
+        // const punishment = ref(null)
 
         let data = {
             entry_id: getID.id,
-            definition: document.getElementById("definition").value,
-            date: document.getElementById("timeDate").value,
-            description: document.getElementById("description").value,
-            fine: document.getElementById("punishment").value,
+            definition: definition.value,
+            date: date.value,
+            description: description.value,
+            fine: punishment.value,
             isRestricted: isRestricted.value,
             restrictionClass: newRestrictionClass.value === null ? 0 : newRestrictionClass.value,
             rank_id: activeRank.value.id,
@@ -127,11 +155,32 @@
         await crateFileLaws(response.id)
 
         console.log(response)
+        isLoading.value = false
+
+        resetForm()
+        addToArray("Neue Straftat hinzugefügt")
+
     }
 
-    async function createNewEntry() {
+    function resetForm()
+    {
+        userEntry.value = null
+        definition.value = null
+        date.value = null
+        time.value = null
+        place.value = null
+        description.value = null
+        punishment.value = null
+        isRestricted.value = false
+        userArticle.value = null
+        newRestrictionClass.value = 0
+        selectedLaws.value = []
+        activeRank.value = null
+    }
+
+    async function createNewEntry(identification) {
         let data = {
-            identification: document.getElementById("identification").value,
+            identification: identification,
         }
 
         const response = await createEntry(data)
@@ -144,6 +193,12 @@
     }
 
     function addArticle() {
+        //check if the article is empty
+        if (document.getElementById("article").value == "")
+        {
+            alert("Du kannst nicht nichts hinzufügen.")
+            return
+        }
         //check if the article name is already in selectedLaws
         let getID = selectedLaws.value.find(entry => entry.name === document.getElementById("article").value)
         if (getID !== undefined) {
@@ -205,17 +260,17 @@
                     </datalist>
                 </Tooltip>
                 <label for="definition">Vergehen</label>
-                <input type="text" name="definition" id="definition" placeholder="Mord" required>
+                <input type="text" name="definition" id="definition" placeholder="Mord" v-model="definition" required>
                 <label for="timeDate">Tat Datum</label>
-                <input type="date" name="timeDate" id="timeDate" placeholder="03.04.2022" required>
+                <input type="date" name="timeDate" id="timeDate" placeholder="03.04.2022" v-model="date" required>
                 <label for="timeTime">Tat Zeit</label>
-                <input type="time" name="timeTime" id="timeTime" placeholder="12:00" required>
+                <input type="time" name="timeTime" id="timeTime" placeholder="12:00" v-model="time" required>
                 <label for="timePlace">Tat Ort</label>
-                <input type="text" name="timePlace" id="timePlace" placeholder="Zuhause" required>
+                <input type="text" name="timePlace" id="timePlace" placeholder="Zuhause" v-model="place" required>
                 <label for="description">Beschreibung</label>
-                <textarea name="description" id="description" placeholder="Beschreibung" required></textarea>
+                <textarea name="description" id="description" placeholder="Beschreibung" v-model="description" required></textarea>
                 <label for="punishment">Hafteinheiten</label>
-                    <div class="punishment"><input type="number" name="punishment" id="punishment" placeholder="Lebenslänglich" required>
+                    <div class="punishment"><input type="number" name="punishment" id="punishment" placeholder="23" v-model="punishment" required>
                     Einheiten</div>
                 <!--Multicheckbox with articles-->
                 <div class="article__wrapper">
@@ -230,7 +285,7 @@
                             {{ article.Paragraph + ' ' + article.Title }}
                         </option>
             </select>
-                    <button class="button__plus" @click="addArticle"><img src="../assets/plus.svg" width="25" height="25" /> </button>
+                    <button class="button__plus" @click.prevent="addArticle"><img src="../assets/plus.svg" width="25" height="25" /> </button>
                 </div>
             </div>
             <h3>Rank: <select v-model="activeRank" id="article">

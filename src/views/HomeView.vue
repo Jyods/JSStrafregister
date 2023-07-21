@@ -30,6 +30,7 @@
 
 
   onMounted(async() => {
+    document.title = 'Strafregister'
     isLoading.value = true
     console.log("Home View")
     //entries.value = props.entries

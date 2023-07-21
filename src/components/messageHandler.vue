@@ -1,6 +1,6 @@
 <script setup>
 import message from './message.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 
 const props = defineProps({
     messages: {
@@ -9,11 +9,30 @@ const props = defineProps({
     }
 })
 
+const testMessages = ref([
+    {
+        id: 1,
+        message: 'test1'
+    },
+    {
+        id: 2,
+        message: 'test2'
+    },
+    {
+        id: 3,
+        message: 'test3'
+    }
+])
+
 const emit = defineEmits(['removeItem'])
 
 function removeItem (index) {
     emit('removeItem', index)
 }
+
+onBeforeMount(() => {
+    console.log(props.messages)
+})
 
 </script>
 
@@ -21,7 +40,7 @@ function removeItem (index) {
     <div class="container">
         <div class="wrapper">
             <div class="messageWrapper">
-                <message v-for="message in messages" :message="message" @removeItem="removeItem" />
+                <message v-for="message in testMessages" :message="message" @removeItem="removeItem" />
             </div>
         </div> 
     </div>
@@ -39,7 +58,6 @@ function removeItem (index) {
     align-items: center;
     width: max-content;
     height: max-content;
-    background-color: red;
 }
 
 .messageWrapper {
@@ -48,6 +66,5 @@ function removeItem (index) {
     align-items: flex-end;
     width: max-content;
     height: max-content;
-    background-color: red;
 }
 </style>

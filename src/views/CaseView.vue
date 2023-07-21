@@ -1,6 +1,8 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue'
-    import { getCase,getFiles } from '../api/requests';
+    import { getCase, publishCase } from '../api/requests';
+    import { useRouter, RouterLink } from 'vue-router'
+
   
     const searchParams = new URLSearchParams(window.location.search);
     const caseID = searchParams.get('CaseID');
@@ -10,6 +12,8 @@
     const entries = ref([])
 
     const activeCase = ref('');
+
+    const router = useRouter()
 
 
     onMounted(async() => {
@@ -22,6 +26,16 @@
         console.log(activeCase.value);
         isLoading.value = false
     })
+
+    async function createPublicCopy() {
+        //erstelle eine neue route die öffentlich zugänglich ist mit dem selben inhalt
+
+        const response = await publishCase(caseID)
+
+        console.log(response.route)
+
+        router.push({ name: 'Public', params: { id: response.route }})
+    }
 
 </script>
 <template>
@@ -50,6 +64,8 @@
         <br>
         <h2>{{ entries.user.type }}</h2>
         <RouterLink :to="{ name: 'Member', query: { MemberID: entries.user.id }}">{{ entries.user.identification }}</RouterLink>
+
+        <button @click="createPublicCopy">Öffentliche Kopie erstellen</button>
     </div>
 </template>
 <style scoped>

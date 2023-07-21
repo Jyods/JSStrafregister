@@ -26,6 +26,7 @@ async function logoutUser() {
     let data = await logout()
     if (data.message == "Logged out")
     {
+        console.warn("Logout successful")
         emit('add-to-array', data.message)
         router.push({ name: 'Login'})
     }
@@ -62,7 +63,7 @@ async function logoutUser() {
             <p>Mitglieder</p>
         </li>
         </RouterLink>
-        <li class="sidebar-list-item" @click="logoutUser">
+        <li class="sidebar-list-item" @click.prevent="logoutUser">
             <p>Logout</p>
         </li>
         </ul>

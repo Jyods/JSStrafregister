@@ -159,6 +159,8 @@ input{
         padding: 10px;
         border: none;
         margin: 10px;
+        font-size: 15px;
+        width: max-content;
     }
     button:hover {
         background-color: #727272;

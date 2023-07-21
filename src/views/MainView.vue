@@ -8,6 +8,7 @@
   const emit = defineEmits(['add-to-array'])
 
   function addToArray(message) {
+    console.warn("Add toe array MAINVIEW")
     emit('add-to-array', message)
   }
 
@@ -16,11 +17,22 @@
 <template>
   <sidebar class="bg" @add-to-array="addToArray"/>
   <div class="viewContent">
-    <RouterView />
+    <div class="background_image"></div>
+    <RouterView @add-to-array="addToArray"/>
   </div>
 </template>
 
 <style scoped>
+.background_image {
+  background-image: url("../assets/Background.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 .viewContent {
   padding-left: 200px;
   padding-top: 50px;
