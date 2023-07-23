@@ -25,11 +25,11 @@ function removeItem() {
 }
 
 const longerThanFive = computed(() => {
-    return message.value.length > 20
+    return message.value.length > 18
 })
 
 const messagePreview = computed(() => {
-    return message.value.substring(0, 20) + "..."
+    return message.value.substring(0, 18) + "..."
 })
 
 const showAll = ref(false)
@@ -38,10 +38,10 @@ const showAll = ref(false)
 
 <template>
     <div class="wrapper" @click.prevent="showAll = !showAll">
-        <div class="message_preview" v-if="longerThanFive && !showAll">
+        <div class="message_preview center" v-if="longerThanFive && !showAll">
             <p>{{ messagePreview }}</p>
         </div>
-        <div class="message" v-else>
+        <div class="message center" v-else>
             <p>{{ message }}</p>
         </div>
         <div class="button">
@@ -53,42 +53,60 @@ const showAll = ref(false)
 <style scoped>
 
 .wrapper {
-    min-width: 160px;
-    max-width: 160px;
-    background-color: red;
-    padding: 10px;
-    width: max-content;
-    height: max-content;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 10px;
-    border-style: outset;
-    border-color: black;
-    margin: 5px;
-    /* smooth edges */
-    
+  min-width: 160px;
+  max-width: 160px;
+  background-color: #000;
+  padding: 10px;
+  width: max-content;
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: yellow;
+  box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+  margin: 5px;
+  font-family: 'Helvetica', sans-serif;
+  color: #fff;
+  text-align: center;
 }
+/*.wrapper {
+  background-image: url('star-wars-logo.png');
+  background-size: cover;
+  background-position: center;
+}*/
+
+.wrapper:hover {
+    /*Wenn der Benutzer mit der Maus über das Element fährt, wird die Border Farbe geändert. Diese änderung soll animiert dass sich die Farbe von oben links nach unten rechts ändert*/
+}
+
+
 .xButton {
     background-color: transparent;
     border: none;
     justify-content: center;
     font-size: 20px;
     cursor: pointer;
-    color: black;
+    color: rgb(255, 255, 255);
     padding: 0px;
     margin: 0px;
 }
 
 .message {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
     margin: 0px;
     padding: 0px;
+}
+
+.message_preview {
+  cursor: pointer;
 }
 
 button {

@@ -48,6 +48,20 @@
     console.log(minorMessages.value)
   })
 
+  
+
+  import Pusher from 'pusher-js';
+
+  const pusher = new Pusher('2510f8aea0961630d9af', {
+      cluster: 'eu'
+  });
+
+  const channel = pusher.subscribe('test-channel');
+
+  channel.bind('test-event', function(data) {
+      minorMessages.value.push({id: minorMessages.value.length + 1, message: data.message})
+  });
+
 </script>
 
 <template>

@@ -139,7 +139,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.path.startsWith('/public/')) {
     next()
   }
-  if (to.name !== 'Error' || to.name !== 'Test') {
+  if (to.name !== 'Error' && to.name !== 'Test') {
     const isAuthenticated = await auth() // Hier können Sie Ihre eigene Authentifizierungsfunktion implementieren
     if (to.name !== 'Login' && !isAuthenticated) {
       //TODO: Add check if the User is still active
