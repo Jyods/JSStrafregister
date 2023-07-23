@@ -35,6 +35,7 @@
         console.log(response.route)
 
         router.push({ name: 'Public', params: { id: response.route }})
+
     }
 
 </script>
@@ -59,6 +60,16 @@
                     </p>
         </h3>
         <h3 v-else>StGB: {{ entries.laws }}</h3>
+        <h3>Veröffentlichungen:</h3>
+        <li v-if="entries.publishes != 'Restricted'" v-for="publish in entries.publishes">
+            <RouterLink 
+            :to="{  name: 'Public', 
+                    params: { id: publish.route }}"
+                    :publish = "publish"
+                    >
+                    {{ publish.route }} ({{ publish.publisher[0].identification }}) {{  }}
+            </RouterLink>
+        </li>
         <h3 class="punishment item">Haftzeit: {{ entries.fine }} Einheiten</h3>
         <h3 class="rank item">Rang: {{ entries.rank[0].rank }}</h3>
         <br>
