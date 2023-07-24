@@ -278,6 +278,16 @@ export async function getPublishedCase(route) {
     return await response.json();
 }
 
+export async function deletePublishedCase(id) {
+    const response = await fetch(`${backend}/publish/case/id/${id}`,{
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return response.json();
+}
+
 /*
 
 export async function checkPermission(permission) {

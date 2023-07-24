@@ -135,16 +135,22 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   //check if the website isnt error page
-  console.log(to.name)
-  if (to.path.startsWith('/public/')) {
+  console.log(to.path.startsWith('/public/'))
+  /*if (to.path.startsWith('/public/')) {
     next()
-  }
-  if (to.name !== 'Error' && to.name !== 'Test') {
+  }*/
+  if (to.name !== 'Error' && to.name !== 'Test' && to.name !== 'PathNotFound') {
     const isAuthenticated = await auth() // Hier können Sie Ihre eigene Authentifizierungsfunktion implementieren
+    
+    if (to.path.startsWith('/public/')) {
+      next()
+    }
+    
     if (to.name !== 'Login' && !isAuthenticated) {
       //TODO: Add check if the User is still active
       next({ name: 'Login' })
     } else {
+      console.log(to.path.startsWith('/public/'))
       next()
     }
   }

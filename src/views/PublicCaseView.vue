@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { getPublishedCase } from '../api/requests';
 
@@ -21,7 +21,14 @@ onBeforeMount(async () => {
 
     let response = await getPublishedCase(id);
 
-    data.value = response.message[0];
+    //check if the response status is 404, if so, redirect to 404 page
+    if (response.message == "Publish not found") {
+        console.log("Publish not found")
+        router.push("/error");
+        return;
+    }
+
+    data.value = response.message;
 
     rank.value = data.value.rank[0].rank;
 
@@ -50,28 +57,92 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-    <div class="wrapper">
-        <h2>{{ data.type }}</h2>
-        <div class="data">
-            <p>{{ data.definition }}</p>
-            <p>{{ data.description }}</p>
-            <p>Strafe: {{ data.fine }} Hafteinheiten</p>
-            <p>Paragrafen:</p>
-            <li v-for="law in data.laws">{{ law.law.Title }}</li>
-            <p>Rang: {{ rank }}</p>
+    <div class="holopad-wrapper">
+      <div class="holopad-content">
+        <div class="holopad-header">{{ data.type }}</div>
+        <div class="holopad-data">
+          <p>{{ data.definition }}</p>
+          <p>{{ data.description }}</p>
+          <p>Strafe: {{ data.fine }} Hafteinheiten</p>
+          <p>Paragrafen:</p>
+          <ul>
+            <li v-for="law in data.laws" class="law_item">
+              §{{ law.law.Paragraph }} {{ law.law.Title }} {{ law.law.Category }}
+            </li>
+          </ul>
+          <p>Rang: {{ rank }}</p>
         </div>
-        <div class="published_by">
-            <p>Veröffentlicht von: {{ publisher.identification }} ({{ publisherRank }})</p>
-            <p>Veröffentlicht am: {{ published_on }}</p>
+        <div class="holopad-published_by">
+          <p>
+            Veröffentlicht von: {{ publisher.identification }} ({{ publisherRank }})
+          </p>
+          <p>Veröffentlicht am: {{ published_on }}</p>
         </div>
+      </div>
     </div>
-</template>
+  </template>
+  
+  <style scoped>
+  .holopad-wrapper {
+    background-color: black;
+    color: #00eaff;
+    font-family: "Lucida Console", Monaco, monospace;
+    padding: 20px;
+    border: 2px solid #00eaff;
+  }
+  
+  .holopad-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .holopad-header {
+    font-size: 24px;
+    text-decoration: underline;
+  }
+  
+  .holopad-data {
+    margin-top: 50px;
+  }
+  
+  .holopad-data p {
+    margin-bottom: 10px;
+  }
+  
+  .holopad-data ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .holopad-data li {
+    margin-bottom: 5px;
+  }
+  
+  .holopad-published_by {
+    margin-top: 50px;
+    font-size: 12px;
+  }
+  
+  /* Optional: Add animation for the Holopad effect */
+  @keyframes flicker {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .holopad-wrapper {
+    animation: flicker 1s infinite;
+  }
 
-<style scoped>
-.data {
-    margin-top: 50px;
-}
-.published_by {
-    margin-top: 50px;
-}
-</style>
+  .law_item {
+    margin-left: 20px;
+    }
+  </style>
+  

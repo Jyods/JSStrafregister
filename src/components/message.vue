@@ -114,4 +114,8 @@ button {
     justify-content: flex-end;
     align-items: center;
 }
+
+button:hover {
+    color: rgb(255, 0, 0);
+}
 </style>

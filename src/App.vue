@@ -1,9 +1,13 @@
 <script setup>
-  import { ref, onMounted } from 'vue'
-  import { RouterLink, RouterView } from 'vue-router'
+  import { ref, onMounted, onBeforeUpdate, onBeforeMount } from 'vue'
+  import { RouterLink, RouterView, useRouter } from 'vue-router'
   import messageHandler from './components/messageHandler.vue'
   import MajorMessage from './components/MajorMessage.vue'
   import MinorMessage from './components/message.vue'
+
+  const isPublicRoute = ref(false)
+
+  const router = useRouter()
 
   const minorMessages = ref([
     {
@@ -43,12 +47,19 @@
   }
 
   onMounted(() => {
-    //add a console log with fancy colors
     console.log("%cApp.vue", "color: green; font-size: 20px")
     console.log(minorMessages.value)
   })
-
   
+  function checkIfPublicRoute() {
+    if (router.currentRoute.value.name == "Public") {
+      isPublicRoute.value = true
+    }
+    else {
+      isPublicRoute.value = false
+    }
+    console.error(isPublicRoute.value)
+  }
 
   import Pusher from 'pusher-js';
 
@@ -65,10 +76,10 @@
 </script>
 
 <template>
-    <div class="messageHandler">
+    <div v-if="checkIfPublicRoute()" class="messageHandler">
       <MinorMessage class="notification_item" v-for="message in minorMessages" :key="message.id" :message="message" @removeItem="deleteFromMinorMessages"/>
     </div>
-    <MajorMessage class="majorMessages" v-for="message in majorMessages" :message="message" @remove-message="removeMajorMessage" />
+    <MajorMessage v-if="checkIfPublicRoute()" class="majorMessages" v-for="message in majorMessages" :message="message" @remove-message="removeMajorMessage" />
     <RouterView  @add-to-array="addToArray" />
 </template>
 
