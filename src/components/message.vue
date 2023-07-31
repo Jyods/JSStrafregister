@@ -12,16 +12,20 @@ const props = defineProps({
     }
 })
 
+const emit = defineEmits(['removeItem'])
+
 onMounted (() => {
     id.value = props.message.id
     message.value = props.message.message
     console.warn(message.value.length)
+    setTimeout(() => {
+        emit('removeItem', id.value)
+    }, 10000)
 })
 
-const emit = defineEmits(['removeItem'])
 
 function removeItem() {
-    emit('removeItem',message.value.id)
+    emit('removeItem',id.value)
 }
 
 const longerThanFive = computed(() => {
@@ -37,19 +41,21 @@ const showAll = ref(false)
 </script>
 
 <template>
-    <div class="wrapper" @click.prevent="showAll = !showAll">
-        <div class="message_preview center" v-if="longerThanFive && !showAll">
-            <p>{{ messagePreview }}</p>
+    <transition name="slide-in-out">
+        <div class="wrapper" @click.prevent="showAll = !showAll">
+            <div class="message_preview center" v-if="longerThanFive && !showAll">
+                <p>{{ messagePreview }}</p>
+            </div>
+            <div class="message center" v-else>
+                <p>{{ message }}</p>
+            </div>
+            <div class="button">
+                <button class="xButton" @click="$emit('removeItem', id)">x</button>
+            </div>
         </div>
-        <div class="message center" v-else>
-            <p>{{ message }}</p>
-        </div>
-        <div class="button">
-            <button class="xButton" @click="$emit('removeItem', id)">x</button>
-        </div>
-    </div>
-</template>
-
+    </transition>
+  </template>
+  
 <style scoped>
 
 .wrapper {
@@ -117,5 +123,14 @@ button {
 
 button:hover {
     color: rgb(255, 0, 0);
+}
+
+.slide-in-out-enter-active,
+.slide-in-out-leave-active {
+  transition: transform 0.5s;
+}
+
+.slide-in-out-enter, .slide-in-out-leave-to /* .slide-in-out-leave-active in <2.1.8 */ {
+  transform: translateX(100%); /* Initially off to the right */
 }
 </style>
