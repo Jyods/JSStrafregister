@@ -1,4 +1,4 @@
-const backend = 'https://home-5013253951.app-ionos.space/public/api';
+const backend = 'http://jsstrafregisterbackend.test/api';
 
 export async function getFiles() {
     const response = await fetch(`${backend}/files`,{

@@ -1,6 +1,6 @@
 <script setup>
 import Info from './Tooltip.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { auth,  } from '../api/requests.js'
 
@@ -16,6 +16,32 @@ const props = defineProps({
 })
 
 const member = ref(props.member)
+
+const units = computed(() => {
+    let units = []
+    props.ranks.forEach(rank => {
+        if(!units.includes(rank.unit))
+        {
+            units.push(rank.unit)
+        }
+    });
+    console.log(units)
+    return units
+})
+
+const activeUnit = ref(units.value[0])
+
+const ranksOfUnit = computed(() => {
+    let ranksOfUnit = []
+    props.ranks.forEach(rank => {
+        if(rank.unit == activeUnit.value)
+        {
+            ranksOfUnit.push(rank)
+        }
+    });
+    console.log(ranksOfUnit)
+    return ranksOfUnit
+})
 
 //create a event 
 const emit = defineEmits(['pushNewMember', 'abortMember'])
@@ -67,8 +93,12 @@ onMounted(() => {
         </Info>
         <p class="star-wars-info">RestrictionClass: <input type="number" v-model="member.restrictionClass"></p>
         <p class="star-wars-info">Aktives Mitglied: <input type="checkbox" v-model="member.isActive"></p>
+        <p class="star-wars-info">Einheit: 
+          <select v-model="activeUnit">
+            <option v-for="unit in units" :value="unit">{{ unit }}</option>
+          </select> </p>
         <p class="star-wars-info">Rank: <select v-model="member.rank">
-            <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
+            <option v-for="rank in ranksOfUnit" :key="rank.id" :value="rank">{{ rank.rank }}</option>
           </select></p>
         <Info info="Das Eintrittsdatum kann nicht geändert werden.">
           <p class="star-wars-info">Eintritt: <input type="date" v-model="member.entry" disabled></p>

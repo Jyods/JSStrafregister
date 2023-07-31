@@ -37,6 +37,7 @@ onMounted(async() => {
             <h1>Members</h1>
             <h2>Typ: {{ member.type }}</h2>
             <h3>Identifikation: {{ member.identification }}</h3>
+            <h3>Einheit: {{ member.rank.unit }}</h3>
             <h3>Rang: {{ member.rank.rank }}</h3>
             <h3>Aktives Mitglied: {{ left }}</h3>
             <h3>Beitritt: {{ member.entry }}</h3>

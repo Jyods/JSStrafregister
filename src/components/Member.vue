@@ -14,6 +14,30 @@ const props = defineProps({
     }
 })
 
+const units = computed(() => {
+    let units = []
+    props.ranks.forEach(rank => {
+        if(!units.includes(rank.unit))
+        {
+            units.push(rank.unit)
+        }
+    });
+    console.log(units)
+    return units
+})
+
+const ranksOfUnit = computed(() => {
+    let ranksOfUnit = []
+    props.ranks.forEach(rank => {
+        if(rank.unit == props.member.rank.unit)
+        {
+            ranksOfUnit.push(rank)
+        }
+    });
+    console.log(ranksOfUnit)
+    return ranksOfUnit
+})
+
 const editMember = ref(false)
 
 const emit = defineEmits(['changeActiv'])
@@ -106,6 +130,7 @@ onMounted(() => {
           <p class="star-wars-info">Email: {{ member.email }}</p>
           <p class="star-wars-info">RestrictionClass: {{ member.restrictionClass }}</p>
           <p class="star-wars-info">Aktives Mitglied: {{ member.isActive }}</p>
+          <p class="star-wars-info">Einheit: {{ member.rank.unit }}</p>
           <p class="star-wars-info">Rank: {{ member.rank.rank }}</p>
           <p class="star-wars-info">Eintritt: {{ member.entry }}</p>
           <div class="star-wars-btn">
@@ -122,8 +147,9 @@ onMounted(() => {
           <p class="star-wars-info">Email: <input type="email" v-model="member.email"></p>
           <p class="star-wars-info">RestrictionClass: <input type="number" v-model="member.restrictionClass"></p>
           <p class="star-wars-info">Aktives Mitglied: <input type="checkbox" v-model="member.isActive"></p>
+          <p class="star-wars-info">Einheit: <input type="text" v-model="member.rank.unit" disabled> </p>
           <p class="star-wars-info">Rank: <select v-model="member.rank">
-              <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
+              <option v-for="rank in ranksOfUnit" :key="rank.id" :value="rank">{{ rank.rank }}</option>
             </select></p>
           <p class="star-wars-info">Eintritt: <input type="date" v-model="member.entry" disabled></p>
           <div class="star-wars-btn">

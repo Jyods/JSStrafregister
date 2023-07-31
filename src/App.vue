@@ -52,7 +52,7 @@
   })
   
   function checkIfPublicRoute() {
-    if (router.currentRoute.value.name == "Public") {
+    if (router.currentRoute.value.name == "Public" || router.currentRoute.value.name == "Error" || router.currentRoute.value.name == "PathNotFound") {
       isPublicRoute.value = true
       return true
     }

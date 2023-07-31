@@ -72,7 +72,8 @@ function addMember() {
         entry: new Date().toISOString().slice(0, 10),
         rank: {
             id: 1,
-            rank: "Private"
+            rank: "Private",
+            unit: "Clone Army"
         },
     })
     }
