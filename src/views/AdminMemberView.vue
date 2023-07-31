@@ -63,7 +63,7 @@ function addMember() {
     let password = generatePassword()
     newMembers.value.push({
         id: members.value.length + 1,
-        type: "Mitglied",
+        type: "Neuer Beamter",
         identification: "CT-0000",
         isActive: true,
         password: password,
@@ -172,31 +172,41 @@ function changeActive(memberID) {
     margin: 20px;
     border-radius: 10px;
 }
+/* Star Wars-style button */
 button {
-    border: none;
-    background-color: #c5c5c5;
-    color: white;
-    font-size: 20px;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
-    cursor: pointer;
-    width: max-content;
+  border: none;
+  background-color: #1b1b1b; /* Dark background color */
+  color: #ffc93c; /* Yellow text color */
+  font-size: 20px;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  cursor: pointer;
+  width: max-content;
+  /* Optional box-shadow for a 3D effect */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 button:hover {
-    background-color: #a5a5a5;
+  background-color: #272727; /* Slightly darker on hover */
+  /* Optional box-shadow on hover for more depth */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
+
+/* Star Wars-style input field */
 input {
-    border: none;
-    background-color: #c5c5c5;
-    color: white;
-    font-size: 20px;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
-    border-bottom: 2px solid white;
+  border: none;
+  background-color: #1b1b1b; /* Dark background color */
+  color: #ffc93c; /* Yellow text color */
+  font-size: 20px;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  border-bottom: 2px solid #ffc93c; /* Yellow underline */
 }
 input:focus {
-    outline: none;
+  outline: none;
+  /* Optional box-shadow on focus for highlighting */
+  box-shadow: 0 0 6px #ffc93c;
 }
+
 </style>

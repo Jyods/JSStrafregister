@@ -7,6 +7,12 @@ const props = defineProps({
         required: true
     }
 })
+
+onMounted(() => {
+    setTimeout(() => {
+        //add a auto remove function
+    }, 5000)
+})
 </script>
 
 <template>

@@ -93,77 +93,118 @@ onMounted(() => {
 
 </script>
 <template>
-    <div class="changed">
-        <div v-if="changedSomething" class="changed__text">
-            <h1>Es wurden Änderungen vorgenommen</h1>
-            <button @click="save">Speichern</button>
+    <div class="star-wars-container">
+      <div v-if="changedSomething" class="star-wars-changed">
+        <h1>Es wurden Änderungen vorgenommen</h1>
+        <button @click="save">Speichern</button>
+      </div>
+  
+      <div v-if="!editMember" class="star-wars-member">
+        <div class="star-wars-card">
+          <h1>{{ member.type }}</h1>
+          <p class="star-wars-info">Identifikation: {{ member.identification }}</p>
+          <p class="star-wars-info">Email: {{ member.email }}</p>
+          <p class="star-wars-info">RestrictionClass: {{ member.restrictionClass }}</p>
+          <p class="star-wars-info">Aktives Mitglied: {{ member.isActive }}</p>
+          <p class="star-wars-info">Rank: {{ member.rank.rank }}</p>
+          <p class="star-wars-info">Eintritt: {{ member.entry }}</p>
+          <div class="star-wars-btn">
+            <button @click="editMember = true">Edit</button>
+          </div>
         </div>
+      </div>
+  
+      <div v-else class="star-wars-edit-member star-wars-member">
+        <div class="star-wars-card">
+          <img src="../assets/data_loading.svg" alt="loading" v-if="isLoading" class="loading">
+          <h1>{{ member.type }}</h1>
+          <p class="star-wars-info">Identifikation: <input type="text" v-model="member.identification"></p>
+          <p class="star-wars-info">Email: <input type="email" v-model="member.email"></p>
+          <p class="star-wars-info">RestrictionClass: <input type="number" v-model="member.restrictionClass"></p>
+          <p class="star-wars-info">Aktives Mitglied: <input type="checkbox" v-model="member.isActive"></p>
+          <p class="star-wars-info">Rank: <select v-model="member.rank">
+              <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
+            </select></p>
+          <p class="star-wars-info">Eintritt: <input type="date" v-model="member.entry" disabled></p>
+          <div class="star-wars-btn">
+            <button @click="editMember = false">Abort</button>
+            <button :disabled="isLoading" @click="save">Save</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div v-if="!editMember" class="member">
-            <h1>{{ member.type }}</h1>
-            <h3>Identifikation: {{ member.identification }}</h3>
-            <h3>Email: {{ member.email }}</h3>
-            <h3>RestrictionClass: {{ member.restrictionClass }}</h3>
-            <h3>Aktives Mitglied: {{ member.isActive }}</h3>
-            <h3>Rank: {{ member.rank.rank }}</h3>
-            <h3>Eintritt: {{ member.entry }}</h3>
-            <div class="btn">
-                <!--<button @click="changeActiv(member.id)">Switch Active</button>-->
-                <button @click="editMember = true">Edit</button>
-            </div>
-        </div>
-        <div v-else class="edit__member member">
-            <img src="../assets/data_loading.svg" alt="loading" v-if="isLoading" class="loading">
-            <h1>{{ member.type }}</h1>
-            <h3>Identifikation: <input type="text" v-model="member.identification"></h3>
-            <h3>Email: <input type="email" v-model="member.email"></h3>
-            <h3>RestrictionClass: <input type="number" v-model="member.restrictionClass"></h3>
-            <h3>Aktives Mitglied: <input type="checkbox" v-model="member.isActive"></h3>
-            <h3>Rank: <select v-model="member.rank">
-                <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
-            </select> </h3>
-            <h3>Eintritt: <input type="date" v-model="member.entry" disabled> </h3>
-            <div class="btn">
-                <button @click="editMember = false">Abort</button>
-                <button :disabled="isLoading" @click="save">Save</button>
-            </div>
-        </div>
-</template>
-<style scoped>
-.loading {
-    position: absolute;
-}
-.btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-input{
-    width: max-content;
-}
-    .member {
-        display: flex;
-        width: 50%;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: #d9d9d9;
-        padding: 20px;
-        margin: 20px;
-        border-radius: 10px;
+  </template>
+  
+  <style scoped>
+    /* Star Wars Color Scheme */
+    :root {
+      --main-bg-color: #0e101c; /* Dark Blue */
+      --main-text-color: #fff; /* White */
+      --btn-bg-color: #ffbf00; /* Yellow */
     }
-    button {
-        background-color: #939393;
-        color: white;
-        border-radius: 10px;
-        padding: 10px;
-        border: none;
-        margin: 10px;
-        font-size: 15px;
-        width: max-content;
+  
+    .star-wars-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 20px;
+      background-color: var(--main-bg-color);
+      font-family: "Roboto", sans-serif;
     }
-    button:hover {
-        background-color: #727272;
-        cursor: pointer;
+  
+    .star-wars-member,
+    .star-wars-edit-member {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-</style>
+  
+    .star-wars-card {
+      padding: 20px;
+      width: 300px;
+      background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+    }
+  
+    .loading {
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 10px;
+    }
+  
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  
+    .star-wars-info {
+      margin: 5px 0;
+      color: var(--main-text-color);
+    }
+  
+    .star-wars-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .star-wars-btn button {
+      background-color: var(--btn-bg-color);
+      color: var(--main-text-color);
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+  
+    .star-wars-btn button:hover {
+      background-color: #ffd300; /* Brighter Yellow on hover */
+    }
+  </style>
+  

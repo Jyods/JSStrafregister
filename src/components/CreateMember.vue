@@ -56,88 +56,85 @@ onMounted(() => {
 
 </script>
 <template>
-     <div class="edit__member member">
-            <img src="../assets/data_loading.svg" alt="loading" v-if="isLoading" class="loading">
-            <h1>{{ member.type }}</h1>
-            <h3>Identifikation: <input type="text" v-model="member.identification"></h3>
-            <h3>Email: <input type="email" v-model="member.email"></h3>
-            <Info info="Das Passwort wird Ihnen nach der Erstellung einmalig bekannt gegeben.">
-                <h3>Passwort: <input type="password" v-model="member.password" disabled></h3>
-            </Info>
-            <h3>RestrictionClass: <input type="number" v-model="member.restrictionClass"/></h3>
-            <h3>Aktives Mitglied: <input type="checkbox" v-model="member.isActive"></h3>
-            <h3>Rank: <select v-model="member.rank">
-                <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
-            </select> </h3>
-            <Info info="Das Eintrittsdatum kann nicht geändert werden.">
-                <h3>Eintritt: <input type="date" v-model="member.entry" disabled></h3>
-            </Info>
-            <div class="btn">
-                <button class="abort_btn" @click="abort(member.id)">Abort</button>
-                <button class="save_btn" @click="pushMember(member)">Save</button>
-            </div>
+    <div class="star-wars-edit-member star-wars-member">
+      <div class="star-wars-card">
+        <img src="../assets/data_loading.svg" alt="loading" v-if="isLoading" class="loading">
+        <h1>{{ member.type }}</h1>
+        <p class="star-wars-info">Identifikation: <input type="text" v-model="member.identification"></p>
+        <p class="star-wars-info">Email: <input type="email" v-model="member.email"></p>
+        <Info info="Das Passwort wird Ihnen nach der Erstellung einmalig bekannt gegeben.">
+          <p class="star-wars-info">Passwort: <input type="password" v-model="member.password" disabled></p>
+        </Info>
+        <p class="star-wars-info">RestrictionClass: <input type="number" v-model="member.restrictionClass"></p>
+        <p class="star-wars-info">Aktives Mitglied: <input type="checkbox" v-model="member.isActive"></p>
+        <p class="star-wars-info">Rank: <select v-model="member.rank">
+            <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
+          </select></p>
+        <Info info="Das Eintrittsdatum kann nicht geändert werden.">
+          <p class="star-wars-info">Eintritt: <input type="date" v-model="member.entry" disabled></p>
+        </Info>
+        <div class="star-wars-btn">
+          <button class="star-wars-abort-btn" @click="abort(member.id)">Abort</button>
+          <button class="star-wars-save-btn" @click="pushMember(member)">Save</button>
         </div>
-</template>
-<style scoped>
-    .member {
-        display: flex;
-        width: 50%;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: rgb(255, 255, 255);
-        padding: 20px;
-        margin: 20px;
-        border-radius: 10px;
+      </div>
+    </div>
+  </template>
+  
+  <style scoped>
+    /* Rest of the Star Wars-inspired CSS from previous examples */
+  
+    .star-wars-card {
+      padding: 20px;
+      width: 300px;
+      background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
     }
-    .wrapper {
-        padding-top: 10px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        width: 100%;
+  
+    .star-wars-info {
+      margin: 5px 0;
+      color: var(--main-text-color);
     }
-    button {
-        border: 1px solid black;
-        border-radius: 5px;
-        padding: 5px;
-        width: 100px;
+  
+    .star-wars-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
     }
-    .abort_btn {
-        background-color: rgb(255, 0, 0);
+  
+    .star-wars-btn button {
+      background-color: var(--btn-bg-color);
+      color: var(--main-text-color);
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s;
+      width: 100px;
+      margin: 0 5px;
     }
-    .save_btn {
-        background-color: rgb(0, 255, 0);
+  
+    .star-wars-btn button:hover {
+      background-color: #ffd300; /* Brighter Yellow on hover */
     }
-    button:hover {
-        cursor: pointer;
+  
+    .star-wars-abort-btn {
+      background-color: #ff0000; /* Red */
     }
-    .abort_btn:hover {
-        background-color: rgb(128, 0, 0);
+  
+    .star-wars-save-btn {
+      background-color: #00ff00; /* Green */
     }
-    .save_btn:hover {
-        background-color: rgb(0, 128, 0);
+  
+    .star-wars-abort-btn:hover {
+      background-color: #800000; /* Darker Red on hover */
     }
-    .btn {
-        padding-top: 10px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        align-items: center;
-        width: 100%;
+  
+    .star-wars-save-btn:hover {
+      background-color: #008000; /* Darker Green on hover */
     }
-    input {
-        border: none;
-        border-bottom: 1px solid black;
-        width: 100%;
-        margin-bottom: 10px;
-    }
-    input:focus {
-        outline: none;
-    }
-    input[type="checkbox"] {
-        width: 15px;
-        height: 15px;
-    }
-</style>
+  </style>
+  
