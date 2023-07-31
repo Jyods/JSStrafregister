@@ -14,6 +14,7 @@ import LawArticle from '../views/LawArticle.vue'
 import ErrorView from '../views/ErrorView.vue'
 import Test from '../views/Test.vue'
 import PublicCaseView from '../views/PublicCaseView.vue'
+import BrodcastView from '../views/BrodcastView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,11 @@ const router = createRouter({
           path: '/adminmember',
           name: 'AdminMember',
           component: AdminMemberView,
+        },
+        {
+          path: '/brodcast',
+          name: 'Brodcast',
+          component: BrodcastView,
         },
         {
           path: '/articles',

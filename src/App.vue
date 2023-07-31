@@ -69,10 +69,16 @@
       cluster: 'eu'
   });
 
-  const channel = pusher.subscribe('test-channel');
+  const channel = pusher.subscribe('minor-channel');
 
-  channel.bind('test-event', function(data) {
+  channel.bind('minor-event', function(data) {
       minorMessages.value.push({id: minorMessages.value.length + 1, message: data.message})
+  });
+
+  const channel2 = pusher.subscribe('major-channel');
+
+  channel2.bind('major-event', function(data) {
+      majorMessages.value.push({id: majorMessages.value.length + 1, message: data.message})
   });
 
 </script>

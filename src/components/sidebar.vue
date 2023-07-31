@@ -63,6 +63,11 @@ async function logoutUser() {
             <p>Mitglieder</p>
         </li>
         </RouterLink>
+        <RouterLink to="/brodcast" v-if="permissions">
+        <li class="sidebar-list-item">
+            <p>Brodcast System</p>
+        </li>
+        </RouterLink>
         <li class="sidebar-list-item" @click.prevent="logoutUser">
             <p>Logout</p>
         </li>
