@@ -288,6 +288,30 @@ export async function deletePublishedCase(id) {
     return response.json();
 }
 
+export async function sendMinorMessage(data) {
+    const response = await fetch(`${backend}/event/minor`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
+export async function sendMajorMessage(data) {
+    const response = await fetch(`${backend}/event/major`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
 /*
 
 export async function checkPermission(permission) {
