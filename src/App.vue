@@ -85,10 +85,10 @@
 </script>
 
 <template>
-    <!--<div v-if="!checkIfPublicRoute()" class="messageHandler">
+    <div v-if="!checkIfPublicRoute()" class="messageHandler">
       <MinorMessage class="notification_item" v-for="message in minorMessages" :key="message.id" :message="message" @removeItem="deleteFromMinorMessages"/>
     </div>
-    <MajorMessage v-if="!checkIfPublicRoute()" class="majorMessages" v-for="message in majorMessages" :message="message" @remove-message="removeMajorMessage" />-->
+    <MajorMessage v-if="!checkIfPublicRoute()" class="majorMessages" v-for="message in majorMessages" :message="message" @remove-message="removeMajorMessage" />
     <RouterView  @add-to-array="addToArray" />
 </template>
 
