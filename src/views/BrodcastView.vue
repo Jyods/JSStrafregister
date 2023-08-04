@@ -23,7 +23,7 @@ function sendMessage() {
 
 <template>
     <div class="broadcast-container">
-      <h1 class="title">Star Wars Broadcast System</h1>
+      <h1 class="title">Broadcast System</h1>
       <div class="message-type">
         <label>Minor Message</label>
         <input type="range" min="0" max="1" v-model="messageType" class="slider" />

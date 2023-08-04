@@ -1,4 +1,4 @@
-const backend = 'https://home-5013253951.app-ionos.space/public/api';
+const backend = 'http://jsstrafregisterbackend.test/api';
 
 export async function getFiles() {
     const response = await fetch(`${backend}/files`,{
@@ -309,6 +309,15 @@ export async function sendMajorMessage(data) {
         },
         body: JSON.stringify(data)
     });
+    return await response.json();
+}
+
+export async function getODT() {
+    const response = await fetch(`${backend}/odt`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
     return await response.json();
 }
 

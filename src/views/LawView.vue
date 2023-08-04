@@ -1,50 +1,73 @@
 <script setup>
-import { onMounted, ref, computed, onBeforeMount } from 'vue'
+import { onMounted, ref, onUpdated, computed, onBeforeMount } from 'vue'
 import {getLawID, getLaws} from '../api/requests.js'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
 
-const props = defineProps({
+const router = useRouter()
+
+/* const props = defineProps({
     law: {
         type: Object,
         required: true
     }
-})
+}) */
 
 const laws = ref(undefined)
 
-    const searchParams = new URLSearchParams(window.location.search);
-    const lawID = searchParams.get('ArticleID');
-    const mode = ref(false)
+const title = ref("")
+const paragraph = ref("")
+const category = ref("")
+const severity = ref("")
+const description = ref("")
 
-    onMounted(async() => {
-    mode.value = lawID != null ? true : false
-    await getLaw()
-    })
+const searchParams = new URLSearchParams(window.location.search);
+const lawID = searchParams.get('ArticleID');
+const mode = ref(false)
 
-    async function getLaw() {
-        if(mode.value) {
-            let data = await getLawID(lawID)
-            console.log(data)
-            laws.value = data.data
-        }
-        else {
-            let data = await getLaws()
-            console.log(data)
-            laws.value = data.data
-        }
-        console.warn(laws.value)
+onMounted(async() => {
+
+    console.log(router)
+
+mode.value = lawID != null ? true : false
+console.error(mode.value)
+await getLaw()
+})
+
+onUpdated(async() => {
+    console.log("updated")
+})
+
+async function getLaw() {
+    if(mode.value) {
+        let data = await getLawID(lawID)
+        console.log(data)
+        title.value = data.data.Title
+        paragraph.value = data.data.Paragraph
+        category.value = data.data.Category
+        severity.value = data.data.Severity
+        description.value = data.data.Description
     }
-
-    function gotoLaw(id) {
-        mode.value = true
-        window.location.href = "/articles?ArticleID=" + id
+    else {
+        console.log("getting laws")
+        let data = await getLaws()
+        console.log(data)
+        laws.value = data.data
     }
+    console.warn(laws.value)
+}
+
+function gotoLaw(id) {
+    mode.value = true
+    window.location.href = "/articles?ArticleID=" + id
+}
 
 </script>
 
 <template>
     <div class="law_wrapper">
             <div class="info">
-                <div v-if="!mode" v-for="law in laws" class="law__wrapper">
+                <div class="" v-if="!mode">
+                <div v-for="law in laws" class="law__wrapper">
                     <div class="law__content">
                         <h2>{{law.Title}}</h2>
                         <p>Paragraph: §{{ law.Paragraph }} {{law.Category}}</p>
@@ -53,11 +76,12 @@ const laws = ref(undefined)
                         <button @click="gotoLaw(law.id)" class="button_goto">Mehr</button>
                     </div>
                 </div>
+                </div>
                 <div v-else class="law__solo">
-                    <h2>{{laws.Title}}</h2>
-                    <p>Paragraph: §{{ laws.Paragraph }} {{laws.Category}}</p>
-                    <p>Kategorie: {{laws.Severity}}</p>
-                    <p class="desc">Beschreibung: {{laws.Description}}</p>
+                    <h2>{{title}}</h2>
+                    <p>Paragraph: §{{ paragraph }} {{category}}</p>
+                    <p>Kategorie: {{severity}}</p>
+                    <p class="desc">Beschreibung: {{description}}</p>
                 </div>  
         </div>
     </div>

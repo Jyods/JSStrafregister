@@ -15,6 +15,9 @@ import ErrorView from '../views/ErrorView.vue'
 import Test from '../views/Test.vue'
 import PublicCaseView from '../views/PublicCaseView.vue'
 import BrodcastView from '../views/BrodcastView.vue'
+import ODTView from '../views/ODTView.vue'
+import ODTList from '../components/ODTList.vue'
+import ODTNew from '../components/ODTNew.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -58,14 +61,38 @@ const router = createRouter({
           children: [
             {
               path: '/{ArticleID}',
-              component: LawArticle ,
+              name: 'LawArticle',
+              component: LawView ,
               props: (route) => ({ ArticleID: route.query.ArticleID }),
             },
             {
               path: '',
               name: 'LawHome',
-              component: LawArticle,
+              component: LawView,
             }
+          ]
+        },
+        {
+          path: '/odt',
+          name: 'ODT',
+          component: ODTView,
+          children: [
+            {
+              path: '',
+              name: 'ODTHome',
+              component: ODTList,
+            },
+            {
+              path: 'new',
+              name: 'ODTNew',
+              component: ODTNew,
+            },
+            {
+              path: '{ODTID}',
+              name: 'ODTID', 
+              component: ODTList,
+              props: (route) => ({ ODTID: route.query.ODTID }),
+            },
           ]
         },
         {
