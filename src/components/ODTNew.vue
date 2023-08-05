@@ -54,17 +54,16 @@ function makeFileToBinary(event) {
         return
     }
 
-    // mache aus der Datei einen BLOB
-    
+    //mache aus der Datei ein Base64 String
     let reader = new FileReader();
-    reader.readAsBinaryString(event.target.files[0]);
+    reader.readAsDataURL(data.value.file);
     reader.onload = function () {
-        console.log(reader.result);
         data.value.file = reader.result
     };
-    reader.onerror = function () {
-        console.log('there are some problems');
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
     };
+
 }
 
 </script>
