@@ -5,17 +5,23 @@ import { getPermissions } from '../api/requests.js'
 import {logout } from '../api/requests.js'
 import Navbar from './navbar.vue'
 
-const permissions = ref(false)
+const permissions = ref([])
 
 onMounted(async () => {
     let data = await getPermissions()
-    if (data.data >= 10)
-    {
-        permissions.value = true
+    
+    data = data.data;
+    //alle props in data kommen mit 0 oder 1, ändere diese in true oder false
+    for (const [key, value] of Object.entries(data.permissions)) {
+        if (value == 1) {
+            data.permissions[key] = true
+        }
+        else {
+            data.permissions[key] = false
+        }
     }
-    else {
-        permissions.value = false
-    }
+    permissions.value = data.permissions
+    console.error(permissions.value)
 })
 
 const router = useRouter()
@@ -43,12 +49,12 @@ async function logoutUser() {
         <!--<h2>Strafregister</h2>-->
         </div>
         <ul class="sidebar-list">
-        <RouterLink to="/">
+        <RouterLink to="/" v-if="permissions.permission_register || permissions.permission_superadmin">
         <li class="sidebar-list-item">
             <p>Register</p>
         </li>
         </RouterLink>
-        <RouterLink to="/create/entry">
+        <RouterLink to="/create/entry" v-if="permissions.permission_creator || permissions.permission_superadmin">
         <li class="sidebar-list-item">
             <p>Neuer Eintrag</p>
         </li>
@@ -58,14 +64,19 @@ async function logoutUser() {
             <p>Gesetzesartikel</p>
         </li>
         </RouterLink>
-        <RouterLink to="/AdminMember" v-if="permissions">
+        <RouterLink to="/AdminMember" v-if="permissions.permission_recruiter || permissions.permission_superadmin">
         <li class="sidebar-list-item">
             <p>Mitglieder</p>
         </li>
         </RouterLink>
-        <RouterLink to="/brodcast" v-if="permissions">
+        <RouterLink to="/brodcast" v-if="permissions.permission_brodcaster || permissions.permission_superadmin">
         <li class="sidebar-list-item">
             <p>Brodcast System</p>
+        </li>
+        </RouterLink>
+        <RouterLink to="/odt" v-if="permissions.permission_superadmin">
+        <li class="sidebar-list-item">
+            <p>ODT</p>
         </li>
         </RouterLink>
         <li class="sidebar-list-item" @click.prevent="logoutUser">

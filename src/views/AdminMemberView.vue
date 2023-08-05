@@ -156,7 +156,7 @@ function changeActive(memberID) {
             <button class="add" @click="addMember">Neuer Benutzer</button>
         </div>
         <CreateMember v-for="member in newMembers" :member="member" :ranks="ranks" :key="members.id" @pushNewMember="pushMember" @abortMember="abortEntry"/>
-        <Member v-for="member in filteredMembers" :member="member" :ranks="ranks" :key="members.id" @changeActiv="changeActive"/>
+        <Member class="item" v-for="member in filteredMembers" :member="member" :ranks="ranks" :key="members.id" @changeActiv="changeActive"/>
     </div>
 </div>
 
