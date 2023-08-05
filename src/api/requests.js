@@ -321,6 +321,18 @@ export async function getODT() {
     return await response.json();
 }
 
+export async function storeODT(data) {
+    const response = await fetch(`${backend}/odt`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
 /*
 
 export async function checkPermission(permission) {

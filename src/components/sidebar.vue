@@ -79,6 +79,11 @@ async function logoutUser() {
             <p>ODT</p>
         </li>
         </RouterLink>
+        <RouterLink to="/odt/new" v-if="permissions.permission_superadmin">
+        <li class="sidebar-list-item">
+            <p>New ODT</p>
+        </li>
+        </RouterLink>
         <li class="sidebar-list-item" @click.prevent="logoutUser">
             <p>Logout</p>
         </li>
