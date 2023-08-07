@@ -16,6 +16,10 @@ onMounted(() => {
 })
 
 function formatDate() {
+    //check ob das Format schon stimmt
+    if (props.chatdata.created_at.includes(".")) {
+        return props.chatdata.created_at
+    }
     //2021-10-13T12:00:00.000000Z zu dd.mm.yyyy - hh:mm
     let date = props.chatdata.created_at
     let day = date.substring(8, 10)

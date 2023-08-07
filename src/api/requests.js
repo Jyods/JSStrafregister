@@ -144,6 +144,12 @@ export async function auth() {
         return false;
     }
 
+    if (response.status === 503) {
+        localStorage.removeItem('token');
+        console.log("Token removed")
+        return false;
+    }
+
     if(response.status === 401) {
         localStorage.removeItem('token');
         console.log("Token removed")
