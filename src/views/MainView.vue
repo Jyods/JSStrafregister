@@ -28,8 +28,8 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  position: fixed;
-  width: 100%;
+  position: absolute;
+  width: 90%;
   height: 100%;
   z-index: -1;
 }
