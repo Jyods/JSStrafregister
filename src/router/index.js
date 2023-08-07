@@ -141,7 +141,7 @@ const router = createRouter({
       component: LoginView,
     },
     {
-      path: '/public/:id',
+      path: '/shared/:id',
       name: 'Public',
       component: PublicCaseView,
     },
@@ -151,7 +151,7 @@ const router = createRouter({
       component: ErrorView,
     },
     {
-      path: '/test/:id',
+      path: '/test',
       name: 'Test',
       component: Test,
     },
@@ -169,13 +169,13 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   //check if the website isnt error page
   console.log(to.path)
-  /*if (to.path.startsWith('/public/')) {
+  /*if (to.path.startsWith('/shared/')) {
     next()
   }*/
   if (to.name !== 'Error' && to.name !== 'Test' && to.name !== 'PathNotFound') {
     const isAuthenticated = await auth() // Hier können Sie Ihre eigene Authentifizierungsfunktion implementieren
     
-    if (to.path.startsWith('/public/') || to.path.startsWith('/error')) {
+    if (to.path.startsWith('/shared/') || to.path.startsWith('/error')) {
       next()
     }
     
@@ -183,7 +183,7 @@ router.beforeEach(async (to, from, next) => {
       //TODO: Add check if the User is still active
       next({ name: 'Login' })
     } else {
-      console.log(to.path.startsWith('/public/'))
+      console.log(to.path.startsWith('/shared/'))
       next()
     }
   }

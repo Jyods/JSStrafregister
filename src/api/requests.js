@@ -333,6 +333,15 @@ export async function storeODT(data) {
     return await response.json();
 }
 
+export async function getInstitutions() {
+    const response = await fetch(`${backend}/institution`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
 /*
 
 export async function checkPermission(permission) {

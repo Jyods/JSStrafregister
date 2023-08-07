@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { storeODT } from '../api/requests.js'
+import { storeODT, getInstitutions } from '../api/requests.js'
 
 const neededData = ref([
     "name",
@@ -25,6 +25,13 @@ const data = ref({
     file: null,
     file_type: null,
 })
+
+const institutions = ref(null)
+
+onMounted(async () => {
+    let response = await getInstitutions()
+    institutions.value = response.data
+});
 
 async function submit() {
 
@@ -82,7 +89,12 @@ function makeFileToBinary(event) {
         </div>
         <div class="institution_id">
             <label for="institution_id">Institution</label>
-            <input type="number" id="institution_id" v-model="data.institution_id">
+            <!--<input type="number" id="institution_id" v-model="data.institution_id">-->
+            <select id="institution_id" v-model="data.institution_id" v-if="institutions">
+                <option v-for="institution in institutions" :key="institution.id" :value="institution.id">
+                    {{ institution.abbreviation }}
+                </option>
+            </select>
         </div>
         <div class="file">
             <label for="file">Datei</label>
@@ -101,6 +113,6 @@ function makeFileToBinary(event) {
             <label for="answer_id">Antwort ID</label>
             <input type="text" id="answer_id" v-model="data.answer_id" :disabled="!data.isanswer">
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" v-if="institutions">Submit</button>
     </form>
 </template>

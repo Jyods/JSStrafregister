@@ -151,9 +151,11 @@ async function animation() {
 
 <template>
     <div class="column" @click="isExpandet = !isExpandet">
-        <p>Hier ist ein einzelnes OTD Item, dass aufklappbar ist um den Status zu sehen.</p>
-        <p>Der Auftrag hat die ID: {{ props.thing.id }}</p>
-        <p>Nach: {{ props.thing.institution.name }}</p>
+        <p><strong>{{ props.thing.title }}</strong></p>
+        <p>{{ props.thing.description }}</p>
+        <p>{{ props.thing.file }}</p>
+        <p>Der Auftrag hat die ID: <strong>{{ props.thing.id }}</strong></p>
+        <p>Nach: <strong>{{ props.thing.institution.abbreviation }}</strong></p>
         <p>Derzeitig: {{ statusTitle }}</p>
         <div class="row" v-if="isExpandet">
             <IconUsercheck :class="{activestroke : usercheckstatus == 1, donestroke : usercheckstatus == 2, errorstroke : usercheckstatus == 3}" height="50px" width="50px" />

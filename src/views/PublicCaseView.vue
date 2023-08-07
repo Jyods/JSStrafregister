@@ -19,6 +19,40 @@ const published_on = ref({});
 
 onBeforeMount(async () => {
 
+    data.value = {
+      type: "Loading...",
+      definition: "Loading...",
+      description: "Loading...",
+      fine: "Loading...",
+      updated_at: "Loading...",
+      laws: [
+        {
+          law: {
+            id: "Loading...",
+            name: "Loading...",
+            Title: "Loading...",
+            Category: "Loading...",
+            description: "Loading...",
+            Paragraph: "Loading...",
+            updated_at: "Loading...",
+          }
+        },
+      ],
+    };
+
+    publisher.value = {
+      identification: "Loading...",
+      rank: {
+        rank: "Loading...",
+      },
+    };
+
+    publisherRank.value = "Loading...";
+
+    published_on.value = "Loading...";
+
+    rank.value = "Loading...";
+    
     let response = await getPublishedCase(id);
 
     //check if the response status is 404, if so, redirect to 404 page

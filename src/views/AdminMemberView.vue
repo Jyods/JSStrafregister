@@ -4,7 +4,6 @@
     import { getMembers, createUser, getPermissions, switchActive, getRanks, getCurrentUser } from '../api/requests.js'
     import Member from '../components/Member.vue'
     import CreateMember from '../components/CreateMember.vue'
-    import Popup from '../components/Popup.vue'
 
     const isLoading = ref(true)
     const members = ref([])
@@ -24,7 +23,8 @@
 onMounted(async() => {
     isLoading.value = true
     let data = await getPermissions()
-    if (data.data >= 10)
+    console.log(data)
+    if (data.data.restrictionClass >= 10)
     {
         console.log("Member View")
         let fetch = await getMembers()

@@ -282,7 +282,7 @@
                 <select v-model="userArticle" id="article">
                     <option disabled value="">Please select one</option>
                         <option id="article_item" v-for="article in laws" :key="article.id">
-                            {{ article.Paragraph + ' ' + article.Title }}
+                            §{{ article.Paragraph + ' ' + article.Title + ' ' + article.Category}}
                         </option>
             </select>
                     <button class="button__plus" @click.prevent="addArticle"><img src="../assets/plus.svg" width="25" height="25" /> </button>
