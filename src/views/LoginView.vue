@@ -158,6 +158,7 @@ import messageHandler from '../components/messageHandler.vue'
         width: 200px;
         background-color: rgba(15, 0, 128, 0.201);
         color: white;
+        z-index: 100;
     }
 
     input:hover {
@@ -180,6 +181,7 @@ import messageHandler from '../components/messageHandler.vue'
         width: 200px;
         background-color: rgb(50, 105, 255, 0.742);
         color: white;
+        z-index: 100;
     }
 
     button:hover {
