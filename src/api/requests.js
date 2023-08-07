@@ -342,6 +342,37 @@ export async function getInstitutions() {
     return await response.json();
 }
 
+export async function getAllchat(from = "")
+{
+    if (from != "")
+    {
+        const response = await fetch(`${backend}/allchat/${from}`,{
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                });
+        return await response.json();
+    }
+    const response = await fetch(`${backend}/allchat`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function storeAllchat(data) {
+    const response = await fetch(`${backend}/allchat`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
 /*
 
 export async function checkPermission(permission) {

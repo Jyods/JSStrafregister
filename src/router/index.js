@@ -18,6 +18,7 @@ import BrodcastView from '../views/BrodcastView.vue'
 import ODTView from '../views/ODTView.vue'
 import ODTList from '../components/ODTList.vue'
 import ODTNew from '../components/ODTNew.vue'
+import PublicChatView from '../views/PublicChatView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -71,6 +72,11 @@ const router = createRouter({
               component: LawView,
             }
           ]
+        },
+        {
+          path: '/chat',
+          name: 'Chat',
+          component: PublicChatView,
         },
         {
           path: '/odt',
