@@ -49,6 +49,17 @@ async function submit() {
 }
 
 function makeFileToBinary(event) {
+
+    const allowed = ["application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/msword", "text/plain", "image/png", "image/jpeg", "image/gif"]
+
+    //Überprüfe ob die Datei erlaubt ist
+    if (!allowed.includes(event.target.files[0].type)) {
+        console.log(event.target.files[0].type)
+        alert("Dateityp nicht erlaubt")
+        event.target.value = null
+        return
+    }
+
     data.value.file = event.target.files[0]
 
     // setzte den Dateityp
@@ -98,7 +109,7 @@ function makeFileToBinary(event) {
         </div>
         <div class="file">
             <label for="file">Datei</label>
-            <input type="file" id="file" v-on:change="makeFileToBinary($event)">
+            <input type="file" id="file" v-on:change="makeFileToBinary($event)" accept=".docx,.doc,.txt,image/png, image/jpeg, image/gif" multiple>
         </div>
         <div class="file_type">
             <label for="file_type">Dateityp</label>
