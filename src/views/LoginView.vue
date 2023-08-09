@@ -39,11 +39,26 @@ import messageHandler from '../components/messageHandler.vue'
         let password = document.getElementById("password").value
         let response = await authenticateUser(identification, password)
         if (localStorage.getItem("token") != undefined || localStorage.getItem("token" != null)) {
+            let audio = new Audio('../src/assets/sounds/success.mp3')
+            try {
+                await audio.play()
+            }
+            catch(error) {
+                console.log(error)
+            }
             console.warn("Login successful")
             document.title = 'Redirect...'
             router.push({ name: 'Home'})
         }
         else {
+            //play sound ../assets/sounds/error.mp3
+            let audio = new Audio('../src/assets/sounds/error.mp3')
+            try {
+                await audio.play()
+            }
+            catch(error) {
+                console.log(error)
+            }
             addToArray(response.message)
             console.warn("Login failed")
         }

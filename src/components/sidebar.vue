@@ -40,6 +40,16 @@ async function logoutUser() {
         console.log("Logout failed")
     }
 }
+
+function playsound() {
+    let audio = new Audio('../src/assets/sounds/click.mp3')
+    try {
+        audio.play()
+    }
+    catch(error) {
+        console.log(error)
+    }
+}
 </script>
 <template>
     <Navbar class="navbar" />
@@ -49,37 +59,37 @@ async function logoutUser() {
         <!--<h2>Strafregister</h2>-->
         </div>
         <ul class="sidebar-list">
-        <RouterLink to="/" v-if="permissions.permission_register || permissions.permission_superadmin">
+        <RouterLink @click="playsound" to="/" v-if="permissions.permission_register || permissions.permission_superadmin">
         <li class="sidebar-list-item">
             <p>Register</p>
         </li>
         </RouterLink>
-        <RouterLink to="/create/entry" v-if="permissions.permission_creator || permissions.permission_superadmin">
+        <RouterLink @click="playsound" to="/create/entry" v-if="permissions.permission_creator || permissions.permission_superadmin">
         <li class="sidebar-list-item">
             <p>Neuer Eintrag</p>
         </li>
         </RouterLink>
-        <RouterLink to="/articles">
+        <RouterLink @click="playsound" to="/articles">
         <li class="sidebar-list-item">
             <p>Gesetzesartikel</p>
         </li>
         </RouterLink>
-        <RouterLink to="/AdminMember" v-if="permissions.permission_recruiter || permissions.permission_superadmin">
+        <RouterLink @click="playsound" to="/AdminMember" v-if="permissions.permission_recruiter || permissions.permission_superadmin">
         <li class="sidebar-list-item">
             <p>Mitglieder</p>
         </li>
         </RouterLink>
-        <RouterLink to="/brodcast" v-if="permissions.permission_brodcaster || permissions.permission_superadmin">
+        <RouterLink @click="playsound" to="/brodcast" v-if="permissions.permission_brodcaster || permissions.permission_superadmin">
         <li class="sidebar-list-item">
             <p>Brodcast System</p>
         </li>
         </RouterLink>
-        <RouterLink to="/odt" v-if="permissions.permission_superadmin">
+        <RouterLink @click="playsound" to="/odt" v-if="permissions.permission_superadmin">
         <li class="sidebar-list-item">
             <p>ODT</p>
         </li>
         </RouterLink>
-        <RouterLink to="/odt/new" v-if="permissions.permission_superadmin">
+        <RouterLink @click="playsound" to="/odt/new" v-if="permissions.permission_superadmin">
         <li class="sidebar-list-item">
             <p>New ODT</p>
         </li>

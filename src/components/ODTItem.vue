@@ -34,32 +34,37 @@ const statusTitle = computed(() => {
     let statusname = "none"
 
     if (status.delivery == 1) {
-        statusname = "delivery"
+        statusname = "Zustellung"
     }
     else if (status.senddown == 1) {
-        statusname = "senddown"
+        statusname = "Zurücksenden"
     }
     else if (status.redirected == 1) {
-        statusname = "redirected"
+        statusname = "Weitergeleitet"
     }
     else if (status.company == 1) {
-        statusname = "company"
+        statusname = "Bei Unternehmen"
     }
     else if (status.sendup == 1) {
-        statusname = "sendup"
+        statusname = "Schicken"
     }
     else if (status.process == 1) {
-        statusname = "process"
+        statusname = "Verarbeiten"
     }
     else if (status.user == 1) {
-        statusname = "user"
+        statusname = "Bei Benutzer"
     }
     else if (status.delivery == 2) {
-        statusname = "delivered"
+        statusname = "Zugestellt"
+    }
+    else if (status.shouldReply == 1)
+    {
+        statusname = "Antwort benötigt"
     }
     else if (error.missing == 1) {
         statusname = "missing"
     }
+
 
     return statusname
 })
