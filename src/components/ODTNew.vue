@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { storeODT, getInstitutions } from '../api/requests.js'
+import { ref, onMounted, computed } from 'vue'
+import { storeODT, getInstitutions, getAllNeedReply } from '../api/requests.js'
 
 const neededData = ref([
     "name",
@@ -28,9 +28,34 @@ const data = ref({
 
 const institutions = ref(null)
 
+const answers = ref([])
+
+//speichere in einer variable die answer die der user anhand der data.answer_id ausgewählt hat
+const answer = computed(() => {
+    let answer = null
+    for (let i = 0; i < answers.value.length; i++) {
+        if (answers.value[i].id == data.value.official_document_id) {
+            answer = answers.value[i]
+        }
+    }
+
+    console.error(answer)
+
+    if(answer == null){
+        return null
+    }
+
+    return answer.message
+})
+
 onMounted(async () => {
     let response = await getInstitutions()
     institutions.value = response.data
+
+    response = await getAllNeedReply()
+    answers.value = response.data
+
+    console.error(answers.value)
 });
 
 async function submit() {
@@ -41,6 +66,9 @@ async function submit() {
             console.log("Missing Data: " + neededData.value[i])
             return
         }
+    }
+    if (data.answer_id == "") {
+        data.answer_id = null
     }
     //gib in der console das Feld mit der File aus
     console.log(data.value)
@@ -115,15 +143,28 @@ function makeFileToBinary(event) {
             <label for="file_type">Dateityp</label>
             <input type="text" id="file_type" v-model="data.file_type" disabled>
         </div>
-        <div class="isanswer">
+        <div class="isanswer" v-if="answers.length != 0">
             <label for="isanswer">Ist Antwort</label>
             <input type="checkbox" id="isanswer" v-model="data.isanswer">
             {{ data.isanswer }}
         </div>
-        <div class="answer_id">
+        <div class="answer_id" v-if="answers.length != 0">
+            <label for="answer_id">Antwort an </label>
+            <select id="answer_id" v-model="data.official_document_id" :disabled="!data.isanswer">
+                <option value="">Keine</option>
+                <option v-for="answer in answers" :key="answer.id" :value="answer.id">
+                    {{ answer.title }}
+                </option>
+            </select>
+        </div>
+        <div class="already_replied warning small" v-if="answer != null">
+            There is already a reply to this document!
+        </div>
+
+        <!--<div class="answer_id" v-if="answers.length != 0">
             <label for="answer_id">Antwort ID</label>
             <input type="text" id="answer_id" v-model="data.answer_id" :disabled="!data.isanswer">
-        </div>
+        </div>-->
         <button type="submit" v-if="institutions">Submit</button>
     </form>
 </template>

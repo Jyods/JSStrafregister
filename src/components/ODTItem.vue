@@ -156,6 +156,7 @@ async function animation() {
 
 <template>
     <div class="column" @click="isExpandet = !isExpandet">
+        <p class="warning small" v-if="props.thing.isanswer == 1">Dieses Dokument ist eine Antwort</p>
         <p><strong>{{ props.thing.title }}</strong></p>
         <p>{{ props.thing.description }}</p>
         <p>{{ props.thing.file }}</p>
