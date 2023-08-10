@@ -88,6 +88,14 @@ function makeFileToBinary(event) {
         return
     }
 
+    //überprüfe ob die Datei nicht zu groß ist, 10MB
+    if (event.target.files[0].size > 10000000) {
+        alert("Datei zu groß")
+        event.target.value = null
+        return
+    }
+
+
     data.value.file = event.target.files[0]
 
     // setzte den Dateityp
