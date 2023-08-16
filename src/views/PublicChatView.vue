@@ -7,6 +7,8 @@
 
     const text = ref("");
 
+    const more = ref(true);
+
     import Pusher from 'pusher-js';
 
     const pusher = new Pusher('2510f8aea0961630d9af', {
@@ -27,11 +29,23 @@
     onMounted(async () => {
         let response = await getAllchat()
         data.value = response.data
+        console.log(data.value.length)
+        try  {
+            if (data.value[data.value.length - 1].id == 1 || data.value.length < 10) {
+                more.value = false
+            }
+        }
+        catch (e) {
+            more.value = false
+        }
     })
 
     async function get10more() {
         let response = await getAllchat(data.value[data.value.length - 1].id)
         data.value = data.value.concat(response.data)
+        if (data.value[data.value.length - 1].id == 1) {
+            more.value = false
+        }
     }
 
     async function store() {
@@ -45,12 +59,12 @@
 </script>
 <template>
     <div class="center">
-        <button @click="get10more">Get 10 more</button>
         <div class="chat__wrapper">
             <PublicChat v-for="chat in data" :chatdata="chat"/>
+            <button @click="get10more" v-if="more" class="last_item">Get 10 more</button>
         </div>
         <div class="newMessage">
-            <input type="text" placeholder="Message" v-model="text" />
+            <input type="text" placeholder="Message" v-model="text" @keyup.enter="store"/>
             <button @click="store">Send</button>
         </div>
     </div>
@@ -73,5 +87,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 20px;
+}
+.last_item {
+    align-self: center;
+    /*Tabstop 1*/
+    order: 1;
+}
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin-top: 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    resize: none;
 }
 </style>

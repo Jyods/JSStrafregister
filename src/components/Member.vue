@@ -46,6 +46,8 @@ const changedSomething = ref(false)
 
 const isLoading = ref(false)
 
+const showPermissions = ref(false)
+
 function changeActiv(memberID) {
     emit('changeActiv', memberID)
 }
@@ -133,6 +135,15 @@ onMounted(() => {
           <p class="star-wars-info">Einheit: {{ member.rank.unit }}</p>
           <p class="star-wars-info">Rank: {{ member.rank.rank }}</p>
           <p class="star-wars-info">Eintritt: {{ member.entry }}</p>
+          <p @click="showPermissions = !showPermissions" v-if="!showPermissions">Permissions [Ausklappen]</p>
+          <p @click="showPermissions = !showPermissions" v-else>Permissions [Einklappen]</p>
+          <div class="star-wars-permissions" v-if="showPermissions">
+            <p class="star-wars-info">Allchat: {{ member.permissions.permission_allchat }}</p>
+            <p class="star-wars-info">Brodcaster: {{ member.permissions.permission_broadcaster }}</p>
+            <p class="star-wars-info">Creator: {{ member.permissions.permission_creator }}</p>
+            <p class="star-wars-info">Recruiter: {{ member.permissions.permission_recruiter }}</p>
+            <p class="star-wars-info">Register: {{ member.permissions.permission_register }}</p>
+          </div>
           <div class="star-wars-btn">
             <button @click="editMember = true">Edit</button>
           </div>
@@ -152,6 +163,15 @@ onMounted(() => {
               <option v-for="rank in ranksOfUnit" :key="rank.id" :value="rank">{{ rank.rank }}</option>
             </select></p>
           <p class="star-wars-info">Eintritt: <input type="date" v-model="member.entry" disabled></p>
+          <p @click="showPermissions = !showPermissions" v-if="!showPermissions">Permissions [Ausklappen]</p>
+          <p @click="showPermissions = !showPermissions" v-else>Permissions [Einklappen]</p>
+          <div class="star-wars-permissions" v-if="showPermissions">
+            <p class="star-wars-info">Allchat: <input type="checkbox" v-model="member.permissions.permission_allchat"> </p>
+            <p class="star-wars-info">Brodcaster: <input type="checkbox" v-model="member.permissions.permission_broadcaster"></p>
+            <p class="star-wars-info">Creator: <input type="checkbox" v-model="member.permissions.permission_creator"></p>
+            <p class="star-wars-info">Recruiter: <input type="checkbox" v-model="member.permissions.permission_recruiter"></p>
+            <p class="star-wars-info">Register: <input type="checkbox" v-model="member.permissions.permission_register"></p>
+          </div>
           <div class="star-wars-btn">
             <button @click="editMember = false">Abort</button>
             <button :disabled="isLoading" @click="save">Save</button>
@@ -232,6 +252,11 @@ onMounted(() => {
   
     .star-wars-btn button:hover {
       background-color: #ffd300; /* Brighter Yellow on hover */
+    }
+
+    .star-wars-permissions {
+      margin: 5px;
+      color: var(--main-text-color);
     }
   </style>
   

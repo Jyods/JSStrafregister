@@ -75,6 +75,15 @@ function addMember() {
             rank: "Private",
             unit: "Clone Army"
         },
+        permissions: {
+            'permission_register': true,
+            'permission_creator': true,
+            'permission_recruiter': true,
+            'permission_broadcaster': true,
+            'permission_admin': true,
+            'permission_superadmin': true,
+            'permission_allchat': true,
+        }
     })
     }
     else {
