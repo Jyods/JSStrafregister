@@ -9,6 +9,8 @@
 
     const more = ref(true);
 
+    const isLoading = ref(true);
+
     import Pusher from 'pusher-js';
 
     const pusher = new Pusher('2510f8aea0961630d9af', {
@@ -38,6 +40,7 @@
         catch (e) {
             more.value = false
         }
+        isLoading.value = false
     })
 
     async function get10more() {
@@ -58,7 +61,10 @@
     }
 </script>
 <template>
-    <div class="center">
+    <div class="loading" v-if="isLoading">
+        <img src="../assets/Loading.svg" alt="loading"/>
+    </div>
+    <div class="center" v-else>
         <div class="chat__wrapper">
             <PublicChat v-for="chat in data" :chatdata="chat"/>
             <button @click="get10more" v-if="more" class="last_item">Get 10 more</button>

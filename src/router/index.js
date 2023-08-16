@@ -10,7 +10,7 @@ import AdminMemberView from '../views/AdminMemberView.vue'
 import CreateView from '../views/CreateView.vue'
 import CreateEntry from '../components/CreateEntry.vue'
 import LawView from '../views/LawView.vue'
-import LawArticle from '../views/LawArticle.vue'
+import LawArticle from '../views/LawArticleView.vue'
 import ErrorView from '../views/ErrorView.vue'
 import Test from '../views/Test.vue'
 import PublicCaseView from '../views/PublicCaseView.vue'
@@ -59,19 +59,12 @@ const router = createRouter({
           path: '/articles',
           name: 'Law',
           component: LawView,
-          children: [
-            {
-              path: '/{ArticleID}',
-              name: 'LawArticle',
-              component: LawView ,
-              props: (route) => ({ ArticleID: route.query.ArticleID }),
-            },
-            {
-              path: '',
-              name: 'LawHome',
-              component: LawView,
-            }
-          ]
+        },
+        {
+          path: '/article',
+          name: 'LawArticle',
+          component: LawArticle ,
+          props: (route) => ({ ArticleID: route.query.ArticleID }),
         },
         {
           path: '/chat',

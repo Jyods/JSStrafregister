@@ -10,9 +10,15 @@ const props = defineProps({
 
 const erstellt = ref("")
 
+const formatted = ref(false) 
+
 onMounted(() => {
     console.log("Chatdata: ", props.chatdata)
-    props.chatdata.created_at = formatDate()
+    //überprüfen ob datum schon formatiert wurde
+    if (formatted.value) {
+        return
+    }
+    formatDate()
 })
 
 function formatDate() {
@@ -28,7 +34,7 @@ function formatDate() {
     let time = date.substring(11, 16)
     erstellt.value = day + "." + month + "." + year + " - " + time
     console.log(erstellt.value)
-    return day + "." + month + "." + year + " - " + time
+    formatted.value = true
 }
 
 </script>

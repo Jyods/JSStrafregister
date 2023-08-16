@@ -20,21 +20,19 @@ const category = ref("")
 const severity = ref("")
 const description = ref("")
 
+const isLoading = ref(true)
+
+
+
 const searchParams = new URLSearchParams(window.location.search);
 const lawID = searchParams.get('ArticleID');
 const mode = ref(false)
 
 onMounted(async() => {
-
-    console.log(router)
-
-mode.value = lawID != null ? true : false
-console.error(mode.value)
-await getLaw()
-})
-
-onUpdated(async() => {
-    console.log("updated")
+    mode.value = lawID != null ? true : false
+    console.error(mode.value)
+    await getLaw()
+    isLoading.value = false
 })
 
 async function getLaw() {
@@ -58,15 +56,17 @@ async function getLaw() {
 
 function gotoLaw(id) {
     mode.value = true
-    window.location.href = "/articles?ArticleID=" + id
+    router.push({name: 'LawArticle', query: {ArticleID: id}})
 }
 
 </script>
 
 <template>
-    <div class="law_wrapper">
+    <div class="loading" v-if="isLoading">
+        <img src="../assets/Loading.svg" alt="loading"/>
+    </div>
+    <div class="law_wrapper" v-else>
             <div class="info">
-                <div class="" v-if="!mode">
                 <div v-for="law in laws" class="law__wrapper">
                     <div class="law__content">
                         <h2>{{law.Title}}</h2>
@@ -76,13 +76,6 @@ function gotoLaw(id) {
                         <button @click="gotoLaw(law.id)" class="button_goto">Mehr</button>
                     </div>
                 </div>
-                </div>
-                <div v-else class="law__solo">
-                    <h2>{{title}}</h2>
-                    <p>Paragraph: §{{ paragraph }} {{category}}</p>
-                    <p>Kategorie: {{severity}}</p>
-                    <p class="desc">Beschreibung: {{description}}</p>
-                </div>  
         </div>
     </div>
 </template>
