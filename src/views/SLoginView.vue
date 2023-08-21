@@ -24,7 +24,7 @@ import messageHandler from '../components/SmessageHandler.vue'
         isLoading.value = true
         document.title = 'Loading'
         if (await auth() == true) {
-            router.push({ name: 'Home'})
+            router.push({ name: 'Index'})
         }
         document.title = 'Strafregister'
         isLoading.value = false
@@ -48,7 +48,7 @@ import messageHandler from '../components/SmessageHandler.vue'
             }
             console.warn("Login successful")
             document.title = 'Redirect...'
-            router.push({ name: 'Home'})
+            router.push({ name: 'Index'})
         }
         else {
             //play sound ../assets/sounds/error.mp3

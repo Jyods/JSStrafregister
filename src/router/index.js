@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { auth } from '../api/requests.js'
+import IndexView from '../views/IndexView.vue'
+import StrafregisterView from '../views/StrafregisterView.vue'
 import HomeView from '../views/SHomeView.vue'
 import CaseView from '../views/SCaseView.vue'
 import MainView from '../views/SMainView.vue'
@@ -25,54 +27,59 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'Index',
+      component: IndexView,
+    },
+    {
+      path: '/justice',
       name: 'home',
       component: MainView,
       children: [
         {
-          path: '',
+          path: '/justice',
           name: 'Home',
           component: HomeView
         },
         {
-          path: '/entry',
+          path: '/justice/entry',
           name: 'Entry',
           component: EntryView,
           props: (route) => ({ EntryID: route.query.EntryID }),
         },
         {
-          path: '/member',
+          path: '/justice/member',
           name: 'Member',
           component: MemberView,
           props: (route) => ({ MemberID: route.query.MemberID }),
         },
         {
-          path: '/adminmember',
+          path: '/justice/adminmember',
           name: 'AdminMember',
           component: AdminMemberView,
         },
         {
-          path: '/brodcast',
+          path: '/justice/brodcast',
           name: 'Brodcast',
           component: BrodcastView,
         },
         {
-          path: '/articles',
+          path: '/justice/articles',
           name: 'Law',
           component: LawView,
         },
         {
-          path: '/article',
+          path: '/justice/article',
           name: 'LawArticle',
           component: LawArticle ,
           props: (route) => ({ ArticleID: route.query.ArticleID }),
         },
         {
-          path: '/chat',
+          path: '/justice/chat',
           name: 'Chat',
           component: PublicChatView,
         },
         {
-          path: '/odt',
+          path: '/justice/odt',
           name: 'ODT',
           component: ODTView,
           children: [
@@ -87,10 +94,10 @@ const router = createRouter({
               component: ODTNew,
             },
             {
-              path: '{ODTID}',
+              path: ':ODTID',
               name: 'ODTID', 
               component: ODTList,
-              props: (route) => ({ ODTID: route.query.ODTID }),
+              props: true,
             },
           ]
         },
@@ -167,7 +174,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   //check if the website isnt error page
-  console.log(to.path)
+  console.log(to.name)
   /*if (to.path.startsWith('/shared/')) {
     next()
   }*/

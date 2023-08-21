@@ -19,6 +19,10 @@ function sendMessage() {
     }
 }
 
+onMounted(async() => {
+    console.log("Broadcast View")
+})
+
 </script>
 
 <template>
