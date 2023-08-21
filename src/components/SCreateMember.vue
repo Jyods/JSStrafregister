@@ -1,5 +1,5 @@
 <script setup>
-import Info from './Tooltip.vue'
+import Info from './STooltip.vue'
 import { ref, onMounted, computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { auth,  } from '../api/requests.js'

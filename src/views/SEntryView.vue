@@ -1,7 +1,7 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue';
     import { getEntry,getFiles } from '../api/requests';
-    import FileLink from '../components/FileLink.vue';
+    import FileLink from '../components/SFileLink.vue';
   
     const searchParams = new URLSearchParams(window.location.search);
     const entryID = searchParams.get('EntryID');

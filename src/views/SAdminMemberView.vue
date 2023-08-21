@@ -2,8 +2,8 @@
     import { ref, onMounted, computed } from 'vue'
     import { RouterLink, RouterView, useRouter } from 'vue-router'
     import { getMembers, createUser, getPermissions, switchActive, getRanks, getCurrentUser } from '../api/requests.js'
-    import Member from '../components/Member.vue'
-    import CreateMember from '../components/CreateMember.vue'
+    import Member from '../components/SMember.vue'
+    import CreateMember from '../components/SCreateMember.vue'
 
     const isLoading = ref(true)
     const members = ref([])

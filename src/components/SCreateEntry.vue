@@ -1,8 +1,8 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue'
     import {getOnlyEntries, createFile, createEntry, createFileLaw, getLaws,getPermissions, getRanks} from '../api/requests.js'
-    import Article from '../components/Article.vue'
-    import Tooltip from '../components/Tooltip.vue'
+    import Article from '../components/SArticle.vue'
+    import Tooltip from '../components/STooltip.vue'
 
     const isLoading = ref(true)
 

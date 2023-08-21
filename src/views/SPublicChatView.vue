@@ -1,6 +1,6 @@
 <script setup>
     import { ref, onMounted } from 'vue'
-    import PublicChat from '../components/PublicChat.vue';
+    import PublicChat from '../components/SPublicChat.vue';
     import { getAllchat, storeAllchat } from '../api/requests.js'
 
     const data = ref({});

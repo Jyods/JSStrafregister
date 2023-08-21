@@ -1,9 +1,9 @@
 <script setup>
   import { ref, onMounted, onBeforeUpdate, onBeforeMount } from 'vue'
   import { RouterLink, RouterView, useRouter } from 'vue-router'
-  import messageHandler from './components/messageHandler.vue'
-  import MajorMessage from './components/MajorMessage.vue'
-  import MinorMessage from './components/message.vue'
+  import messageHandler from './components/SmessageHandler.vue'
+  import MajorMessage from './components/SMajorMessage.vue'
+  import MinorMessage from './components/Smessage.vue'
 
   const isPublicRoute = ref(false)
 

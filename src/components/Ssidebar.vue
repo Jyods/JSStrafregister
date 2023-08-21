@@ -3,7 +3,7 @@ import { RouterLink, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { getPermissions } from '../api/requests.js'
 import {logout } from '../api/requests.js'
-import Navbar from './navbar.vue'
+import Navbar from './Snavbar.vue'
 
 const permissions = ref([])
 

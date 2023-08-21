@@ -1,7 +1,7 @@
 <script setup>
   import { ref, onMounted } from 'vue'
-  import navbar from '../components/navbar.vue'
-  import sidebar from '../components/sidebar.vue'
+  import navbar from '../components/Snavbar.vue'
+  import sidebar from '../components/Ssidebar.vue'
   import { RouterLink, RouterView } from 'vue-router'
   import { auth } from '../api/requests.js'
 

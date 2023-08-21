@@ -1,5 +1,5 @@
 <script setup>
-import message from './message.vue'
+import message from './Smessage.vue'
 import { ref, onMounted, onBeforeMount } from 'vue'
 
 const props = defineProps({

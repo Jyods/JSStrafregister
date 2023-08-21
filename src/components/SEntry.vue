@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import Fall from './Case.vue'
+import Fall from './SCase.vue'
 
 const props = defineProps({
     entry: {

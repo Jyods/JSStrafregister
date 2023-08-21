@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import { getODT } from '../api/requests.js'
-import ODTItem from './ODTItem.vue'; 
+import ODTItem from './SODTItem.vue'; 
 
 const odts = ref(null);
 

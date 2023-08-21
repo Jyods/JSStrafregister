@@ -2,7 +2,7 @@
 import { ref, onMounted, onBeforeMount } from 'vue'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 import { authenticateUser, auth } from '../api/requests.js'
-import messageHandler from '../components/messageHandler.vue'
+import messageHandler from '../components/SmessageHandler.vue'
 
     const router = useRouter()
 
