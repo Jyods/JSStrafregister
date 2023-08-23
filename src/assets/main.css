@@ -8,10 +8,26 @@
     background-color: rgb(99, 0, 0);
   }
 
-  center {
+  .center {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .rows {
+    flex-direction: row;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
   }
 
   a {
@@ -45,4 +61,8 @@
 
   .small {
     font-size: 0.8rem;
+  }
+  
+  .main-margin {
+    margin: 80px 10%;
   }

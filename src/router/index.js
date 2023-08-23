@@ -21,6 +21,7 @@ import ODTView from '../views/SODTView.vue'
 import ODTList from '../components/SODTList.vue'
 import ODTNew from '../components/SODTNew.vue'
 import PublicChatView from '../views/SPublicChatView.vue'
+import LogisticsView from '../views/LogisticsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,11 +30,17 @@ const router = createRouter({
       path: '/',
       name: 'Index',
       component: IndexView,
+      meta: {
+        requiresAuth: true
+      },
     },
     {
       path: '/justice',
       name: 'home',
       component: MainView,
+      meta: {
+        requiresAuth: true
+      },
       children: [
         {
           path: '/justice',
@@ -140,26 +147,46 @@ const router = createRouter({
         },
       ]
     },
+    {
+      path: '/logistics',
+      name: 'Logistics',
+      component: LogisticsView,
+      meta: {
+        requiresAuth: false
+      },
+    },
     //create a new route for the login page but test if the user is already logged in
     {
       path: '/login',
       name: 'Login',
       component: LoginView,
+      meta: {
+        requiresAuth: false
+      }
     },
     {
       path: '/shared/:id',
       name: 'Public',
       component: PublicCaseView,
+      meta: {
+        requiresAuth: false
+      }
     },
     {
       path: '/error',
       name: 'Error',
       component: ErrorView,
+      meta: {
+        requiresAuth: false
+      }
     },
     {
       path: '/test',
       name: 'Test',
       component: Test,
+      meta: {
+        requiresAuth: false
+      }
     },
     { 
       path: '/:catchAll(.*)', 
@@ -173,28 +200,22 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  //check if the website isnt error page
+
   console.log(to.name)
-  /*if (to.path.startsWith('/shared/')) {
-    next()
-  }*/
-  if (to.name !== 'Error' && to.name !== 'Test' && to.name !== 'PathNotFound') {
-    const isAuthenticated = await auth() // Hier können Sie Ihre eigene Authentifizierungsfunktion implementieren
-    
-    if (to.path.startsWith('/shared/') || to.path.startsWith('/error')) {
-      next()
-    }
-    
-    if (to.name !== 'Login' && !isAuthenticated) {
-      //TODO: Add check if the User is still active
-      next({ name: 'Login' })
-    } else {
-      console.log(to.path.startsWith('/shared/'))
-      next()
-    }
+
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (!requiresAuth) {
+    console.warn('no auth required')
+    next();
+    return;
   }
-  else {
-    console.log('error page')
+
+  const isAuthenticated = await auth()
+  
+  if (!isAuthenticated) {
+    next({ name: 'Login' })
+  } else {
     next()
   }
 })
