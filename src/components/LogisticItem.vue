@@ -1,5 +1,7 @@
 <script setup>
-import { onMounted, ref, defineProps } from 'vue'
+import { onMounted, ref, defineProps, computed } from 'vue'
+import IconArrowDown from './icons/IconArrowDown.vue';
+import IconArrowUp from './icons/IconArrowUp.vue';
 
 const props = defineProps({
     title: {
@@ -32,6 +34,13 @@ const props = defineProps({
     }
 });
 
+const realStock = computed(() => {
+    if(props.inStock - props.inUse < 0) {
+        return 0;
+    }
+    return props.inStock - props.inUse;
+});
+
 const expanded = ref(false);
 
 
@@ -40,38 +49,52 @@ const expanded = ref(false);
 
 
 <template>
-    <div class="wrapper" @click="expanded = !expanded">
+    <div class="cool" @click="expanded = !expanded">
 
-        <div class="expanded " v-if="expanded">
-            <h1>{{ props.title }}</h1>
-            {{ props.description }}
-            {{ props.image }}
-            <p class="inStock">
-                In Stock: {{ props.inStock }}
-            </p>
-            <p class="ordered">
-                In Order: {{ props.ordered }}
-            </p>
-            <p class="inUse">
-                In Use: {{ props.inUse }}
-            </p>
-            <p class="price">
-                Preis pro Strück: {{ props.price }}
-            </p>
-        </div>
-        <div class="center flex" v-else>
-            {{ props.title }}
-            {{ props.description }}
-            {{ props.image }}
-            <div class="row">
+        <div class="expanded" v-if="expanded">
+            <div class="header-grid">
+                <p class="title nice grid-1-1">
+                    {{ props.title }}
+                </p>
+                <p class="arrowDown grid-3-1">
+                    <IconArrowUp class="grid-3-1"/>
+                </p>
+            </div>
+                <p class="description">
+                    {{ props.description }}
+                </p>
                 <p class="inStock">
-                    {{ props.inStock }}
+                    In Stock: {{ realStock }} ({{ props.inStock }})
                 </p>
                 <p class="ordered">
-                    ({{ props.ordered }})
+                    In Order: {{ props.ordered }}
                 </p>
                 <p class="inUse">
+                    In Use: {{ props.inUse }}
+                </p>
+                <p class="price">
+                    Preis pro Strück: {{ props.price }}
+                </p>
+            </div>
+        <div class="unexpanded grid" v-else>
+            <p class="title grid-1-1">
+                {{ props.title }}
+            </p>
+            <p class="description grid-1-2">
+                {{ props.description }}
+            </p>
+            <p class="arrowDown grid-3-1">
+                <IconArrowDown class="grid-3-1"/>
+            </p>
+            <div class="row grid-3-2">
+                <p class="inStock black">
+                    {{realStock}}
+                </p>
+                <p class="inUse red">
                     {{ props.inUse }}
+                </p>
+                <p class="ordered yellow">
+                    ({{ props.ordered }})
                 </p>
             </div>
         </div>
@@ -79,21 +102,99 @@ const expanded = ref(false);
 </template>
 
 <style scoped>
-
-.wrapper {
-    border: 1px solid black;
-    margin: 10px;
+.cool {
+    width: 100%;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: rgba(0, 247, 255, 0.6);
+    color:aliceblue;
+    border-color: rgb(24, 24, 24);
+    border-style: solid;
+    border-radius: 10px;
+    margin: 2px;
     padding: 10px;
-    min-width: 30%;
-    max-width: 30%;
-    min-height: 10vh;
-    max-height: auto;
-}
-.expanded {
-    min-width: 30%;
-    max-width: 30%;
-    min-height: auto;
+    transition: background-color 0.5s ease;
 }
 
+.nice {
+    font-size: larger;
+    /*font-weight: bold;
+    text-align: center;
+    align-self: center;
+    justify-self: center;*/
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 50px auto max-content;
+    grid-template-rows: 25px 25px;
+    grid-gap: 10px;
+}
+
+.expanded-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 25px auto;
+    grid-gap: 10px;
+}
+
+.header-grid {
+    display: grid;
+    grid-template-columns: 50px auto max-content ;
+    grid-template-rows: 25px;
+    grid-gap: 10px;
+}
+
+.grid-1-1 {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.grid-1-2 {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    font-size: medium;
+}
+
+.grid-3-1 {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+    font-size: medium;
+    height: 15px;
+    width: 15px;
+    text-align: right;
+    align-self: center;
+    justify-self: right;
+}
+
+.grid-3-2 {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    font-size: medium;
+    /*Der text ist am Rand und soll nach links aus verlängert werden */
+    text-align: right;
+}
+
+.grid-3-2 p {
+    margin: 0px 2px;
+    padding: 0;
+}
+
+
+
+.unexpanded {
+    color: white;
+    height: 50px;
+    font-size: larger;
+    overflow: hidden;
+    transition: height 0.5s ease;
+}
+
+.expanded {
+    color: white;
+    height: max-content !important;
+    transition: height 0.5s ease !important;
+    overflow: visible;
+}
 
 </style>
