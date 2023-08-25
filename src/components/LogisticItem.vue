@@ -41,6 +41,13 @@ const realStock = computed(() => {
     return props.inStock - props.inUse;
 });
 
+const shortendDescription = computed(() => {
+    if(props.description.length > 20) {
+        return props.description.substring(0, 20) + "...";
+    }
+    return props.description;
+});
+
 const expanded = ref(false);
 
 
@@ -81,7 +88,7 @@ const expanded = ref(false);
                 {{ props.title }}
             </p>
             <p class="description grid-1-2">
-                {{ props.description }}
+                {{ shortendDescription }}
             </p>
             <p class="arrowDown grid-3-1">
                 <IconArrowDown class="grid-3-1"/>
@@ -126,8 +133,8 @@ const expanded = ref(false);
 
 .grid {
     display: grid;
-    grid-template-columns: 50px auto max-content;
-    grid-template-rows: 25px 25px;
+    grid-template-columns: max-content auto max-content;
+    grid-template-rows: 15px 30px;
     grid-gap: 10px;
 }
 

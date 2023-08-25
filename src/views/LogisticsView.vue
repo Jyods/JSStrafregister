@@ -5,7 +5,7 @@ import LogisticItem from '../components/LogisticItem.vue';
 const items = ref([
     {
         title: "Titel",
-        description: "Lorem ipsum",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae nis lacinia, aliquam nisl quis, aliquam nisl. Nul lamcorper, nisl quis ali quam n iaculis, nisl nisl aliquet nisl, quis aliquam nisl nisl nisl. Nunc nisl nisl, aliquam quis",
         image: "Test",
         inStock: "9",
         ordered: "1",
