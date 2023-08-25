@@ -7,7 +7,7 @@ const items = ref([
         title: "Titel",
         description: "Lorem ipsum",
         image: "Test",
-        inStock: "5",
+        inStock: "9",
         ordered: "1",
         inUse: "9",
         price: "Test"
@@ -16,7 +16,7 @@ const items = ref([
         title: "Titel",
         description: "Lorem ipsum",
         image: "Test",
-        inStock: "2",
+        inStock: "6",
         ordered: "5",
         inUse: "4",
         price: "Test"
@@ -25,7 +25,7 @@ const items = ref([
         title: "Titel",
         description: "Lorem ipsum",
         image: "Test",
-        inStock: "0",
+        inStock: "9",
         ordered: "7",
         inUse: "6",
         price: "Test"
@@ -115,7 +115,7 @@ const items = ref([
         title: "Titel",
         description: "Lorem ipsum",
         image: "Test",
-        inStock: "2",
+        inStock: "100",
         ordered: "33",
         inUse: "90",
         price: "Test"
