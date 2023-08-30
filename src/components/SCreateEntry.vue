@@ -228,13 +228,14 @@
 
     async function crateFileLaws(fileID)
     {
-        console.log(selectedLaws.value)
+        console.log(selectedLaws.value) 
         //run through the selectedLaws and create a new file_law for each
         for (let i = 0; i < selectedLaws.value.length; i++) {
+            let formattedParagraph = selectedLaws.value[i].paragraph.replace("§", "")
             console.log(selectedLaws.value[i])
             let data = {
                 file_id: fileID,
-                paragraph: parseInt(selectedLaws.value[i].paragraph),
+                paragraph: parseInt(formattedParagraph),
             }
             console.log(data)
             await createFileLaw(data)

@@ -45,6 +45,10 @@
     flex-direction: row;
   }
 
+  .columns {
+    flex-direction: column;
+  }
+
   .row {
     display: flex;
     flex-direction: row;
@@ -84,5 +88,9 @@
   }
   
   .main-margin {
-    margin: 80px 10%;
+    margin: 45px 10%;
+  }
+
+  .pointer {
+    cursor: pointer;
   }

@@ -34,8 +34,55 @@ const props = defineProps({
     }
 });
 
+const logistic = ref({
+    name: props.title,
+    description: props.description,
+    image: props.image,
+    stock: props.inStock,
+    ordered: props.ordered,
+    inuse: props.inUse,
+    price: props.price
+});
+
+let storeValues = {
+    name: logistic.value.name,
+    description: logistic.value.description,
+    image: logistic.value.image,
+    stock: logistic.value.stock,
+    ordered: logistic.value.ordered,
+    inuse: logistic.value.inuse,
+    price: logistic.value.price
+}
+
+const checkIfSomeValuesAreDifferent = computed(() => {
+    console.log(storeValues)
+    console.log(logistic.value)
+    if(storeValues.name != logistic.value.name) {
+        return true;
+    }
+    if(storeValues.description != logistic.value.description) {
+        return true;
+    }
+    if(storeValues.image != logistic.value.image) {
+        return true;
+    }
+    if(storeValues.stock != logistic.value.stock) {
+        return true;
+    }
+    if(storeValues.ordered != logistic.value.ordered) {
+        return true;
+    }
+    if(storeValues.inuse != logistic.value.inuse) {
+        return true;
+    }
+    if(storeValues.price != logistic.value.price) {
+        return true;
+    }
+    return false;
+});
+
 const realStock = computed(() => {
-    if(props.inStock - props.inUse < 0) {
+    if(logistic.inStock - logistic.inUse < 0) {
         return 0;
     }
     return props.inStock - props.inUse;
@@ -50,16 +97,25 @@ const shortendDescription = computed(() => {
 
 const expanded = ref(false);
 
+onMounted(() => {
+    storeValues.name = logistic.value.name;
+    storeValues.description = logistic.value.description;
+    storeValues.image = logistic.value.image;
+    storeValues.stock = logistic.value.stock;
+    storeValues.ordered = logistic.value.ordered;
+    storeValues.inuse = logistic.value.inuse;
+    storeValues.price = logistic.value.price;
+});
+
 
 
 </script>
 
 
 <template>
-    <div class="cool pointer" @click="expanded = !expanded">
-
+    <div class="cool">
         <div class="expanded" v-if="expanded">
-            <div class="header-grid">
+            <div class="header-grid pointer"  @click="expanded = !expanded">
                 <p class="title nice grid-1-1">
                     {{ props.title }}
                 </p>
@@ -71,21 +127,31 @@ const expanded = ref(false);
                     {{ props.description }}
                 </p>
                 <p class="inStock">
-                    In Stock: {{ realStock }} ({{ props.inStock }})
+                    In Stock: 
+                    <input type="number" v-model="realStock" min="0" step="1" />
+                     ({{ props.inStock }})
                 </p>
                 <p class="ordered">
                     In Order: {{ props.ordered }}
                 </p>
                 <p class="inUse">
-                    In Use: {{ props.inUse }}
+                    In Use: 
+                <input type="number" v-model="logistic.inuse" min="0" step="1" />
                 </p>
                 <p class="price">
-                    Preis pro Strück: {{ props.price }}
+                    Preis pro Stück: 
+                <input type="number" v-model="logistic.price" min="0" step="1" />
                 </p>
-            </div>
-        <div class="unexpanded grid" v-else>
+
+                <button class="saveButton" @click="save" v-if="checkIfSomeValuesAreDifferent">Save</button>
+
+                <p class="changed">
+                    {{ checkIfSomeValuesAreDifferent }}
+                </p>
+        </div>
+        <div class="unexpanded grid pointer" v-else  @click="expanded = !expanded">
             <p class="title grid-1-1">
-                {{ props.title }}
+                {{ props.title }} 
             </p>
             <p class="description grid-1-2">
                 {{ shortendDescription }}
@@ -146,7 +212,7 @@ const expanded = ref(false);
 
 .header-grid {
     display: grid;
-    grid-template-columns: max-content auto max-content ;
+    grid-template-columns: 50px auto max-content ;
     grid-template-rows: 25px;
     grid-gap: 10px;
 }
@@ -201,6 +267,16 @@ const expanded = ref(false);
     height: max-content !important;
     transition: height 0.5s ease !important;
     overflow: visible;
+}
+
+input {
+    width: auto;
+    height: 20px;
+    border-radius: 5px;
+    border: 1px solid black;
+    text-align: center;
+    margin: 0 5px;
+    z-index: 100;
 }
 
 </style>

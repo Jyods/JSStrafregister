@@ -22,6 +22,7 @@ import ODTList from '../components/SODTList.vue'
 import ODTNew from '../components/SODTNew.vue'
 import PublicChatView from '../views/SPublicChatView.vue'
 import LogisticsView from '../views/LogisticsView.vue'
+import EventleadView from '../views/EventleadView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -155,7 +156,14 @@ const router = createRouter({
         requiresAuth: false
       },
     },
-    //create a new route for the login page but test if the user is already logged in
+    {
+      path: '/eventlead',
+      name: 'Eventlead',
+      component: EventleadView,
+      meta: {
+        requiresAuth: true
+      },
+    },
     {
       path: '/login',
       name: 'Login',
@@ -172,8 +180,9 @@ const router = createRouter({
         requiresAuth: false
       }
     },
+    //erstelle einen Error Pfad der den error code als parameter bekommt
     {
-      path: '/error',
+      path: '/error/:code',
       name: 'Error',
       component: ErrorView,
       meta: {
@@ -211,7 +220,13 @@ router.beforeEach(async (to, from, next) => {
     return;
   }
 
-  const isAuthenticated = await auth()
+  let isAuthenticated = false;
+  try {
+    isAuthenticated = await auth();
+  } catch (e) {
+    console.error(e);
+    next({ name: 'Error', params: { code: 500 } })
+  }
   
   if (!isAuthenticated) {
     next({ name: 'Login' })

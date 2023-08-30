@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUpdated } from 'vue'
 
 const props = defineProps({
     bodyText: {
@@ -7,8 +7,8 @@ const props = defineProps({
         default: 'Oops, something went wrong'
     },
     error: {
-        type: String,
-        default: 'There was an unexpected error'
+        type: Number,
+        default: 404,
     },
     buttonText: {
         type: String,
@@ -19,6 +19,28 @@ const props = defineProps({
         default: '/'
     },
 })
+
+
+const errorText = ref("")
+
+const errors = {
+    404: "Die Seite konnte nicht gefunden werden",
+    403: "Sie haben keine Berechtigung diese Seite zu sehen",
+    500: "Es ist ein Fehler aufgetreten"
+}
+
+onMounted(() => {
+    console.log(props.error)
+    errorText.value = errors[props.error]
+})
+
+onUpdated(() => {
+    console.log(props.error)
+    errorText.value = errors[props.error]
+})
+
+
+
 </script>
 
 <template>
@@ -29,7 +51,7 @@ const props = defineProps({
             </div>
             <div class="error_body">
                 <h1>{{ props.bodyText }}</h1>
-                <p>{{ props.error }}</p>
+                <p>{{ errorText }} ({{ props.error }})</p>
             </div>
             <div class="error_footer">
                 <RouterLink :to="{ name: 'Home'}" class="link">
