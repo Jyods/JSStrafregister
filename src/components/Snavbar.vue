@@ -3,40 +3,49 @@ import { ref, onMounted } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { getCurrentUser, logout } from '../api/requests.js'
 
-  const userInfo = ref([])
+const userInfo = ref([])
 
-  const rank = ref([])
+const rank = ref([])
 
-onMounted(async() => {
+onMounted(async () => {
     //checks if auth has status 200, if true then redirect to home
     const request = await getCurrentUser()
     userInfo.value = request
     rank.value = userInfo.value.rank
     userInfo.value.isActive = userInfo.value.isActive ? "Ja" : "Nein"
-    if (userInfo.value.isActive == "Nein")
-    {
-      await logout()
+    if (userInfo.value.isActive == "Nein") {
+        await logout()
     }
     console.log(userInfo.value)
 })
+
+function getEntryDate(entryDate) {
+    let dateObj = new Date(entryDate);
+
+    let day = dateObj.getUTCDate();
+    let month = dateObj.getUTCMonth() + 1; //months from 1-12
+    let year = dateObj.getUTCFullYear();
+
+    return day + "." + month + "." + year
+}
 //import getUser from '../api/requests.js'
 </script>
 <template>
-        <main>
-          <body>
+    <main>
+        <body>
             <div class="nav">
-              <!--ADD USER INFOS-->
-              <p>Identifikation: {{ userInfo.identification }}</p>
-              <p v-if="true">Rang: {{ rank.rank }} ({{ rank.id }})</p>
-              <!--<p>Aktives Mitglied: {{ userInfo.isActive}}</p>-->
-              <p>Eintritt: {{ userInfo.entry }}</p>
-              <p>Berechtigungsstufe: {{ userInfo.restrictionClass }}</p>
+                <!--ADD USER INFOS-->
+                <p><b>Identifikation:</b> {{ userInfo.identification }}</p>
+                <p v-if="true"><b>Rang:</b> {{ rank.rank }} ({{ rank.id }})</p>
+                <!-- <p>Aktives Mitglied: {{ userInfo.isActive}}</p> -->
+                <p><b>Eintrittsdatum:</b> {{ getEntryDate(userInfo.entry) }}</p>
+                <p><b>Berechtigungsstufe:</b> {{ userInfo.restrictionClass }}</p>
             </div>
-          </body>
-        </main>
+        </body>
+    </main>
 </template>
 <style scoped>
-  .nav {
+.nav {
     margin-left: 200px;
     /*background-color: #6d6d6d;*/
     background-color: rgba(0, 247, 255, 0.7);
@@ -46,5 +55,5 @@ onMounted(async() => {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    }
+}
 </style>
