@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import Fall from './SCase.vue'
+import { switchWarrentState } from '../api/requests.js'
 
 const props = defineProps({
     entry: {
@@ -13,10 +14,32 @@ const extended = ref(false)
 
 onMounted(() => {
     console.log(props.entry)
+    newIsWanted.value = props.entry.isWanted
 })
 
 function extend() {
     extended.value = !extended.value
+}
+
+const newIsWanted = ref(null)
+
+const inProgress = ref(false)
+
+async function switchWarrent() {
+    if (inProgress.value) {
+        return
+    }
+    //frage den User ob er es wirklich machen will
+    const result = confirm("Wollen sie den Haftbefehl wirklich ändern?")
+    if (!result) {
+        return
+    }
+    inProgress.value = true
+    console.log("Switch")
+    await switchWarrentState(props.entry.id)
+    newIsWanted.value = !newIsWanted.value
+    console.log(newIsWanted.value)
+    inProgress.value = false
 }
 </script>
 
@@ -24,6 +47,10 @@ function extend() {
     <div class="wrapper" >
         <div class="entry flex" @click.prevent="extend">
             <h3>{{props.entry.identification}}</h3>
+            <p :class="{isWanted : newIsWanted}">Gesucht: {{ newIsWanted ? "Ja" : "Nein" }}
+            <input type="checkbox" v-if="extended" v-model="newIsWanted" @click="switchWarrent" />
+            <input type="checkbox" v-else v-model="newIsWanted" disabled/>
+            </p>
                 <p><RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="link">
                     <img src="../assets/Arrow.svg" alt="loading" height="15" width="15"/>
                     Redirect
@@ -84,5 +111,9 @@ function extend() {
 .link:hover {
     color: red;
     text-decoration: underline;
+}
+
+.isWanted {
+    color: red;
 }
 </style>

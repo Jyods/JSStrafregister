@@ -51,13 +51,21 @@
         }
     }
 
+    const sending = ref(false)
+
     async function store() {
+        if (sending.value)
+        {
+            return
+        }
+        sending.value = true
         let data = {
             message: text.value
         }
         let response = await storeAllchat(data)
         console.log(response)
         text.value = ""
+        sending.value = false
     }
 </script>
 <template>
@@ -71,7 +79,9 @@
         </div>
         <div class="newMessage">
             <input type="text" placeholder="Message" v-model="text" @keyup.enter="store"/>
-            <button @click="store">Send</button>
+            <button @click="store" :class="{disable_button: !sending}" class="row">
+            Send
+            </button>
         </div>
     </div>
 </template>
@@ -108,5 +118,16 @@ input[type=text] {
     border: 2px solid #ccc;
     border-radius: 4px;
     resize: none;
+}
+.disable_button {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+/*Zentriere den Text im Knopf*/
+button {
+    align-self: center;
+    /*Tabstop 2*/
+    order: 2;
 }
 </style>

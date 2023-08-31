@@ -28,6 +28,16 @@ export async function getEntries() {
     return await response.json();
 }
 
+export async function switchWarrentState(id) {
+    const response = await fetch(`${backend}/entries/switchWanted/${id}`,{
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
 export async function getOnlyEntries() {
     const response = await fetch(`${backend}/entries/onlyEntry`,{
         headers: {
