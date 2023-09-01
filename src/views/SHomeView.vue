@@ -18,13 +18,24 @@
 
   const search = ref('')
 
+  const isWarrent = ref(false)
+
+  //Filtere die Einträge nach dem Suchbegriff und ob isWarrent true ist
+
   const filteredEntries = computed(() => {
     if (!search.value) {
-      return entries.value;
+
+      if (!isWarrent.value) {
+        return entries.value;
+      }
+      //gib alle Einträge zurück die isWarrent true sind
+      return entries.value.filter((entry) => {
+        return entry.isWanted;
+      });
     }
     const searchLower = search.value.toLowerCase();
     return entries.value.filter((entry) => {
-      return entry.identification.toLowerCase().includes(searchLower);
+      return entry.identification.toLowerCase().includes(searchLower) && (!isWarrent.value || entry.isWanted);
     });
   });
 
@@ -39,6 +50,13 @@
     console.log(entries.value)
     isLoading.value = false
   })
+
+  function changewarrent(id) {
+    console.log("Change Warrent")
+    let index = entries.value.findIndex(entries => entries.id == id)
+    entries.value[index].isWanted = !entries.value[index].isWanted
+  }
+
 </script>
 
 <template>
@@ -47,7 +65,13 @@
   </div>
   <div v-else>
     <input type="text" placeholder="Suche" class="search" v-model="search"/>
-    <Entry class="entries" v-for="entry in filteredEntries" :entry="entry" :key="entry.id"/>
+    <!-- Erstelle ein dropdown bei dem der user auswählen kann ob nach isWarrent gefiltert werden kann-->
+    <div class="filter flex" style="justify-content: left;">
+      <!--<p>Filter</p>--> 
+      <input type="checkbox" v-model="isWarrent"/>
+      {{ isWarrent ? "Gesucht" : "Nicht Gesucht" }}
+    </div>
+    <Entry class="entries" v-for="entry in filteredEntries" :entry="entry" :key="entry.id" @changeWarrent="changewarrent"/>
   </div>
 </template>
 
