@@ -12,6 +12,8 @@ const props = defineProps({
 
 const extended = ref(false)
 
+const emit = defineEmits(['changeWarrent'])
+
 onMounted(() => {
     console.log(props.entry)
     newIsWanted.value = props.entry.isWanted
@@ -39,6 +41,7 @@ async function switchWarrent() {
     await switchWarrentState(props.entry.id)
     newIsWanted.value = !newIsWanted.value
     console.log(newIsWanted.value)
+    emit('changeWarrent', props.entry.id)
     inProgress.value = false
 }
 </script>

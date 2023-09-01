@@ -7,12 +7,15 @@ import { getCurrentUser, logout } from '../api/requests.js'
 
   const rank = ref([])
 
+  const formattedDate = ref([])
+
 onMounted(async() => {
     //checks if auth has status 200, if true then redirect to home
     const request = await getCurrentUser()
     userInfo.value = request
     rank.value = userInfo.value.rank
     userInfo.value.isActive = userInfo.value.isActive ? "Ja" : "Nein"
+    formattedDate.value = userInfo.value.entry.split("-").reverse().join(".")
     if (userInfo.value.isActive == "Nein")
     {
       await logout()
@@ -29,7 +32,7 @@ onMounted(async() => {
               <p>Identifikation: {{ userInfo.identification }}</p>
               <p v-if="true">Rang: {{ rank.rank }} ({{ rank.id }})</p>
               <!--<p>Aktives Mitglied: {{ userInfo.isActive}}</p>-->
-              <p>Eintritt: {{ userInfo.entry }}</p>
+              <p>Eintritt: {{ formattedDate }}</p>
               <p>Berechtigungsstufe: {{ userInfo.restrictionClass }}</p>
             </div>
           </body>
