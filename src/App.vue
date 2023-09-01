@@ -4,6 +4,7 @@
   import messageHandler from './components/SmessageHandler.vue'
   import MajorMessage from './components/SMajorMessage.vue'
   import MinorMessage from './components/Smessage.vue'
+  import permissions from './components/scripts/Permissions.vue'
 
   const isPublicRoute = ref(false)
 
@@ -83,6 +84,7 @@
 </script>
 
 <template>
+  <permissions />
     <div v-if="!checkIfPublicRoute()" class="messageHandler">
       <MinorMessage class="notification_item" v-for="message in minorMessages" :key="message.id" :message="message" @removeItem="deleteFromMinorMessages"/>
     </div>
