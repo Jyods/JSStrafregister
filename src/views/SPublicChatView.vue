@@ -54,7 +54,7 @@
     const sending = ref(false)
 
     async function store() {
-        if (sending.value)
+        if (sending.value || text.value.length == 0)
         {
             return
         }
@@ -79,7 +79,7 @@
         </div>
         <div class="newMessage">
             <input type="text" placeholder="Message" v-model="text" @keyup.enter="store"/>
-            <button @click="store" :class="{disable_button: !sending}" class="row">
+            <button @click="store" :class="{disable_button: sending || text.length == 0}" class="row">
             Send
             </button>
         </div>

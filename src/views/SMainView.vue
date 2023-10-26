@@ -29,7 +29,7 @@
   background-position: center;
   background-size: contain;
   position: absolute;
-  width: 90%;
+  width: 77%;
   height: 100%;
   z-index: -1;
 }
