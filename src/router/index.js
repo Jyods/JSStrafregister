@@ -1,63 +1,112 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { auth } from '../api/requests.js'
-import HomeView from '../views/HomeView.vue'
-import CaseView from '../views/CaseView.vue'
-import MainView from '../views/MainView.vue'
-import LoginView from '../views/LoginView.vue'
-import EntryView from '../views/EntryView.vue'
-import MemberView from '../views/MemberView.vue'
-import AdminMemberView from '../views/AdminMemberView.vue'
-import CreateView from '../views/CreateView.vue'
-import CreateEntry from '../components/CreateEntry.vue'
-import LawView from '../views/LawView.vue'
-import LawArticle from '../views/LawArticle.vue'
+import IndexView from '../views/IndexView.vue'
+import StrafregisterView from '../views/StrafregisterView.vue'
+import HomeView from '../views/SHomeView.vue'
+import CaseView from '../views/SCaseView.vue'
+import MainView from '../views/SMainView.vue'
+import LoginView from '../views/SLoginView.vue'
+import EntryView from '../views/SEntryView.vue'
+import MemberView from '../views/SMemberView.vue'
+import AdminMemberView from '../views/SAdminMemberView.vue'
+import CreateView from '../views/SCreateView.vue'
+import CreateEntry from '../components/SCreateEntry.vue'
+import LawView from '../views/SLawView.vue'
+import LawArticle from '../views/SLawArticleView.vue'
 import ErrorView from '../views/ErrorView.vue'
+import Test from '../views/Test.vue'
+import PublicCaseView from '../views/SPublicCaseView.vue'
+import BrodcastView from '../views/SBrodcastView.vue'
+import ODTView from '../views/SODTView.vue'
+import ODTList from '../components/SODTList.vue'
+import ODTNew from '../components/SODTNew.vue'
+import PublicChatView from '../views/SPublicChatView.vue'
+import LogisticsView from '../views/LogisticsView.vue'
+import EventleadView from '../views/EventleadView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
+      name: 'Index',
+      component: IndexView,
+      meta: {
+        requiresAuth: true
+      },
+    },
+    {
+      path: '/justice',
       name: 'home',
       component: MainView,
+      meta: {
+        requiresAuth: true
+      },
       children: [
         {
-          path: '',
+          path: '/justice',
           name: 'Home',
           component: HomeView
         },
         {
-          path: '/entry',
+          path: '/justice/entry',
           name: 'Entry',
           component: EntryView,
           props: (route) => ({ EntryID: route.query.EntryID }),
         },
         {
-          path: '/member',
+          path: '/justice/member',
           name: 'Member',
           component: MemberView,
           props: (route) => ({ MemberID: route.query.MemberID }),
         },
         {
-          path: '/adminmember',
+          path: '/justice/adminmember',
           name: 'AdminMember',
           component: AdminMemberView,
         },
         {
-          path: '/articles',
+          path: '/justice/brodcast',
+          name: 'Brodcast',
+          component: BrodcastView,
+        },
+        {
+          path: '/justice/articles',
           name: 'Law',
           component: LawView,
+        },
+        {
+          path: '/justice/article',
+          name: 'LawArticle',
+          component: LawArticle ,
+          props: (route) => ({ ArticleID: route.query.ArticleID }),
+        },
+        {
+          path: '/justice/chat',
+          name: 'Chat',
+          component: PublicChatView,
+        },
+        {
+          path: '/justice/odt',
+          name: 'ODT',
+          component: ODTView,
           children: [
             {
-              path: '/{ArticleID}',
-              component: LawArticle ,
-              props: (route) => ({ ArticleID: route.query.ArticleID }),
+              path: '',
+              name: 'ODTHome',
+              component: ODTList,
             },
             {
-              path: '',
-              name: 'LawHome',
-              component: LawArticle,
-            }
+              path: 'new',
+              name: 'ODTNew',
+              component: ODTNew,
+            },
+            {
+              path: ':ODTID',
+              name: 'ODTID', 
+              component: ODTList,
+              props: true,
+            },
           ]
         },
         {
@@ -99,16 +148,54 @@ const router = createRouter({
         },
       ]
     },
-    //create a new route for the login page but test if the user is already logged in
+    {
+      path: '/logistics',
+      name: 'Logistics',
+      component: LogisticsView,
+      meta: {
+        requiresAuth: false
+      },
+    },
+    {
+      path: '/eventlead',
+      name: 'Eventlead',
+      component: EventleadView,
+      meta: {
+        requiresAuth: true
+      },
+    },
     {
       path: '/login',
       name: 'Login',
       component: LoginView,
+      meta: {
+        requiresAuth: false
+      }
     },
     {
-      path: '/error',
+      path: '/shared/:id',
+      name: 'Public',
+      component: PublicCaseView,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    //erstelle einen Error Pfad der den error code als parameter bekommt
+    {
+      path: '/error/:code',
       name: 'Error',
       component: ErrorView,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: Test,
+      meta: {
+        requiresAuth: false
+      }
     },
     { 
       path: '/:catchAll(.*)', 
@@ -122,19 +209,28 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  //check if the website isnt error page
+
   console.log(to.name)
-  if (to.name !== 'Error') {
-    const isAuthenticated = await auth() // Hier können Sie Ihre eigene Authentifizierungsfunktion implementieren
-    if (to.name !== 'Login' && !isAuthenticated) {
-      //TODO: Add check if the User is still active
-      next({ name: 'Login' })
-    } else {
-      next()
-    }
+
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+  if (!requiresAuth) {
+    console.warn('no auth required')
+    next();
+    return;
   }
-  else {
-    console.log('error page')
+
+  let isAuthenticated = false;
+  try {
+    isAuthenticated = await auth();
+  } catch (e) {
+    console.error(e);
+    next({ name: 'Error', params: { code: 500 } })
+  }
+  
+  if (!isAuthenticated) {
+    next({ name: 'Login' })
+  } else {
     next()
   }
 })

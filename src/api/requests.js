@@ -1,4 +1,5 @@
-const backend = 'https://home-5013253951.app-ionos.space/public/api';
+const backend = 'https://home-5013253951.app-ionos.space/public/api/strafregister';
+// const backend = "http://jsstrafregisterbackend.test/api/strafregister"
 
 export async function getFiles() {
     const response = await fetch(`${backend}/files`,{
@@ -20,6 +21,16 @@ export async function getCase(CaseID) {
 
 export async function getEntries() {
     const response = await fetch(`${backend}/entries/index`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function switchWarrentState(id) {
+    const response = await fetch(`${backend}/entries/switchWanted/${id}`,{
+        method: 'POST',
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -144,6 +155,12 @@ export async function auth() {
         return false;
     }
 
+    if (response.status === 503) {
+        localStorage.removeItem('token');
+        console.log("Token removed")
+        return false;
+    }
+
     if(response.status === 401) {
         localStorage.removeItem('token');
         console.log("Token removed")
@@ -256,6 +273,129 @@ export async function editUser(data) {
         body: JSON.stringify(data)
     });
     console.log(data)
+    return await response.json();
+}
+
+export async function publishCase(id) {
+    console.warn(id)
+    const response = await fetch(`${backend}/publish/case/id/${id}`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function getPublishedCase(route) {
+    const response = await fetch(`${backend}/publish/case/route/${route}`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function deletePublishedCase(id) {
+    const response = await fetch(`${backend}/publish/case/id/${id}`,{
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return response.json();
+}
+
+export async function sendMinorMessage(data) {
+    const response = await fetch(`${backend}/event/minor`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
+export async function sendMajorMessage(data) {
+    const response = await fetch(`${backend}/event/major`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
+export async function getODT() {
+    const response = await fetch(`${backend}/odt`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function storeODT(data) {
+    const response = await fetch(`${backend}/odt`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
+export async function getInstitutions() {
+    const response = await fetch(`${backend}/institution`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function getAllchat(from = "")
+{
+    if (from != "")
+    {
+        const response = await fetch(`${backend}/allchat/${from}`,{
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                });
+        return await response.json();
+    }
+    const response = await fetch(`${backend}/allchat`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function storeAllchat(data) {
+    const response = await fetch(`${backend}/allchat`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
+export async function getAllNeedReply() {
+    const response = await fetch(`${backend}/odtreply`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
     return await response.json();
 }
 

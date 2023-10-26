@@ -82,7 +82,6 @@ jobs:
           for file in `grep -rl 'https://IONOS_DEPLOY_NOW_SITE_URL' .`; do
             sed -i $file -e 's|https://IONOS_DEPLOY_NOW_SITE_URL|${{ fromJson(steps.deployment.outputs.info).site-url }}|g'
           done
-
       - name: Render SSH user secret name
         run: echo SSH_USERNAME_SECRET=IONOS_DEPLOYMENT_`echo ${{ matrix.deployment-id }} | tr '[:lower:]' '[:upper:]' | tr '-' '_'`_SSH_USERNAME >> $GITHUB_ENV
 
