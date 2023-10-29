@@ -77,17 +77,17 @@ const props = defineProps({
 })
 
 //Importiere alle ODT SVGs
-import IconBranching from '../components/icons/IconBranching.vue';
-import IconCompany from '../components/icons/IconCompany.vue';
-import IconEmail from '../components/icons/IconEmail.vue';
-import IconEmailInfo from '../components/icons/IconEmailInfo.vue';
-import IconError from '../components/icons/IconError.vue';
-import IconMissing from '../components/icons/IconMissing.vue';
-import IconProcess from '../components/icons/IconProcess.vue';
-import IconUsercheck from '../components/icons/IconUsercheck.vue';
-import IconArrowLeft from '../components/icons/IconArrowLeft.vue';
-import IconSendDown from '../components/icons/IconSendDown.vue';
-import IconSendUp from '../components/icons/IconSendUp.vue';
+import IconBranching from '../../icons/IconBranching.vue';
+import IconCompany from '../../icons/IconCompany.vue';
+import IconEmail from '../../icons/IconEmail.vue';
+import IconEmailInfo from '../../icons/IconEmailInfo.vue';
+import IconError from '../../icons/IconError.vue';
+import IconMissing from '../../icons/IconMissing.vue';
+import IconProcess from '../../icons/IconProcess.vue';
+import IconUsercheck from '../../icons/IconUsercheck.vue';
+import IconArrowLeft from '../../icons/IconArrowLeft.vue';
+import IconSendDown from '../../icons/IconSendDown.vue';
+import IconSendUp from '../../icons/IconSendUp.vue';
 
 const needReply = ref(false);
 const wasRedirected = ref(false);

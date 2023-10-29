@@ -1,9 +1,9 @@
 <script setup>
 import { RouterLink, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
-import { getPermissions } from '../api/requests.js'
-import {logout } from '../api/requests.js'
-import Navbar from './Snavbar.vue'
+import { getPermissions } from '../../api/requests.js'
+import {logout } from '../../api/requests.js'
+import Navbar from './navbar.vue'
 
 const permissions = ref([])
 
@@ -53,7 +53,7 @@ function playsound() {
 </script>
 <template>
     <Navbar class="navbar" />
-    <div class="title"><img src="../assets/Strafregister.png" width="160" class="header_image"/></div>
+    <div class="title"><img src="../../assets/Strafregister.png" width="160" class="header_image"/></div>
     <div class="sidebar">
         <div class="sidebar-header">
         <!--<h2>Strafregister</h2>-->

@@ -1,8 +1,7 @@
 <script setup>
-import Info from './STooltip.vue'
+import Info from './tooltip.vue'
 import { ref, onMounted, computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-import { auth,  } from '../api/requests.js'
 
 const props = defineProps({
     member: {
@@ -84,7 +83,7 @@ onMounted(() => {
 <template>
     <div class="star-wars-edit-member star-wars-member">
       <div class="star-wars-card">
-        <img src="../assets/data_loading.svg" alt="loading" v-if="isLoading" class="loading">
+        <img src="../../assets/data_loading.svg" alt="loading" v-if="isLoading" class="loading">
         <h1>{{ member.type }}</h1>
         <p class="star-wars-info">Identifikation: <input type="text" v-model="member.identification"></p>
         <p class="star-wars-info">Email: <input type="email" v-model="member.email"></p>

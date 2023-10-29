@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, onUpdated, computed, onBeforeMount } from 'vue'
-import {getLawID, getLaws} from '../api/requests.js'
+import {getLawID, getLaws} from '../../api/requests.js'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -63,7 +63,7 @@ function gotoLaw(id) {
 
 <template>
     <div class="loading" v-if="isLoading">
-        <img src="../assets/Loading.svg" alt="loading"/>
+        <img src="../../assets/Loading.svg" alt="loading"/>
     </div>
     <div class="law_wrapper" v-else>
             <div class="info">

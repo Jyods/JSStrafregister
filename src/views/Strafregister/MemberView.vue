@@ -1,7 +1,7 @@
 <script setup>
     import { ref, onMounted } from 'vue'
     import { RouterLink, RouterView } from 'vue-router'
-    import { getMember } from '../api/requests.js'
+    import { getMember } from '../../api/requests.js'
 
     const isLoading = ref(true)
     const member = ref([])
@@ -29,7 +29,7 @@ onMounted(async() => {
 <template>
 
 <div class="loading" v-if="isLoading">
-    <img src="../assets/Loading.svg" alt="loading"/>
+    <img src="../../assets/Loading.svg" alt="loading"/>
 </div>
 <div v-else>
     <div class="members">

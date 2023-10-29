@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
-import { getODT } from '../api/requests.js'
-import ODTItem from './SODTItem.vue'; 
+import { getODT } from '../../../api/requests.js'
+import ODTItem from './item.vue'; 
 
 const odts = ref(null);
 
@@ -24,7 +24,7 @@ onMounted(() => {
 
 <template>
     <div class="loading" v-if="isloading">
-        <img src="../assets/Loading.svg" alt="loading"/>
+        <img src="../../assets/Loading.svg" alt="loading"/>
     </div>
     <div class="" v-else>
         Hier sieht man alle Aufträge der ODT

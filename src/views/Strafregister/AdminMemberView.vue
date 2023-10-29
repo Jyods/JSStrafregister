@@ -1,9 +1,9 @@
 <script setup>
     import { ref, onMounted, computed } from 'vue'
     import { RouterLink, RouterView, useRouter } from 'vue-router'
-    import { getMembers, createUser, getPermissions, switchActive, getRanks, getCurrentUser } from '../api/requests.js'
-    import Member from '../components/SMember.vue'
-    import CreateMember from '../components/SCreateMember.vue'
+    import { getMembers, createUser, getPermissions, switchActive, getRanks, getCurrentUser } from '../../api/requests.js'
+    import Member from '../../components/strafregister/Member.vue'
+    import CreateMember from '../../components/strafregister/CreateMember.vue'
 
     const isLoading = ref(true)
     const members = ref([])
@@ -156,7 +156,7 @@ function changeActive(memberID) {
 
 <template>
 <div class="loading" v-if="isLoading">
-    <img src="../assets/Loading.svg" alt="loading"/>
+    <img src="../../assets/Loading.svg" alt="loading"/>
 </div>
 <div v-else>
     <div class="members">

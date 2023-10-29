@@ -1,6 +1,6 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue'
-    import {getLawID, getLaws} from '../api/requests.js'
+    import {getLawID, getLaws} from '../../api/requests.js'
 
     const searchParams = new URLSearchParams(window.location.search);
     const lawID = searchParams.get('ArticleID');
@@ -30,7 +30,7 @@
 
 <template>
     <div class="loading" v-if="isLoading">
-        <img src="../assets/Loading.svg" alt="loading"/>
+        <img src="../../assets/Loading.svg" alt="loading"/>
     </div>
     <div class="law_wrapper" v-else>
         <div class="law">

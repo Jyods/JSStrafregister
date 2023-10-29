@@ -1,9 +1,9 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
-import { getLogistics } from '../api/logistics.js';
-import { auth } from '../api/requests.js';
-import LogisticItem from '../components/LogisticItem.vue';
-import LogisticItemAdmin from '../components/LogisticItemAdmin.vue';
+import { getLogistics } from '../../api/logistics.js';
+import { auth } from '../../api/requests.js';
+import LogisticItem from '../../components/LogisticItem.vue';
+import LogisticItemAdmin from '../../components/LogisticItemAdmin.vue';
 
 const items = ref([]);
 
@@ -83,7 +83,7 @@ const filteredItems = computed(() => {
 
 <template>
     <div class="loading" v-if="isLoading">
-        <img src="../assets/Loading.svg" alt="loading"/>
+        <img src="../../assets/Loading.svg" alt="loading"/>
     </div>
     <div class="flex main-margin cols" v-else>
         <div class="banane center">

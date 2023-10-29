@@ -72,7 +72,7 @@ onUpdated(() => {
     height: 90vh;
 }
 .error_header {
-    background-image: url("../assets/Strafregister.png");
+    background-image: url("../../assets/Strafregister.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
