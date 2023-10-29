@@ -1,6 +1,6 @@
 <script setup>
 
-  import Entry from '../../components/strafregister/Entry.vue'
+  import Entry from '../../components/strafregister/entry.vue'
   import { onMounted, ref, computed } from 'vue'
   import {RouterView} from 'vue-router'
   import { getEntries } from '../../api/requests.js'
