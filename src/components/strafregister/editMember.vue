@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-import { auth } from '../api/requests.js'
+import { auth } from 'src/api/.js'
 
 const props = defineProps({
     member: {

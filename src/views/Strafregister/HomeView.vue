@@ -1,9 +1,9 @@
 <script setup>
 
-  import Entry from '../components/SEntry.vue'
+  import Entry from '../../components/strafregister/entry.vue'
   import { onMounted, ref, computed } from 'vue'
   import {RouterView} from 'vue-router'
-  import { getEntries } from '../api/requests.js'
+  import { getEntries } from '../../api/requests.js'
 
   /*const props = defineProps({
     entries: {
@@ -61,7 +61,7 @@
 
 <template>
   <div class="loading" v-if="isLoading">
-    <img src="../assets/Loading.svg" alt="loading"/>
+    <img src="./.../assets/Loading.svg" alt="loading"/>
   </div>
   <div v-else>
     <input type="text" placeholder="Suche" class="search" v-model="search"/>

@@ -19,7 +19,7 @@ function removeArticle() {
 <template>
     <div class="article_wrapper">
         {{article.name}}
-        <button class="remove_button" @click="removeArticle"><img src="../assets/minus.svg" height="20" width="20" /> </button>
+        <button class="remove_button" @click="removeArticle"><img src="../../assets/minus.svg" height="20" width="20" /> </button>
     </div>
 </template>
 

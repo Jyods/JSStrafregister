@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { storeODT, getInstitutions, getAllNeedReply } from '../api/requests.js'
+import { storeODT, getInstitutions, getAllNeedReply } from '../../../api/requests.js'
 
 const neededData = ref([
     "name",

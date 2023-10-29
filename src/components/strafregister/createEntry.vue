@@ -1,8 +1,8 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue'
-    import {getOnlyEntries, createFile, createEntry, createFileLaw, getLaws,getPermissions, getRanks} from '../api/requests.js'
-    import Article from '../components/SArticle.vue'
-    import Tooltip from '../components/STooltip.vue'
+    import {getOnlyEntries, createFile, createEntry, createFileLaw, getLaws,getPermissions, getRanks} from '../../api/requests.js'
+    import Article from './article.vue'
+    import Tooltip from './tooltip.vue'
 
     const isLoading = ref(true)
 
@@ -247,7 +247,7 @@
 
 <template>
     <div class="loading" v-if="isLoading">
-        <img src="../assets/Loading.svg" alt="loading"/>
+        <img src="../../assets/Loading.svg" alt="loading"/>
     </div>
     <div class="wrapper" v-else>
         <div class="form">
@@ -286,7 +286,7 @@
                             §{{ article.Paragraph + ' ' + article.Title + ' ' + article.Category}}
                         </option>
             </select>
-                    <button class="button__plus" @click.prevent="addArticle"><img src="../assets/plus.svg" width="25" height="25" /> </button>
+                    <button class="button__plus" @click.prevent="addArticle"><img src="../../assets/plus.svg" width="25" height="25" /> </button>
                 </div>
             </div>
             <h3>Rank: <select v-model="activeRank" id="article">
@@ -361,6 +361,14 @@ label {
 }
 
 button:hover {
+    background-color: #3f3f3f;
+}
+
+input {
+    color: #6d6d6d;
+}
+
+input[type='text']:hover {
     background-color: #3f3f3f;
 }
 

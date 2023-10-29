@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import Fall from './SCase.vue'
-import { switchWarrentState } from '../api/requests.js'
+import Fall from './Case.vue'
+import { switchWarrentState } from '../../api/requests.js'
 
 const props = defineProps({
     entry: {
@@ -55,7 +55,7 @@ async function switchWarrent() {
             <input type="checkbox" v-else v-model="newIsWanted" disabled/>
             </p>
                 <p><RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="link">
-                    <img src="../assets/Arrow.svg" alt="loading" height="15" width="15"/>
+                    <img src="../../assets/Arrow.svg" alt="loading" height="15" width="15"/>
                     Redirect
                 </RouterLink></p>
         </div>

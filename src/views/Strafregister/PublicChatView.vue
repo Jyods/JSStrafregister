@@ -1,7 +1,7 @@
 <script setup>
     import { ref, onMounted } from 'vue'
-    import PublicChat from '../components/SPublicChat.vue';
-    import { getAllchat, storeAllchat } from '../api/requests.js'
+    import PublicChat from '../../components/strafregister/publicChat.vue';
+    import { getAllchat, storeAllchat } from '../../api/requests.js'
 
     const data = ref({});
 
@@ -70,7 +70,7 @@
 </script>
 <template>
     <div class="loading" v-if="isLoading">
-        <img src="../assets/Loading.svg" alt="loading"/>
+        <img src="../../assets/Loading.svg" alt="loading"/>
     </div>
     <div class="center" v-else>
         <div class="chat__wrapper">

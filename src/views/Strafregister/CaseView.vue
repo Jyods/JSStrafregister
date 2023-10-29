@@ -1,6 +1,6 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue'
-    import { getCase, publishCase, deletePublishedCase } from '../api/requests';
+    import { getCase, publishCase, deletePublishedCase } from '../../api/requests.js';
     import { useRouter, RouterLink } from 'vue-router'
 
   
@@ -60,7 +60,7 @@
 </script>
 <template>
     <div class="loading" v-if="isLoading">
-        <img src="../assets/Loading.svg" alt="loading"/>
+        <img src="../../assets/Loading.svg" alt="loading"/>
     </div>
         <div class="CaseContent" v-else>
         <h3 class="item">Akte: {{ entries.id }}</h3>

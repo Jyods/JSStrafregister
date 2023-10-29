@@ -21,7 +21,7 @@ const hover = ref(false)
 <template>
     <div class="info">
         <slot></slot>
-        <img v-if="show" src="../assets/info.svg" alt="Das ist eine Info" class="arrow" height="25" width="25" @mouseover="hover = true" @mouseleave="hover = false">
+        <img v-if="show" src="../../assets/info.svg" alt="Das ist eine Info" class="arrow" height="25" width="25" @mouseover="hover = true" @mouseleave="hover = false">
         <div v-if="hover" class="info__text">
             {{ info }}
         </div>

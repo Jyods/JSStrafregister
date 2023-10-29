@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from 'vue'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { authenticateUser, auth } from '../api/requests.js'
-import messageHandler from '../components/SmessageHandler.vue'
+import { authenticateUser, auth } from '../../api/requests.js'
 
     const router = useRouter()
 
@@ -39,7 +38,7 @@ import messageHandler from '../components/SmessageHandler.vue'
         let password = document.getElementById("password").value
         let response = await authenticateUser(identification, password)
         if (localStorage.getItem("token") != undefined || localStorage.getItem("token" != null)) {
-            let audio = new Audio('../src/assets/sounds/success.mp3')
+            let audio = new Audio('../../src/assets/sounds/success.mp3')
             try {
                 await audio.play()
             }
@@ -51,8 +50,8 @@ import messageHandler from '../components/SmessageHandler.vue'
             router.push({ name: 'Index'})
         }
         else {
-            //play sound ../assets/sounds/error.mp3
-            let audio = new Audio('../src/assets/sounds/error.mp3')
+            //play sound ../../assets/sounds/error.mp3
+            let audio = new Audio('../../src/assets/sounds/error.mp3')
             try {
                 await audio.play()
             }
@@ -78,17 +77,17 @@ import messageHandler from '../components/SmessageHandler.vue'
     <!--Login Form with email and password-->
     <div class="login">
         <div class="loading" v-if="isLoading">
-            <img src="../assets/Loading.svg" alt="loading"/>
+            <img src="../../assets/Loading.svg" alt="loading"/>
         </div>
         <div class="background_image">
             <div class="login_wrapper">
             <div class="header_image"></div>
             <form class="wrapper" @submit.prevent="submitForm">
-                <label for="identification"><img src="../assets/Identification.png" /> </label>
+                <label for="identification"><img src="../../assets/Identification.png" /> </label>
                 <input type="text" id="identification" name="identification" placeholder="CT-0000" required>
-                <label for="password"><img src="../assets/Password.png" /></label>
+                <label for="password"><img src="../../assets/Password.png" /></label>
                 <input type="password" id="password" name="password" placeholder="*******" required>
-                <button type="submit" :disabled="isLoading"><img src="../assets/Login.png" width="120" height="20" /> </button>
+                <button type="submit" :disabled="isLoading"><img src="../../assets/Login.png" width="120" height="20" /> </button>
             </form>
             </div>
         </div>
@@ -97,7 +96,7 @@ import messageHandler from '../components/SmessageHandler.vue'
 
 <style scoped>
 .background_image {
-    background-image: url("../assets/Background.svg");
+    background-image: url("../../assets/Background.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -106,7 +105,7 @@ import messageHandler from '../components/SmessageHandler.vue'
     padding: 40px;
 }
 .header_image {
-    background-image: url("../assets/Strafregister.png");
+    background-image: url("../../assets/Strafregister.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;

@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 <template>
     <RouterLink :to="{ name: 'Case', query: { CaseID: props.file.id }}" class="link">
-    <img src="../assets/Arrow.svg" alt="loading" height="15" width="15"/>
+    <img src="../../assets/Arrow.svg" alt="loading" height="15" width="15"/>
     {{ props.file.definition }} 
     {{ props.file.date }}
     </RouterLink>

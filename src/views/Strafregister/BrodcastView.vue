@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-import { sendMinorMessage, sendMajorMessage } from '../api/requests.js'
+import { sendMinorMessage, sendMajorMessage } from '../../api/requests.js'
 
 const messageType = ref(0)
 const messageContent = ref("")

@@ -1,7 +1,7 @@
 <script setup>
 import { onBeforeMount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { getPublishedCase } from '../api/requests';
+import { getPublishedCase } from '../../api/requests.js';
 
 const router = useRouter();
 

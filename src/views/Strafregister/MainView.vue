@@ -1,9 +1,7 @@
 <script setup>
   import { ref, onMounted } from 'vue'
-  import navbar from '../components/Snavbar.vue'
-  import sidebar from '../components/Ssidebar.vue'
+  import sidebar from '../../components/strafregister/sidebar.vue'
   import { RouterLink, RouterView } from 'vue-router'
-  import { auth } from '../api/requests.js'
 
   const emit = defineEmits(['add-to-array'])
 
@@ -24,7 +22,7 @@
 
 <style scoped>
 .background_image {
-  background-image: url("../assets/Background.svg");
+  background-image: url("../../assets/Background.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
-import { getCurrentUser, logout } from '../api/requests.js'
+import { getCurrentUser, logout } from '../../api/requests.js'
 
   const userInfo = ref([])
 
@@ -22,7 +22,7 @@ onMounted(async() => {
     }
     console.log(userInfo.value)
 })
-//import getUser from '../api/requests.js'
+//import getUser from 'src/api/.js'
 </script>
 <template>
         <main>
