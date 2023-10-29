@@ -113,7 +113,7 @@ const filteredItems = computed(() => {
         :price="item.price"
         :key="item.id"
         />
-        <img class="add_icon" src="../assets/plus.svg" width="50" height="50" @click="newItem" v-if="hasPermission"/>
+        <img class="add_icon" src="../../assets/plus.svg" width="50" height="50" @click="newItem" v-if="hasPermission"/>
     </div>
 </template>
 
