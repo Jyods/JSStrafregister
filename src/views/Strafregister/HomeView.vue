@@ -61,7 +61,7 @@
 
 <template>
   <div class="loading" v-if="isLoading">
-    <img src="./.../assets/Loading.svg" alt="loading"/>
+    <img src="../../assets/Loading.svg" alt="loading"/>
   </div>
   <div v-else>
     <input type="text" placeholder="Suche" class="search" v-model="search"/>
