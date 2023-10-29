@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import Fall from './Case.vue'
+import Fall from './case.vue'
 import { switchWarrentState } from '../../api/requests.js'
 
 const props = defineProps({

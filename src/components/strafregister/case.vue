@@ -67,7 +67,7 @@ function redirect() {
                     </p>
                 </div>
                 <RouterLink :to="{ name: 'Case', query: { CaseID: props.case.id }}" :case="caseEntry" class="link">
-                    <img src="../assets/Arrow.svg" alt="loading" height="15" width="15"/>
+                    <img src="../../assets/Arrow.svg" alt="loading" height="15" width="15"/>
                     Redirect
                 </RouterLink>
             </div>
