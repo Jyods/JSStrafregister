@@ -24,7 +24,7 @@ onMounted(() => {
 
 <template>
     <div class="loading" v-if="isloading">
-        <img src="../../assets/Loading.svg" alt="loading"/>
+        <img src="../../../assets/Loading.svg" alt="loading"/>
     </div>
     <div class="" v-else>
         Hier sieht man alle Aufträge der ODT
