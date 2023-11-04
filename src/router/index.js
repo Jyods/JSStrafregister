@@ -23,6 +23,7 @@ import ODTNew from '../components/strafregister/ODT/new.vue'
 import PublicChatView from '../views/Strafregister/PublicChatView.vue'
 import LogisticsView from '../views/Logistics/LogisticsView.vue'
 import EventleadView from '../views/EventleadView.vue'
+import OOCView from '../views/OOC/OOCView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,6 +32,14 @@ const router = createRouter({
       path: '/',
       name: 'Index',
       component: IndexView,
+      meta: {
+        requiresAuth: true
+      },
+    },
+    {
+      path: '/ooc',
+      name: 'OOC',
+      component: OOCView,
       meta: {
         requiresAuth: true
       },
