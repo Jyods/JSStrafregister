@@ -1,8 +1,9 @@
 <script setup>
-  import { ref, onMounted, onBeforeUpdate, onBeforeMount } from 'vue'
-  import { RouterLink, RouterView, useRouter } from 'vue-router'
-  import MajorMessage from './components/strafregister/majorMessage.vue'
-  import MinorMessage from './components/strafregister/message.vue'
+  import { ref, onMounted, onBeforeUpdate, onBeforeMount } from 'vue';
+  import { RouterLink, RouterView, useRouter } from 'vue-router';
+  import MajorMessage from './components/strafregister/majorMessage.vue';
+  import MinorMessage from './components/strafregister/message.vue';
+  import Pusher from 'pusher-js';
 
   const isPublicRoute = ref(false)
 
@@ -61,8 +62,6 @@
     }
     console.error(isPublicRoute.value)
   }
-
-  import Pusher from 'pusher-js';
 
   const pusher = new Pusher('2510f8aea0961630d9af', {
       cluster: 'eu'

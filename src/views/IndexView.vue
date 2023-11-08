@@ -4,20 +4,22 @@ import router from '../router/index.js';
 
 
 
+
 </script>
 
 <template>
-    Wähle eine Seite aus
+    
 
-    <div class="">
-        <ul>
-            <li>
-                <router-link to="/justice">Strafen</router-link>
-            </li>
-            <li>
-                <router-link to="/logistics">Logistik</router-link>
-            </li>
-        </ul>
+    <div class="common-layout">
+        <el-container>
+            <el-header>
+                <el-text size="large" tag="b">Wahlen Sie eine DB aus</el-text>
+            </el-header>
+            <el-main>
+                <el-button><router-link to="/justice">Strafen</router-link></el-button>
+                <el-button><router-link to="/logistics">Logistik</router-link></el-button>
+            </el-main>
+        </el-container>
     </div>
 
 </template>
