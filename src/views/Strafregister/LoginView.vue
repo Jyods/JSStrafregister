@@ -96,7 +96,7 @@ import { authenticateUser, auth } from '../../api/requests.js'
 
 <style scoped>
 .background_image {
-    background-image: url("../../assets/Background.svg");
+    background-image: url("../../assets/guard-logo.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -123,7 +123,7 @@ import { authenticateUser, auth } from '../../api/requests.js'
         align-items: center;
         height: 100vh;
         flex-direction: column;
-        background-color: rgb(99, 0, 0);
+        background-color: rgb(255, 255, 255);
     }
 
     .wrapper {
