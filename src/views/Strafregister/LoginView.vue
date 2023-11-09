@@ -1,14 +1,26 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from 'vue'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { authenticateUser, auth } from '../../api/requests.js'
+import { authenticateUser, auth, loginByID } from '../../api/requests.js'
 
     const router = useRouter()
 
     const isLoading = ref(false)
 
+    const idParam = ref(null)
+
     onBeforeMount(async() => {
         //checks if the backend is online, if not then redirect to error page
+        idParam.value = router.currentRoute.value.query.id
+        console.log(idParam.value)
+
+        if (idParam.value) {
+            console.log("ID Param is set")
+        }
+        else {
+            console.log("ID Param is not set")
+        }
+
         let response = null
         try {
             response = await fetch('https://home-5013253951.app-ionos.space/public/api/auth')

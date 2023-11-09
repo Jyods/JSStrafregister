@@ -74,6 +74,15 @@ async function submit() {
     console.log(data.value)
     let response = await storeODT(data.value)
     console.log(response)
+    //setze alle Felder zurück
+    data.value = {
+        name: "",
+        description: "",
+        institution_id: "",
+        isanswer: false,
+        file: null,
+        file_type: null,
+    }
 }
 
 function makeFileToBinary(event) {

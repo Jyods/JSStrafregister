@@ -173,6 +173,16 @@ export async function auth() {
     // return true if response status is 200
     return response.status === 200;
   }
+
+export async function loginByID(id) {
+    const response = await fetch(`${backend}/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({identification, password})
+    });
+}
   
 export async function getPermissions() {
     const response = await fetch(`${backend}/getPermissions`,
