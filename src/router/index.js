@@ -27,6 +27,7 @@ import OOCView from '../views/OOC/OOCView.vue'
 import HealthTemplate from '../views/Health/TemplateView.vue'
 import HealthView from '../views/Health/MainView.vue'
 import HealthPatient from '../views/Health/PatientView.vue'
+import HealthCaseView from '../views/Health/CaseView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,7 +60,7 @@ const router = createRouter({
         {
           path: '/health/case/:id',
           name: 'HealthCaseID',
-          component: HealthView,
+          component: HealthCaseView,
           props: true,
         },
         {

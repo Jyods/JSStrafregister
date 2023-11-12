@@ -1,22 +1,20 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import Result from '../../components/health/Result.vue'
 import { getPatients } from '../../api/health.js'
 
-const results = ref([
-    {
-        "id": "1",
-        "name": "Max Mustermann",
-    },
-    {
-        "id": "2",
-        "name": "Max Mustermann",
-    },
-    {
-        "id": "3",
-        "name": "Max Mustermann",
+const results = ref([])
+
+const search = ref("")
+
+const filteredResults = computed(() => {
+    if (!search.value) {
+        return null
     }
-])
+    return results.value.filter((result) => {
+        return result.identification.includes(search.value)
+    })
+})
 
 onMounted(async() => {
     console.log("Hello World")
@@ -31,10 +29,10 @@ onMounted(async() => {
     <h1> Patientenverzeichnis </h1>
     <div class="container">
         <h3> Patienten Identifikation </h3>
-        <input type="text" placeholder="Patienten Identifikation" />
+        <input type="text" placeholder="Patienten Identifikation" v-model="search" />
     </div>
     <div class="results">
-        <Result v-for="result in results" :key="result.id" :result="result" />
+        <Result v-for="result in filteredResults" :key="result.id" :result="result" />
     </div>
 </template>
 
