@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import Fall from './case.vue'
 import { switchWarrentState } from '../../api/requests.js'
+import { Files } from '@element-plus/icons-vue';
 
 const props = defineProps({
     entry: {
@@ -54,10 +55,9 @@ async function switchWarrent() {
             <input type="checkbox" v-if="extended" v-model="newIsWanted" @click="switchWarrent" />
             <input type="checkbox" v-else v-model="newIsWanted" disabled/>
             </p>
-                <p><RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="link">
-                    <img src="../../assets/Arrow.svg" alt="loading" height="15" width="15"/>
-                    Redirect
-                </RouterLink></p>
+               <RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="link">
+                    <el-button type="info" :icon="Files" />
+                </RouterLink>
         </div>
         <Fall v-if="extended" v-for="Case in entry.files" :case="Case" :key="Case.id"/>
         <p class="noEntry" v-if="extended && entry.files.length == 0">Keine Einträge</p>
@@ -78,8 +78,8 @@ async function switchWarrent() {
     align-items: center;
 }
 .wrapper {
-    background-color: grey;
-    border-color: rgb(99, 99, 99);
+    border-color: rgb(0, 0, 0);
+    border-radius: 2px;
     border-style: solid;
 }
 .restricted {
@@ -112,7 +112,6 @@ async function switchWarrent() {
 }
 
 .link:hover {
-    color: red;
     text-decoration: underline;
 }
 
