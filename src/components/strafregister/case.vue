@@ -89,16 +89,14 @@ function redirect() {
 }
 .case {
     height: fit-content;
-    background-color: grey;
-    border-color: rgb(99, 99, 99);
-    border-style: solid;
     padding-left: 20px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 .restricted {
     background-color: red;
 }
 .case:hover {
-    background-color: aqua;
     cursor: pointer;
 }
 
@@ -109,9 +107,8 @@ function redirect() {
 
 .extendet {
     height: max-content;
-    border-color: rgb(109, 109, 109);
-    border-style: solid;
     padding-left: 30px;
+    margin-bottom: 10px;
 }
 
 .link {
@@ -120,7 +117,7 @@ function redirect() {
 }
 
 .link:hover {
-    color: rgb(131, 0, 0);
     cursor: pointer;
+    text-decoration: underline;
 }
 </style>

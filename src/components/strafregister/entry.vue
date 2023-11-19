@@ -55,23 +55,32 @@ async function switchWarrent() {
             <input type="checkbox" v-if="extended" v-model="newIsWanted" @click="switchWarrent" />
             <input type="checkbox" v-else v-model="newIsWanted" disabled/>
             </p>
-               <RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="link">
-                    <el-button type="info" :icon="Files" />
-                </RouterLink>
+            <p>
+            <RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="redirect">
+                <img src="../../assets/Arrow.svg" alt="loading" height="15" width="15"/>
+                Einsehen
+            </RouterLink>
+            </p>
         </div>
+        <el-divider class="divider" />
         <Fall v-if="extended" v-for="Case in entry.files" :case="Case" :key="Case.id"/>
         <p class="noEntry" v-if="extended && entry.files.length == 0">Keine Einträge</p>
     </div>
 </template>
 
 <style scoped>
+
+.divider {
+    margin: 5px;
+}
 .noEntry {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;
-    color:rgb(133, 0, 0);
+    color:rgb(0, 0, 0);
     text-decoration: underline;
+    font-weight: bold;
+    padding: 50px;
 }
 .right {
     display: flex;
@@ -79,11 +88,22 @@ async function switchWarrent() {
 }
 .wrapper {
     border-color: rgb(0, 0, 0);
-    border-radius: 2px;
+    border-radius: 5px;
     border-style: solid;
+    margin-bottom: 5px;
+    padding-right: 10px;
+    padding-bottom: 8px;
 }
 .restricted {
     background-color: red;
+}
+
+.redirect {
+    color: black;
+}
+
+.redirect:hover {
+    text-decoration: underline;
 }
 .entry {
     height: fit-content;

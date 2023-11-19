@@ -1,7 +1,7 @@
 <script setup>
     import { onMounted, ref, computed } from 'vue'
     import { getCase, publishCase, deletePublishedCase } from '../../api/requests.js';
-    import { useRouter, RouterLink } from 'vue-router'
+    import { useRouter, RouterLink } from 'vue-router';
 
   
     const searchParams = new URLSearchParams(window.location.search);
@@ -87,16 +87,15 @@
                     :publish = "publish"
                     >
                     {{ publish.route }} ({{ publish.publisher[0].identification }}) {{  }}
+                    <button class="del_btn" @click="deletePublicCopy(publish.id)">Löschen</button>
             </RouterLink>
-            <button class="del_btn" @click="deletePublicCopy(publish.id)">Löschen</button>
         </li>
         <h3 class="punishment item">Haftzeit: {{ entries.fine }} Einheiten</h3>
         <h3 class="rank item">Rang: {{ entries.rank[0].rank }}</h3>
         <br>
         <h2>{{ entries.user.type }}</h2>
         <RouterLink :to="{ name: 'Member', query: { MemberID: entries.user.id }}">{{ entries.user.identification }}</RouterLink>
-
-        <button class="copy_btn" @click="createPublicCopy">Öffentliche Kopie erstellen</button>
+        <el-button @click="createPublicCopy" type="primary">öffentliche Kopie erstellen</el-button>
     </div>
 </template>
 <style scoped>
@@ -116,12 +115,10 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: #121212; /* Dark background like space */
+  background-color: #d8d8d8; /* Dark background like space */
   border-radius: 10px;
   padding: 20px;
-  margin: 50px 100px 50px 100px;
-  box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.75);
-  min-height: 500px;
+  box-shadow: 1px 1px 10px 5px rgba(175, 175, 175, 0.75);
 }
 
 .item {
@@ -129,39 +126,23 @@
   justify-content: center;
   align-items: center;
   margin: 10px;
-  color: #FFE81F; /* Yellow color for Star Wars style */
   font-family: 'Arial', sans-serif; /* Choose a suitable font */
 }
 
 h1 {
   font-size: 2.2rem;
-  color: #FFE81F; /* Yellow color for Star Wars style */
   margin-bottom: 15px;
   font-family: 'Star Jedi', cursive; /* Use Star Jedi font for the title */
 }
 
 h2 {
   font-size: 1.7rem;
-  color: #FFE81F; /* Yellow color for Star Wars style */
   margin-bottom: 10px;
 }
 
 h3 {
   font-size: 1.4rem;
-  color: #FFE81F; /* Yellow color for Star Wars style */
   margin-bottom: 5px;
-}
-
-.description {
-  color: #fff; /* White color for descriptions */
-}
-
-.punishment {
-  color: #FF1744; /* Red color for punishments */
-}
-
-.rank {
-  color: #4CAF50; /* Green color for ranks */
 }
 
 .router-link-active {
@@ -178,11 +159,11 @@ h3 {
 }
 
 .del_btn {
-    background-color: #FF1744; /* Red color for buttons */
+    background-color: #ff0d00; /* Red color for buttons */
 }
 
 .del_btn:hover {
-    background-color: #F44336; /* Slightly lighter red on hover */
+    background-color: rgba(243, 30, 19, 0.808); /* Slightly lighter red on hover */
 }
 
 /* Add other Star Wars-themed styles as needed */
