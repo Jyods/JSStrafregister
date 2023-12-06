@@ -26,8 +26,12 @@ import EventleadView from '../views/EventleadView.vue'
 import OOCView from '../views/OOC/OOCView.vue'
 import HealthTemplate from '../views/Health/TemplateView.vue'
 import HealthView from '../views/Health/MainView.vue'
+import HealthNewMember from '../views/Health/NewMemberView.vue'
 import HealthPatient from '../views/Health/PatientView.vue'
 import HealthCaseView from '../views/Health/CaseView.vue'
+import HealthMemberView from '../views/Health/MemberView.vue'
+
+import OrientationView from '../views/Orientation/OrientationView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -55,7 +59,7 @@ const router = createRouter({
         {
           path: '/health/new',
           name: 'HealthNew',
-          component: HealthView,
+          component: HealthNewMember,
         },
         {
           path: '/health/case/:id',
@@ -74,8 +78,22 @@ const router = createRouter({
           name: 'PatientID',
           component: HealthPatient,
           props: true,
-        }
+        },
+        {
+          path: '/health/member',
+          name: 'HealthMember',
+          component: HealthMemberView,
+          props: true,
+        },
       ]
+    },
+    {
+      path: '/orientation',
+      name: 'Orientation',
+      component: OrientationView,
+      meta: {
+        requiresAuth: true
+      },
     },
     {
       path: '/ooc',

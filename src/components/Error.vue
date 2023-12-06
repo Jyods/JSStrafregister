@@ -26,7 +26,8 @@ const errorText = ref("")
 const errors = {
     404: "Die Seite konnte nicht gefunden werden",
     403: "Sie haben keine Berechtigung diese Seite zu sehen",
-    500: "Es ist ein Fehler aufgetreten"
+    500: "Es ist ein Serverfehler aufgetreten",
+    503: "Der Server ist nicht erreichbar"
 }
 
 onMounted(() => {
