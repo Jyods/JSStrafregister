@@ -64,11 +64,11 @@
     <img src="../../assets/Loading.svg" alt="loading"/>
   </div>
   <div v-else>
-    <input type="text" placeholder="Suche" class="search" v-model="search"/>
+    <el-input type="text" placeholder="Suche" class="search" v-model="search" />
     <!-- Erstelle ein dropdown bei dem der user auswählen kann ob nach isWarrent gefiltert werden kann-->
     <div class="filter flex" style="justify-content: left;">
       <!--<p>Filter</p>--> 
-      <input type="checkbox" v-model="isWarrent"/>
+      <el-checkbox type="checkbox" v-model="isWarrent" size="large" />
       {{ isWarrent ? "Gesucht" : "Nicht Gesucht" }}
     </div>
     <Entry class="entries" v-for="entry in filteredEntries" :entry="entry" :key="entry.id" @changeWarrent="changewarrent"/>
@@ -89,13 +89,8 @@
   z-index: -1;
 }
 .search {
-  margin-top: 10px;
+  height: 40px;
   width: 200px;
-  height: 20px;
-  border-radius: 5px;
-  border-color: rgb(99, 99, 99);
-  border-style: solid;
-  background-color: grey;
 }
 .entries {
   height: fit-content;

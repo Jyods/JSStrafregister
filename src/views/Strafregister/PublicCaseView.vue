@@ -118,11 +118,13 @@ onBeforeMount(async () => {
   
   <style scoped>
   .holopad-wrapper {
+    margin: 50px;
+    border-radius: 5px;
     background-color: black;
     color: #00eaff;
     font-family: "Lucida Console", Monaco, monospace;
     padding: 20px;
-    border: 2px solid #00eaff;
+    border: 3px solid #00eaff;
   }
   
   .holopad-content {
@@ -172,7 +174,7 @@ onBeforeMount(async () => {
   }
   
   .holopad-wrapper {
-    animation: flicker 1s infinite;
+    animation: flicker 1.5s infinite;
   }
 
   .law_item {
