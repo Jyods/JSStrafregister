@@ -27,7 +27,7 @@ const errors = {
     404: "Die Seite konnte nicht gefunden werden",
     403: "Sie haben keine Berechtigung diese Seite zu sehen",
     500: "Es ist ein Serverfehler aufgetreten",
-    503: "Der Server ist nicht erreichbar"
+    503: "Der Service ist nicht verfügbar"
 }
 
 onMounted(() => {
@@ -55,7 +55,7 @@ onUpdated(() => {
                 <p>{{ errorText }} ({{ props.error }})</p>
             </div>
             <div class="error_footer">
-                <RouterLink :to="{ name: 'Home'}" class="link">
+                <RouterLink :to="props.buttonLink" class="link">
                     {{ props.buttonText }}
                 </RouterLink>
                 <p>If the error persists, please contact  <a href="mailto:jyods.engagement@gmx.net">jyods.engagement@gmx.net</a></p>

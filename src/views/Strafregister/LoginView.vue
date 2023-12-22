@@ -1,33 +1,21 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from 'vue'
 import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { authenticateUser, auth, loginByID } from '../../api/requests.js'
+import { authenticateUser, auth } from '../../api/requests.js'
 
     const router = useRouter()
 
     const isLoading = ref(false)
 
-    const idParam = ref(null)
-
     onBeforeMount(async() => {
         //checks if the backend is online, if not then redirect to error page
-        idParam.value = router.currentRoute.value.query.id
-        console.log(idParam.value)
-
-        if (idParam.value) {
-            console.log("ID Param is set")
-        }
-        else {
-            console.log("ID Param is not set")
-        }
-
         let response = null
         try {
-            response = await fetch('https://home-5013253951.app-ionos.space/public/api/auth')
+            // response = await fetch('https://home-5013253951.app-ionos.space/public/api/auth')
         }
         catch (error) {
             console.warn("Backend is offline")
-            router.push({ name: 'Error'})
+            router.push({ name: 'Error', params: { code: 500 }})
         }
         
         console.log(response)
@@ -86,7 +74,7 @@ import { authenticateUser, auth, loginByID } from '../../api/requests.js'
 </script>
 
 <template>
-    <!--Login Form with email and password-->
+    <!--Login Form with username and password-->
     <div class="login">
         <div class="loading" v-if="isLoading">
             <img src="../../assets/Loading.svg" alt="loading"/>

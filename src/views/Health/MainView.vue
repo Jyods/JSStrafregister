@@ -2,9 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { getPatients } from '../../api/health.js'
 
-import sidebar from '../../components/health/sidebar.vue'
 import { RouterLink, RouterView } from 'vue-router'
-import Navbar from '../../components/strafregister/navbar.vue';
 
 const results = ref([])
 

@@ -1,6 +1,6 @@
 <script setup>
-import {RouterView} from 'vue-router'
-  import sidebar from '../../components/health/HealthSidebar.vue'
+  import {RouterView} from 'vue-router'
+  import sidebar from '../../components/orientations/OrientationSidebar.vue'
   import Navbar from '../../components/strafregister/navbar.vue'
 </script>
 

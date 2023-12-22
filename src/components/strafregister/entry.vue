@@ -52,8 +52,20 @@ async function switchWarrent() {
         <div class="entry flex" @click.prevent="extend">
             <h3>{{props.entry.identification}}</h3>
             <p :class="{isWanted : newIsWanted}">Gesucht: {{ newIsWanted ? "Ja" : "Nein" }}
-            <input type="checkbox" v-if="extended" v-model="newIsWanted" @click="switchWarrent" />
-            <input type="checkbox" v-else v-model="newIsWanted" disabled/>
+            <!-- <input type="checkbox" v-if="extended" v-model="newIsWanted" @click="switchWarrent" />
+            <input type="checkbox" v-else v-model="newIsWanted" disabled/> -->
+            <el-popconfirm
+                title="Wollen sie den Haftbefehl wirklich ändern?"
+                confirmButtonText="Ja"
+                cancelButtonText="Nein"
+                @confirm="switchWarrent"
+                @cancel=""
+                >
+                <template #reference>
+                    <!-- <el-button type="danger" slot="reference" v-if="extended" v-model="newIsWanted" :disabled="inProgress">Switch</el-button> -->
+                    <!-- <el-button type="danger" slot="reference" v-else v-model="newIsWanted" :disabled="inProgress">Switch</el-button> -->
+                </template>
+            </el-popconfirm>
             </p>
             <p>
             <RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="redirect">

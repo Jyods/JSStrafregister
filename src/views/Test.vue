@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRoute} from 'vue-router'
-import { getOrientations } from '../api/orientation_file';
+import { getPermittetOrientations } from '../api/orientation';
 
 //get the params from route
 const route = useRoute()
@@ -13,7 +13,7 @@ const selectedOrientation = ref(null)
 
 onMounted(() => {
   console.log("ID: ",id)
-  getOrientations(id).then((response) => {
+  getPermittetOrientations(id).then((response) => {
     console.log(response.data)
     orientations.value = response.data
   })
