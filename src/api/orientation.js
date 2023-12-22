@@ -1,5 +1,5 @@
-// const backend = 'https://home-5013253951.app-ionos.space/public/api/logistic';
-const backend = "http://jsstrafregisterbackend.test/api/orientations";
+const backend = 'https://strafregister.jyods.com/public/api/orientations';
+// const backend = "http://jsstrafregisterbackend.test/api/orientations";
 
 export async function getPermittetOrientations() {
     const response = await fetch(`${backend}/permitted`,{
