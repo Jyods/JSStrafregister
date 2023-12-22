@@ -11,11 +11,11 @@ import { authenticateUser, auth } from '../../api/requests.js'
         //checks if the backend is online, if not then redirect to error page
         let response = null
         try {
-            response = await fetch('https://home-5013253951.app-ionos.space/public/api/auth')
+            // response = await fetch('https://home-5013253951.app-ionos.space/public/api/auth')
         }
         catch (error) {
             console.warn("Backend is offline")
-            router.push({ name: 'Error'})
+            router.push({ name: 'Error', params: { code: 500 }})
         }
         
         console.log(response)
@@ -74,7 +74,7 @@ import { authenticateUser, auth } from '../../api/requests.js'
 </script>
 
 <template>
-    <!--Login Form with email and password-->
+    <!--Login Form with username and password-->
     <div class="login">
         <div class="loading" v-if="isLoading">
             <img src="../../assets/Loading.svg" alt="loading"/>
@@ -96,7 +96,7 @@ import { authenticateUser, auth } from '../../api/requests.js'
 
 <style scoped>
 .background_image {
-    background-image: url("../../assets/Background.svg");
+    background-image: url("../../assets/guard-logo.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -123,7 +123,7 @@ import { authenticateUser, auth } from '../../api/requests.js'
         align-items: center;
         height: 100vh;
         flex-direction: column;
-        background-color: rgb(99, 0, 0);
+        background-color: rgb(255, 255, 255);
     }
 
     .wrapper {

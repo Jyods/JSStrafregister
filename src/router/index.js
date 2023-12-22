@@ -23,6 +23,17 @@ import ODTNew from '../components/strafregister/ODT/new.vue'
 import PublicChatView from '../views/Strafregister/PublicChatView.vue'
 import LogisticsView from '../views/Logistics/LogisticsView.vue'
 import EventleadView from '../views/EventleadView.vue'
+import OOCView from '../views/OOC/OOCView.vue'
+import HealthTemplate from '../views/Health/TemplateView.vue'
+import HealthView from '../views/Health/MainView.vue'
+import HealthPatient from '../views/Health/PatientView.vue'
+import HealthCaseView from '../views/Health/CaseView.vue'
+import OrientationTemplate from '../views/Orientation/TemplateView.vue'
+import OrientationView from '../views/Orientation/MainView.vue'
+import OrientationFileView from '../views/Orientation/FileView.vue'
+import OrientationNewView from '../views/Orientation/NewOrientation.vue'
+import OrientationEditView from '../views/Orientation/EditOrientation.vue'
+import OrientationPermissionView from '../views/Orientation/PermissionView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,11 +47,103 @@ const router = createRouter({
       },
     },
     {
+      path: '/health',
+      component: HealthTemplate,
+      meta: {
+        requiresAuth: true,
+        department: 'Medizin',
+        underconstruction: true
+      },
+      children: [
+        {
+          path: '/health',
+          name: 'Health',
+          component: HealthView
+        },
+        {
+          path: '/health/new',
+          name: 'HealthNew',
+          component: HealthView,
+        },
+        {
+          path: '/health/case/:id',
+          name: 'HealthCaseID',
+          component: HealthCaseView,
+          props: true,
+        },
+        {
+          path: '/health/:id/edit',
+          name: 'PatientEdit',
+          component: HealthView,
+          props: true,
+        },
+        {
+          path: '/health/:id',
+          name: 'PatientID',
+          component: HealthPatient,
+          props: true,
+        }
+      ]
+    },
+    {
+      path: '/orientation',
+      component: OrientationTemplate,
+      meta: {
+        requiresAuth: true,
+        department: 'Orientierung'
+      },
+      children: [
+        {
+          path: '/orientation',
+          name: 'Orientation',
+          component: OrientationView,
+        },
+        {
+          path: '/orientation/new',
+          name: 'OrientationNew',
+          component: OrientationNewView,
+        },
+        {
+          path: '/orientation/permission',
+          name: 'OrientationPermission',
+          component: OrientationPermissionView,
+          props: true,
+        },
+        {
+          path: '/orientation/file/:id',
+          name: 'OrientationFileID',
+          component: OrientationFileView,
+          props: true,
+        },
+        {
+          path: '/orientation/:id/edit',
+          name: 'OrientationEdit',
+          component: OrientationEditView,
+          props: true,
+        },
+        {
+          path: '/orientation/:id',
+          name: 'OrientationID',
+          component: OrientationFileView,
+          props: true,
+        }
+      ]
+    },
+    {
+      path: '/ooc',
+      name: 'OOC',
+      component: OOCView,
+      meta: {
+        requiresAuth: true
+      },
+    },
+    {
       path: '/justice',
       name: 'home',
       component: MainView,
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        department: ['Strafverfolgung', '']
       },
       children: [
         {
@@ -211,6 +314,13 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
 
   console.log(to.name)
+
+  const underconstruction = to.matched.some(record => record.meta.underconstruction);
+
+  if (underconstruction) {
+    next({ name: 'Error', params: { code: 503 } })
+    return;
+  }
 
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 

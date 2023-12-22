@@ -52,107 +52,43 @@ function playsound() {
 }
 </script>
 <template>
-    <Navbar class="navbar" />
-    <div class="title"><img src="../../assets/Strafregister.png" width="160" class="header_image"/></div>
-    <div class="sidebar">
-        <div class="sidebar-header">
-        <!--<h2>Strafregister</h2>-->
-        </div>
-        <ul class="sidebar-list">
-        <RouterLink @click="playsound" to="/justice" v-if="permissions.permission_register || permissions.permission_superadmin">
-        <li class="sidebar-list-item">
-            <p>Register</p>
-        </li>
-        </RouterLink>
-        <RouterLink @click="playsound" to="/justice/create/entry" v-if="permissions.permission_creator || permissions.permission_superadmin">
-        <li class="sidebar-list-item">
-            <p>Neuer Eintrag</p>
-        </li>
-        </RouterLink>
-        <RouterLink @click="playsound" to="/justice/articles">
-        <li class="sidebar-list-item">
-            <p>Gesetzesartikel</p>
-        </li>
-        </RouterLink>
-        <RouterLink @click="playsound" to="/justice/AdminMember" v-if="permissions.permission_recruiter || permissions.permission_superadmin">
-        <li class="sidebar-list-item">
-            <p>Mitglieder</p>
-        </li>
-        </RouterLink>
-        <RouterLink @click="playsound" to="/justice/brodcast" v-if="permissions.permission_brodcaster || permissions.permission_superadmin">
-        <li class="sidebar-list-item">
-            <p>Brodcast System</p>
-        </li>
-        </RouterLink>
-        <RouterLink @click="playsound" to="/justice/odt" v-if="permissions.permission_superadmin">
-        <li class="sidebar-list-item">
-            <p>ODT</p>
-        </li>
-        </RouterLink>
-        <RouterLink @click="playsound" to="/justice/odt/new" v-if="permissions.permission_superadmin">
-        <li class="sidebar-list-item">
-            <p>New ODT</p>
-        </li>
-        </RouterLink>
-        <RouterLink @click="playsound" to="/justice/chat" v-if="permissions.permission_superadmin">
-        <li class="sidebar-list-item">
-            <p>Chat</p>
-        </li>
-        </RouterLink>
-        <li class="sidebar-list-item" @click.prevent="logoutUser">
-            <p>Logout</p>
-        </li>
-        </ul>
-    </div>
+      <el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose"
+      >
+        <el-sub-menu index="1">
+          <template #title>
+            ODT
+          </template>
+            <el-menu-item index="1-1">
+                <RouterLink @click="playsound" to="/justice/odt" v-if="permissions.permission_superadmin">ODT</RouterLink>
+            </el-menu-item>
+            <el-menu-item index="1-2">
+                <RouterLink @click="playsound" to="/justice/odt/new" v-if="permissions.permission_superadmin">New ODT</RouterLink>
+            </el-menu-item>
+        </el-sub-menu>
+        <el-menu-item index="2">
+            <RouterLink @click="playsound" to="/justice" v-if="permissions.permission_register || permissions.permission_superadmin">Register</RouterLink>
+        </el-menu-item>
+        <el-menu-item index="3">
+          <RouterLink @click="playsound" to="/justice/create/entry" v-if="permissions.permission_creator || permissions.permission_superadmin">Neuer Eintrag</RouterLink>
+        </el-menu-item>
+        <el-menu-item index="4">
+          <RouterLink @click="playsound" to="/justice/articles">Gesetzesartikel</RouterLink>
+        </el-menu-item>
+        <el-menu-item index="5">
+            <RouterLink @click="playsound" to="/justice/AdminMember" v-if="permissions.permission_recruiter || permissions.permission_superadmin">Mitglieder</RouterLink>
+        </el-menu-item>
+        <el-menu-item index="6">
+            <RouterLink @click="playsound" to="/justice/brodcast" v-if="permissions.permission_brodcaster || permissions.permission_superadmin">Broadcast System</RouterLink>
+        </el-menu-item>
+        <el-menu-item index="7">
+            <RouterLink @click="playsound" to="/justice/chat" v-if="permissions.permission_superadmin">Chat</RouterLink>
+        </el-menu-item>
+        <el-menu-item index="8">
+            <span @click.prevent="logoutUser">Logout</span>
+        </el-menu-item>
+      </el-menu>
 </template>
-<style scoped>
-.title {
-    padding-left: 20px;
-}
-.header_image {
-    position: fixed;
-    height: 50px;
-    z-index: 3;
-}
-.navbar {
-    position: fixed;
-    margin-left: 0px;
-    width: 100%;    
-}
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 200px;
-    /*background-color: grey;*/
-    background-color: rgba(0, 247, 255, 0.7);
-    box-shadow: 1px 55px 10px 5px rgba(54, 198, 255, 0.584);
-    color: red;
-    padding-top: 50px;
-}
-
-.sidebar-list-item {
-    list-style-type: none;
-    padding: 10px;
-    background-color: rgb(224, 224, 224);
-    border-color: black;
-    color: black;
-    border-style: solid;
-    border-width: 1px;
-    margin-bottom: 3px;
-    display: flex;
-    justify-content: center;
-}
-
-.sidebar-list-item:hover {
-    background-color: rgb(187, 187, 187);
-    cursor: pointer;
-}
-
-a {
-    text-decoration: none;
-    color: black;
-}
-
-</style>

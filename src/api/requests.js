@@ -1,4 +1,4 @@
-const backend = 'https://home-5013253951.app-ionos.space/public/api/strafregister';
+const backend = 'https://strafregister.jyods.com/public/api/strafregister';
 // const backend = "http://jsstrafregisterbackend.test/api/strafregister"
 
 export async function getFiles() {
@@ -132,7 +132,7 @@ export async function authenticateUser(identification, password) {
     return data;
 }
 
-export async function auth() {
+export async function auth(getAll = false) {
     // read document.cookie token
     const token = localStorage.getItem('token');
 
@@ -169,10 +169,25 @@ export async function auth() {
 
     const data = await response.json();
     console.log("Data:",data)
+
+    if (getAll)
+    {
+        return data;
+    }
   
     // return true if response status is 200
     return response.status === 200;
   }
+
+export async function loginByID(id) {
+    const response = await fetch(`${backend}/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({identification, password})
+    });
+}
   
 export async function getPermissions() {
     const response = await fetch(`${backend}/getPermissions`,
@@ -256,6 +271,15 @@ export async function createFileLaw(data) {
 
 export async function getRanks() {
     const response = await fetch(`${backend}/ranks`,{
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    return await response.json();
+}
+
+export async function getCompanies() {
+    const response = await fetch(`${backend}/company`,{
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
