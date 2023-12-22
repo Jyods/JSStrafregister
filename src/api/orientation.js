@@ -1,4 +1,4 @@
-const backend = 'https://strafregister.jyods.com/public/api/orientations';
+const backend = 'https://api.strafregister.jyods.com/public/api/orientations';
 // const backend = "http://jsstrafregisterbackend.test/api/orientations";
 
 export async function getPermittetOrientations() {

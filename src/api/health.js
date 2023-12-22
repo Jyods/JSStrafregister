@@ -1,4 +1,4 @@
-const backend = 'https://strafregister.jyods.com/public/api/health';
+const backend = 'https://api.strafregister.jyods.com/public/api/health';
 // const backend = "http://jsstrafregisterbackend.test/api/health"
 
 export async function getPatients() {

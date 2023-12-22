@@ -1,4 +1,4 @@
-const backend = 'https://strafregister.jyods.com/public/api/logistic';
+const backend = 'https://api.strafregister.jyods.com/public/api/logistic';
 // const backend = "http://jsstrafregisterbackend.test/api/logistic";
 
 export async function getLogistics() {
