@@ -11,6 +11,10 @@ const props = defineProps({
     ranks: {
         type: Array,
         required: true
+    },
+    companies: {
+        type: Array,
+        required: true
     }
 })
 
@@ -132,8 +136,9 @@ onMounted(() => {
           <p class="star-wars-info">Email: {{ member.email }}</p>
           <p class="star-wars-info">RestrictionClass: {{ member.restrictionClass }}</p>
           <p class="star-wars-info">Aktives Mitglied: {{ member.isActive }}</p>
-          <p class="star-wars-info">Einheit: {{ member.rank.unit }}</p>
+          <p class="star-wars-info">Zugehörigkeit: {{ member.rank.unit }}</p>
           <p class="star-wars-info">Rank: {{ member.rank.rank }}</p>
+          <p class="star-wars-info">Einheit: {{ member.company.company }}</p>
           <p class="star-wars-info">Eintritt: {{ member.entry }}</p>
           <p @click="showPermissions = !showPermissions" v-if="!showPermissions">Permissions [Ausklappen]</p>
           <p @click="showPermissions = !showPermissions" v-else>Permissions [Einklappen]</p>
@@ -161,6 +166,9 @@ onMounted(() => {
           <p class="star-wars-info">Einheit: <input type="text" v-model="member.rank.unit" disabled> </p>
           <p class="star-wars-info">Rank: <select v-model="member.rank">
               <option v-for="rank in ranksOfUnit" :key="rank.id" :value="rank">{{ rank.rank }}</option>
+            </select></p>
+            <p class="star-wars-info">Company: <select v-model="member.company">
+              <option v-for="company in companies" :key="company.id" :value="company">{{ company.company }}</option>
             </select></p>
           <p class="star-wars-info">Eintritt: <input type="date" v-model="member.entry" disabled></p>
           <p @click="showPermissions = !showPermissions" v-if="!showPermissions">Permissions [Ausklappen]</p>

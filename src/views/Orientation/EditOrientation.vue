@@ -1,11 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getRanks, getMembers, getCompanies } from '../../api/requests';
+import { getRanks, getMembers, getCompanies, getCurrentUser } from '../../api/requests';
 import { updateOrientation, createPermission, getOrientationById, get_perms_for_orientation, deletePermission } from '../../api/orientation';
 import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 const url = ref('')
 const httpsRegex = /^https?:\/\//
+
+const router = useRouter()
 
 import { reactive } from 'vue'
 
@@ -129,6 +132,12 @@ onMounted(async () => {
         form.rank_id = response.data.rank_id
         form.members = response.data.members
         form.companies = response.data.companies
+    })
+
+    await getCurrentUser().then((response) => {
+        if (response.data.id != orientation.value.user_id) {
+            router.push({ name: 'Home'})
+        }
     })
 
     getRanks().then((response) => {

@@ -9,27 +9,9 @@
 
   const router = useRouter()
 
-  const minorMessages = ref([
-    {
-      id: 1,
-      message: "Test Nachricht 1"
-    },
-    {
-      id: 2,
-      message: "Dies ist eine mega lange Text Nachricht. Omg wie lange ist die bitte?!"
-    }
-  ])
+  const minorMessages = ref([])
 
-  const majorMessages = ref([
-    {
-      id: 1,
-      message: "Hier kommt eine wichtige Nachricht hin"
-    },
-    {
-      id: 2,
-      message: "Die Passwörter wurden geändert, bitte wenden Sie sich an Ihren Supervisor."
-    }
-  ])
+  const majorMessages = ref([])
 
   function deleteFromMinorMessages(id) {
     console.warn("Delete from array APP")

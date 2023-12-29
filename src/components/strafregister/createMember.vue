@@ -11,10 +11,20 @@ const props = defineProps({
     ranks: {
         type: Array,
         required: true
+    },
+    companies: {
+        type: Array,
+        required: true
     }
 })
 
 const member = ref(props.member)
+
+const pickedCompany = computed(() => {
+    let company = props.companies.find(company => company.id == member.value.company_id)
+    console.log(company)
+    return company.id
+})
 
 const units = computed(() => {
     let units = []
@@ -64,12 +74,12 @@ function abort(memberID) {
 }
 
 function checkIfAllFieldsFilled() {
-    if (member.value.identification != "" && member.value.email != "" && member.value.password != "" && member.value.restrictionClass != "" && member.value.rank != "")
-    {
-        return true
+    member.value.restrictionClass ? member.value.restrictionClass : member.value.restrictionClass = 1
+    if (member.value.identification != "" && member.value.email != "" && member.value.password != "" && member.value.restrictionClass != "" && member.value.rank != "" && member.value.company_id != "") {
+      return true
     }
     else {
-        return false
+      return false
     }
 
 }
@@ -97,7 +107,10 @@ onMounted(() => {
             <option v-for="unit in units" :value="unit">{{ unit }}</option>
           </select> </p>
         <p class="star-wars-info">Rank: <select v-model="member.rank">
-            <option v-for="rank in ranksOfUnit" :key="rank.id" :value="rank">{{ rank.rank }}</option>
+            <option v-for="rank in ranksOfUnit" :key="rank.rank.id" :value="rank">{{ rank.rank }}</option>
+          </select></p>
+          <p class="star-wars-info">Company: <select v-model="member.company_id">
+            <option v-for="company in companies" :key="company.id" :value="company.id">{{ company.abbreviation }}</option>
           </select></p>
         <Info info="Das Eintrittsdatum kann nicht geändert werden.">
           <p class="star-wars-info">Eintritt: <input type="date" v-model="member.entry" disabled></p>

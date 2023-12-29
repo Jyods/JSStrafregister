@@ -5,34 +5,45 @@ import {RouterLink, useRouter} from 'vue-router'
 
 const router = useRouter()
 
+const user = ref(null)
+
+const isloading = ref(true)
+
 
 const props = defineProps({
     result: {
         type: Object,
         required: true
+    },
+    user_id: {
+        type: Number,
+        required: true
     }
 })
 
-onMounted(() => {
+onMounted(async () => {
     console.log("Result")
     console.log(props.result)
+    isloading.value = false
 })
 
 function redirect() {
+    isloading.value = true
     console.log("Redirect")
     router.push({ name: 'OrientationID', params: { id: props.result.id }})
+    isloading.value = false
 }
 
 </script>
 
 <template>
     
-    <div class="file_wrapper">
+    <div v-loading="isloading" class="file_wrapper">
         <div class="header_wrapper">
             <div class="name1">
                 {{ result.name }}
             </div>
-            <RouterLink :to="{ name: 'OrientationEdit', params: { id: props.result.id }}">
+            <RouterLink v-if="result.user_id == user_id" :to="{ name: 'OrientationEdit', params: { id: props.result.id }}">
                 <img src="../../assets/edit.svg" alt="loading" height="15" width="15"/>
             </RouterLink>
         </div>

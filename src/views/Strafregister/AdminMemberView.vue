@@ -1,7 +1,7 @@
 <script setup>
     import { ref, onMounted, computed } from 'vue'
     import { RouterLink, RouterView, useRouter } from 'vue-router'
-    import { getMembers, createUser, getPermissions, switchActive, getRanks, getCurrentUser } from '../../api/requests.js'
+    import { getMembers, createUser, getPermissions, switchActive, getRanks, getCurrentUser, getCompanies } from '../../api/requests.js'
     import Member from '../../components/strafregister/member.vue'
     import CreateMember from '../../components/strafregister/createMember.vue'
 
@@ -12,6 +12,8 @@
     const editMembers = ref([])
     const ranks = ref([])
     const addingMember = ref(false)
+    const companies = ref([])
+
 
     const showPopup = ref(false)
 
@@ -29,9 +31,11 @@ onMounted(async() => {
         console.log("Member View")
         let fetch = await getMembers()
         members.value = fetch.data
-        console.log(members.value)
         let fetchRanks = await getRanks()
         ranks.value = fetchRanks.data
+        let fetchCompanies = await getCompanies()
+        companies.value = fetchCompanies
+        console.error(companies.value)
         isLoading.value = false
     }
     else {
@@ -75,6 +79,7 @@ function addMember() {
             rank: "Private",
             unit: "Clone Army"
         },
+        company_id: 1,
         permissions: {
             'permission_register': true,
             'permission_creator': true,
@@ -85,6 +90,7 @@ function addMember() {
             'permission_allchat': true,
         }
     })
+    console.error(newMembers.value)
     }
     else {
         console.warn("You can't add a new member while you are adding a new member")
@@ -114,6 +120,7 @@ async function pushMember(member) {
     isLoading.value = true
     console.log("Push Member")
     //Alert user with the new password
+    console.log(member.password)
     alert("Das Passwort für " + member.identification + " lautet: " + member.password)
     member.rank_id = member.rank.id
     let currentUser = await getCurrentUser()
@@ -164,8 +171,8 @@ function changeActive(memberID) {
             <input type="text" placeholder="Suche" class="search" v-model="search"/>
             <button class="add" @click="addMember">Neuer Benutzer</button>
         </div>
-        <CreateMember v-for="member in newMembers" :member="member" :ranks="ranks" :key="members.id" @pushNewMember="pushMember" @abortMember="abortEntry"/>
-        <Member class="item" v-for="member in filteredMembers" :member="member" :ranks="ranks" :key="members.id" @changeActiv="changeActive"/>
+        <CreateMember v-for="member in newMembers" :member="member" :ranks="ranks" :companies="companies" :key="members.id" @pushNewMember="pushMember" @abortMember="abortEntry"/>
+        <Member class="item" v-for="member in filteredMembers" :member="member" :ranks="ranks" :companies="companies" :key="members.id" @changeActiv="changeActive"/>
     </div>
 </div>
 

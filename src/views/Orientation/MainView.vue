@@ -2,11 +2,16 @@
 
 import { ref, onMounted, computed } from 'vue'
 import {getPermittetOrientations} from '../../api/orientation.js'
+import { getCurrentUser } from '../../api/requests';
 import Result from '../../components/orientations/OrientationResult.vue'
 
 const results = ref([])
 
 const search = ref("")
+
+const loading = ref(true)
+
+const user = ref(null)
 
 const filteredResults = computed(() => {
     if (!search.value) {
@@ -22,15 +27,20 @@ onMounted(async() => {
     let patients = await getPermittetOrientations()
     results.value = patients.data
     console.log(results.value)
+
+    let currentUser = await getCurrentUser()
+    user.value = currentUser.data
+
+    loading.value = false
 })
 
 </script>
 
 <template>
     <h1> Files </h1>
-    <el-input type="text" placeholder="Suche Files" v-model="search" />
-    <div class="file_results">
-        <Result v-for="result in results" :key="result.id" :result="result" />
+    <el-input type="text" placeholder="Suche Files" v-model="search" v-loading="loading" />
+    <div class="file_results" v-loading="loading">
+        <Result v-for="result in results" :key="result.id" :result="result" :user_id="user.id" />
     </div>
 </template>
 
