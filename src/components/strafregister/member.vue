@@ -17,6 +17,16 @@ const props = defineProps({
         required: true
     }
 })
+const company = computed(() => {
+    if (props.member.company)
+    {
+        return props.member.company.abbreviation
+    }
+    else {
+        return "Please reload..."
+    }
+})
+
 
 const units = computed(() => {
     let units = []
@@ -138,7 +148,7 @@ onMounted(() => {
           <p class="star-wars-info">Aktives Mitglied: {{ member.isActive }}</p>
           <p class="star-wars-info">Zugehörigkeit: {{ member.rank.unit }}</p>
           <p class="star-wars-info">Rank: {{ member.rank.rank }}</p>
-          <p class="star-wars-info">Einheit: {{ member.company.company }}</p>
+          <p class="star-wars-info">Einheit: {{ company ? company : "Error" }}</p>
           <p class="star-wars-info">Eintritt: {{ member.entry }}</p>
           <p @click="showPermissions = !showPermissions" v-if="!showPermissions">Permissions [Ausklappen]</p>
           <p @click="showPermissions = !showPermissions" v-else>Permissions [Einklappen]</p>
