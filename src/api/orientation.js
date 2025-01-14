@@ -1,5 +1,6 @@
-const backend = 'https://api.strafregister.jyods.com/public/api/orientations';
+// const backend = 'https://api.strafregister.jyods.com/public/api/orientations';
 // const backend = "http://jsstrafregisterbackend.test/api/orientations";
+const backend = "http://localhost:8080/api/orientations";
 
 export async function getPermittetOrientations() {
     const response = await fetch(`${backend}/permitted`,{

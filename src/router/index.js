@@ -52,7 +52,7 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
         department: 'Medizin',
-        underconstruction: true
+        underconstruction: false
       },
       children: [
         {

@@ -58,7 +58,9 @@ function playsound() {
         @open="handleOpen"
         @close="handleClose"
       >
-        <el-sub-menu index="1">
+        <el-sub-menu index="1"
+            v-if="permissions.permission_superadmin"
+            >
           <template #title>
             ODT
           </template>
@@ -69,23 +71,34 @@ function playsound() {
                 <RouterLink @click="playsound" to="/justice/odt/new" v-if="permissions.permission_superadmin">New ODT</RouterLink>
             </el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="2">
-            <RouterLink @click="playsound" to="/justice" v-if="permissions.permission_register || permissions.permission_superadmin">Register</RouterLink>
+        <el-menu-item index="2" 
+            v-if="permissions.permission_register || permissions.permission_superadmin"
+            >
+            <RouterLink @click="playsound" to="/justice">Register</RouterLink>
         </el-menu-item>
         <el-menu-item index="3">
-          <RouterLink @click="playsound" to="/justice/create/entry" v-if="permissions.permission_creator || permissions.permission_superadmin">Neuer Eintrag</RouterLink>
+          <RouterLink @click="playsound" to="/justice/create/entry"
+            v-if="permissions.permission_creator || permissions.permission_superadmin"
+            >
+          Neuer Eintrag</RouterLink>
         </el-menu-item>
         <el-menu-item index="4">
           <RouterLink @click="playsound" to="/justice/articles">Gesetzesartikel</RouterLink>
         </el-menu-item>
-        <el-menu-item index="5">
-            <RouterLink @click="playsound" to="/justice/AdminMember" v-if="permissions.permission_recruiter || permissions.permission_superadmin">Mitglieder</RouterLink>
+        <el-menu-item index="5" 
+            v-if="permissions.permission_recruiter || permissions.permission_superadmin"
+            >
+            <RouterLink @click="playsound" to="/justice/AdminMember">Mitglieder</RouterLink>
         </el-menu-item>
-        <el-menu-item index="6">
-            <RouterLink @click="playsound" to="/justice/brodcast" v-if="permissions.permission_brodcaster || permissions.permission_superadmin">Broadcast System</RouterLink>
+        <el-menu-item index="6" 
+            v-if="permissions.permission_brodcaster || permissions.permission_superadmin"
+            >
+            <RouterLink @click="playsound" to="/justice/brodcast">Broadcast System</RouterLink>
         </el-menu-item>
-        <el-menu-item index="7">
-            <RouterLink @click="playsound" to="/justice/chat" v-if="permissions.permission_superadmin">Chat</RouterLink>
+        <el-menu-item index="7" 
+            v-if="permissions.permission_superadmin"
+            >
+            <RouterLink @click="playsound" to="/justice/chat">Chat</RouterLink>
         </el-menu-item>
         <el-menu-item index="8">
             <span @click.prevent="logoutUser">Logout</span>
