@@ -30,7 +30,7 @@ function removeArticle() {
     justify-content: space-between;
     align-items: center;
     align-self: center;
-
+    font-size: smaller;
 }
 .remove_button {
     width: 20px;
@@ -44,5 +44,9 @@ function removeArticle() {
     cursor: pointer;
     transition: 0.2s;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
 }
 </style>

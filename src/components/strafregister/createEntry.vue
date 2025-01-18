@@ -262,11 +262,11 @@
                 </Tooltip>
                 <label for="definition">Vergehen</label>
                 <input type="text" name="definition" id="definition" placeholder="Mord" v-model="definition" required>
-                <label for="timeDate">Tat Datum</label>
+                <label for="timeDate">Tatdatum</label>
                 <input type="date" name="timeDate" id="timeDate" placeholder="03.04.2022" v-model="date" required>
-                <label for="timeTime">Tat Zeit</label>
+                <label for="timeTime">Tatzeit</label>
                 <input type="time" name="timeTime" id="timeTime" placeholder="12:00" v-model="time" required>
-                <label for="timePlace">Tat Ort</label>
+                <label for="timePlace">Tatort</label>
                 <input type="text" name="timePlace" id="timePlace" placeholder="Zuhause" v-model="place" required>
                 <label for="description">Beschreibung</label>
                 <textarea name="description" id="description" placeholder="Beschreibung" v-model="description" required></textarea>
@@ -280,7 +280,7 @@
                    <Article v-for="selectedLaw in selectedLaws" :key="selectedLaw.id" :article="selectedLaw" @removeArticle="removeArticle"/>
                 </div>
                 <div class="article">
-                <select v-model="userArticle" id="article">
+                <select v-model="userArticle" id="article" class="article__select">
                     <option disabled value="">Please select one</option>
                         <option id="article_item" v-for="article in laws" :key="article.id">
                             §{{ article.Paragraph + ' ' + article.Title + ' ' + article.Category}}
@@ -293,8 +293,10 @@
                 <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
             </select> </h3>
                 <!--<input type="description" name="articles" id="articles" placeholder="Artikel" required>-->
-                <label v-if="permissions" for="isRestricted">Is Restricted</label>
-                <input v-if="permissions" type="checkbox" v-model="isRestricted" name="isRestricted" id="isRestricted" placeholder="Aktives Mitglied" class="checkbox">
+                <div class="checkbox-wrapper" v-if="permissions">
+                    <label for="isRestricted">Is Restricted</label>
+                    <input type="checkbox" v-model="isRestricted" name="isRestricted" id="isRestricted" class="checkbox">
+                </div>
                 <div class="isRestricted" v-if="isRestricted">
                     <label for="restrictionClass">Restriction Class</label>
                     <p v-if="checkRestrictionClass"></p>
@@ -345,6 +347,12 @@ label {
     font-weight: bold;
     cursor: pointer;
     transition: 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.button__plus:hover {
+    background-color: transparent;
 }
 .button {
     width: 100%;
@@ -359,19 +367,25 @@ label {
     cursor: pointer;
     transition: 0.2s;
 }
-
-button:hover {
+.button:hover {
     background-color: #3f3f3f;
 }
-
 input {
-    color: #6d6d6d;
+    width: 75%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    color: #333; /* Dunklerer Text */
+    background-color: #f9f9f9;
+    transition: background-color 0.2s;
 }
-
-input[type='text']:hover {
-    background-color: #3f3f3f;
+input:hover {
+    background-color: #e9e9e9;
 }
-
+input::placeholder {
+    color: #6d6d6d; /* Graue Farbe für Vorschläge */
+}
 input[type='checkbox'] {
     width: 15px;
     height: 15px;
@@ -400,16 +414,14 @@ input[type='checkbox']:hover {
     background-color: #f9f9f9;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
 }
-
 form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-
 input {
     width: 75%;
     padding: 10px;
@@ -417,7 +429,6 @@ input {
     border-radius: 5px;
     border: 1px solid #ccc;
 }
-
 .checkbox {
     width: 10%;
     padding: 10px;
@@ -425,13 +436,40 @@ input {
     border-radius: 5px;
     border: 1px solid #ccc;
 }
-
 textarea {
     width: 75%;
     padding: 10px;
     margin: 5px;
     border-radius: 5px;
     border: 1px solid #ccc;
+    color: #333; /* Dunklerer Text */
+    background-color: #f9f9f9;
+    transition: background-color 0.2s;
+}
+textarea:hover {
+    background-color: #e9e9e9;
+}
+textarea::placeholder {
+    color: #6d6d6d; /* Graue Farbe für Vorschläge */
+}
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+}
+.checkbox-wrapper label {
+    margin-right: 10px; /* Abstand zwischen Label und Checkbox */
+    padding: 0;
+    margin: 0;
+}
+
+button:hover {
+    background-color: #3f3f3f;
+}
+
+.article__select {
+    width: 50% !important;
 }
 
 </style>

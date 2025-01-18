@@ -22,6 +22,10 @@ const description = ref("")
 
 const isLoading = ref(true)
 
+const sortedLaws = computed(() => {
+    return laws.value.sort((a, b) => parseFloat(a.Paragraph) - parseFloat(b.Paragraph))
+})
+
 
 
 const searchParams = new URLSearchParams(window.location.search);
@@ -70,7 +74,7 @@ function truncateDescription(desc) {
     </div>
     <div class="law_wrapper" v-else>
             <div class="info">
-                <div v-for="law in laws" class="law__wrapper">
+                <div v-for="law in sortedLaws" class="law__wrapper">
                     <div class="law__content">
                         <h2>{{law.Title}}</h2>
                         <p>Paragraph: §{{ law.Paragraph }} {{law.Category}}</p>
