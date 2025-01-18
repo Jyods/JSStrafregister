@@ -25,6 +25,15 @@ const company = computed(() => {
     else {
         return "Please reload..."
     }
+
+    let timer = setInterval(() => {
+        if (props.member.company)
+        {
+            return props.member.company.abbreviation
+            clearInterval(timer)
+        }
+    }, 1000)
+
 })
 
 

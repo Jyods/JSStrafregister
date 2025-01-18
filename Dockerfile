@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base image
-FROM node:16-alpine
+FROM node:16-alpine AS build
 
 # Set the working directory
 WORKDIR /app
@@ -20,9 +20,17 @@ RUN npm run build
 FROM nginx:alpine
 
 # Copy the built application from the previous stage
-COPY --from=0 /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Expose port 80
+# Copy SSL certificates into the container
+COPY /nginx_ssl/fullchain.pem /etc/ssl/certs/certificate.crt
+COPY /nginx_ssl/privkey.pem /etc/ssl/private/private.key
+
+# Add this line to copy the custom NGINX configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 443 for HTTPS
+EXPOSE 443
 EXPOSE 80
 
 # Start Nginx

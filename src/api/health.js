@@ -1,6 +1,6 @@
-// const backend = 'https://api.strafregister.jyods.com/public/api/health';
+const backend = 'https://strafregisterapi.jyods.com/api/health';
 // const backend = "http://jsstrafregisterbackend.test/api/health"
-const backend = "http://localhost:8080/api/health"
+// const backend = "http://localhost:8080/api/health"
 
 export async function getPatients() {
     const response = await fetch(`${backend}/patient`,{

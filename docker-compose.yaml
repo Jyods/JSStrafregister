@@ -6,7 +6,8 @@ services:
       context: .
     working_dir: /app
     ports:
-      - 5051:80
+      - 5051:443
+      - 5055:80
     volumes:
       - .:/app
     command: sh -c "nginx -g 'daemon off;'"

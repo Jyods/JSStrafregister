@@ -1,6 +1,6 @@
-// const backend = 'https://api.strafregister.jyods.com/public/api/strafregister';
+const backend = 'https://strafregisterapi.jyods.com/api/strafregister';
 // const backend = "http://jsstrafregisterbackend.test/api/strafregister"
-const backend = "http://webserver/api/strafregister"
+// const backend = "http://webserver/api/strafregister"
 
 export async function getFiles() {
     const response = await fetch(`${backend}/files`,{
