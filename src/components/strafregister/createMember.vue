@@ -97,7 +97,7 @@ onMounted(() => {
         <h1>{{ member.type }}</h1>
         <p class="star-wars-info">Identifikation: <input type="text" v-model="member.identification"></p>
         <p class="star-wars-info">Email: <input type="email" v-model="member.email"></p>
-        <Info info="Das Passwort wird Ihnen nach der Erstellung einmalig bekannt gegeben.">
+        <Info info="Der Benutzer erhält ein Passwort über die Email.">
           <p class="star-wars-info">Passwort: <input type="password" v-model="member.password" disabled></p>
         </Info>
         <p class="star-wars-info">RestrictionClass: <input type="number" v-model="member.restrictionClass"></p>
@@ -124,59 +124,59 @@ onMounted(() => {
   </template>
   
   <style scoped>
-    /* Rest of the Star Wars-inspired CSS from previous examples */
-  
-    .star-wars-card {
-      padding: 20px;
-      width: 300px;
-      background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white */
-      border-radius: 10px;
-      box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+        /* Rest of the Star Wars-inspired CSS from previous examples */
+    
+        .star-wars-card {
+        padding: 20px;
+        width: 300px;
+        background-color: #ffffff; /* Weißer Hintergrund */
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Leichter Schatten */
     }
-  
+    
     .star-wars-info {
-      margin: 5px 0;
-      color: var(--main-text-color);
+        margin: 5px 0;
+        color: #333; /* Dunklerer Text */
     }
-  
+    
     .star-wars-btn {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
     }
-  
+    
     .star-wars-btn button {
-      background-color: var(--btn-bg-color);
-      color: var(--main-text-color);
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.2s;
-      width: 100px;
-      margin: 0 5px;
+        background-color: #4CAF50; /* Grüner Hintergrund */
+        color: white; /* Weißer Text */
+        border: none;
+        padding: 12px 24px; /* Mehr Innenabstand */
+        border-radius: 5px; /* Abgerundete Ecken */
+        cursor: pointer; /* Zeiger-Cursor */
+        font-size: 14px;
+        transition: background-color 0.3s ease; /* Übergangseffekt */
+        width: 100px;
+        margin: 0 5px;
     }
-  
+    
     .star-wars-btn button:hover {
-      background-color: #ffd300; /* Brighter Yellow on hover */
+        background-color: #45a049; /* Dunkleres Grün beim Hover */
     }
-  
+    
     .star-wars-abort-btn {
-      background-color: #ff0000; /* Red */
+        background-color: #f44336; /* Roter Hintergrund */
     }
-  
+    
     .star-wars-save-btn {
-      background-color: #00ff00; /* Green */
+        background-color: #4CAF50; /* Grüner Hintergrund */
     }
-  
+    
     .star-wars-abort-btn:hover {
-      background-color: #800000; /* Darker Red on hover */
+        background-color: #d32f2f; /* Dunkleres Rot beim Hover */
     }
-  
+    
     .star-wars-save-btn:hover {
-      background-color: #008000; /* Darker Green on hover */
+        background-color: #388E3C; /* Dunkleres Grün beim Hover */
     }
   </style>
   

@@ -34,7 +34,7 @@ onMounted(async () => {
         data.value = response.data
     }
 
-    router.push({ name: 'Justice' })
+    router.push({ name: 'Home' })
 
 
 })

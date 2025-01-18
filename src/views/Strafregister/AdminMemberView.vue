@@ -110,7 +110,7 @@ function generatePassword() {
     console.log("Generate Password")
     let password = ""
     let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 4; i++) {
         password += characters.charAt(Math.floor(Math.random() * characters.length))
     }
     return password
@@ -125,7 +125,7 @@ async function pushMember(member) {
     member.rank_id = member.rank.id
     let currentUser = await getCurrentUser()
     console.log(currentUser)
-    member.creator_name = currentUser.identification
+    member.creator_name = currentUser.data.identification || "CT-0000"
     console.log(member)
     let fetch = await createUser(member)
     console.log("Return",fetch)

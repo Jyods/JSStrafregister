@@ -58,7 +58,7 @@ function redirect() {
                 <p>Paragrafen:                 </p>
                     <p v-for="law in props.case.laws">
                         <RouterLink 
-                        :to="{  name: 'Law', 
+                        :to="{  name: 'LawArticle', 
                                 query: { ArticleID: law.law.id }}"
                                 :law = "law"
                                 >
