@@ -99,6 +99,7 @@ function truncateDescription(desc) {
 }
 .law__content > h2 {
     margin-bottom: 10px; /* Abstand zum nächsten Element */
+    text-align: center;
 }
 .button_goto:hover {
     background-color: #45a049; /* Dunkleres Grün beim Hover */
