@@ -57,45 +57,100 @@
         }
     }
 
+    function formatDate(date) {
+        return new Date(date).toLocaleDateString('de-DE', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric', 
+          hour: 'numeric', 
+          minute: 'numeric', 
+          second: 'numeric' 
+        })    }
+
 </script>
 <template>
     <div class="loading" v-if="isLoading">
         <img src="../../assets/Loading.svg" alt="loading"/>
     </div>
-        <div class="CaseContent" v-else>
-        <h3 class="item">Akte: {{ entries.id }}</h3>
-        <h1 class="title item">Titel: {{ entries.definition }}</h1>
-        <h3 class="description item">Beschreibung: {{ entries.description }}</h3>
-        <h2 class="creation item">Datum: {{ entries.date }}</h2>
-        <h3 v-if="entries.laws != 'Restricted'" class="article item">StGB:  
-            <p v-for="law in entries.laws">
-                        <RouterLink 
-                        :to="{  name: 'Law', 
-                                query: { ArticleID: law.law.id }}"
-                                :law = "law"
-                                >
-                                §{{ law.law.Paragraph }}
-                        </RouterLink>
-                    </p>
-        </h3>
-        <h3 v-else>StGB: {{ entries.laws }}</h3>
-        <h3>Veröffentlichungen:</h3>
-        <li v-if="entries.publishes != 'Restricted'" v-for="publish in entries.publishes">
-            <RouterLink 
-            :to="{  name: 'Public', 
-                    params: { id: publish.route }}"
-                    :publish = "publish"
-                    >
-                    {{ publish.route }} ({{ publish.publisher[0].identification }}) {{  }}
-                    <button class="del_btn" @click="deletePublicCopy(publish.id)">Löschen</button>
-            </RouterLink>
-        </li>
-        <h3 class="punishment item">Haftzeit: {{ entries.fine }} Einheiten</h3>
-        <h3 class="rank item">Rang: {{ entries.rank[0].rank }}</h3>
-        <br>
-        <h2>{{ entries.user.type }}</h2>
-        <RouterLink :to="{ name: 'Member', query: { MemberID: entries.user.id }}">{{ entries.user.identification }}</RouterLink>
-        <el-button @click="createPublicCopy" type="primary">öffentliche Kopie erstellen</el-button>
+    <div class="case__wrapper" v-else>
+      <div class="case_info__wrapper">
+        <div class="case_info">
+          <b>Akte {{ entries.id }}: {{ entries.definition }}</b>
+        </div>
+      </div>
+      <div class="case_content__wrapper">
+        <div class="description__wrapper">
+          <b class="case_title">Beschreibung</b>
+          <div class="law_entry"></div>
+            <textarea class="description__textarea" readonly>{{ entries.description }}</textarea>
+        </div>
+        <div class="articles__wrapper">
+          <b class="case_title">Straftaten</b>
+          <div v-if="entries.laws != 'Restricted'">
+            <div v-for="law in entries.laws">
+              <div class="law_entry_colored">
+                <p>
+                  <RouterLink 
+                  :to="{  name: 'Law', 
+                          query: { ArticleID: law.law.id }}"
+                          :law = "law"
+                          >
+                          §{{ law.law.Paragraph }}
+                  </RouterLink>
+                  {{ law.law.Title }}
+                </p>
+                {{ law.law.Description }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="informations__wrapper">
+          <div class="case__content">
+            <b class="case_title">
+              Metadaten
+            </b>
+            <div class="law_entry">
+              <p class="law_entry">
+                <b>Erstellt am:</b> {{ formatDate(entries.created_at) }}
+              </p>
+              <p class="law_entry" v-if="entries.user.rank">
+                <b>Erstellt von:</b> {{ entries.user.rank.abbreviation }} {{ entries.user.name }}
+              </p>
+              <p class="law_entry">
+                <b>Erstellt von:</b> RESTRICTED {{ entries.user.name }}
+              </p>
+              <p class="law_entry">
+                <b>Sicherheitsstufe:</b> 
+                <span v-if="entries.isRestricted == 1">
+                  {{ entries.restrictionClass }}
+                </span>
+                <span v-else>
+                  Keine Einschränkung
+                </span>
+              </p>
+            </div>
+          </div>
+          <div class="criminal__content">
+            <b class="case_title">
+              Zieldaten
+            </b>
+            <div class="law_entry">
+              <p class="law_entry">
+                <b>Verdächtiger:</b> {{ entries.entry[0].identification }}
+              </p>
+              <p class="law_entry">
+                <b>Tatzeit:</b> {{ entries.date }}
+              </p>
+              <p class="law_entry">
+                <b>Strafe:</b> {{ entries.fine }} Hafteinheiten
+              </p>
+              <p class="law_entry">
+                <b>Rang zur Tatzeit:</b> {{ entries.rank[0].abbreviation }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </template>
 <style scoped>
@@ -106,66 +161,124 @@
   height: 100vh;
 }
 
-.article {
-  gap: 5px;
-}
-
-.CaseContent {
+.case__wrapper {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: #d8d8d8; /* Dark background like space */
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 1px 1px 10px 5px rgba(175, 175, 175, 0.75);
+  width: 100%;
+  height: calc(100vh - 100px);
+  /* background-color: #ff0000; */
 }
 
-.item {
+.case_info__wrapper {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  margin: 10px;
-  font-family: 'Arial', sans-serif; /* Choose a suitable font */
+  width: 100%;
+  border-bottom: 1px solid gray;
+  margin-bottom: 1rem;
 }
 
-h1 {
-  font-size: 2.2rem;
-  margin-bottom: 15px;
-  font-family: 'Star Jedi', cursive; /* Use Star Jedi font for the title */
+.case_info {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  color: #008ab0;
 }
 
-h2 {
-  font-size: 1.7rem;
-  margin-bottom: 10px;
+.case_content__wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  /* background-color: #00ff00; */
 }
 
-h3 {
-  font-size: 1.4rem;
-  margin-bottom: 5px;
+.description__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  /* background-color: aquamarine; */
+  border-right: 1px solid gray;
 }
 
-.router-link-active {
-  color: #FFE81F; /* Yellow color for active links */
-  text-decoration: underline;
+.articles__wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  /* background-color: #3300ff; */
+  border-right: 1px solid gray;
 }
 
-.copy_btn {
-  background-color: #FFE81F; /* Yellow color for buttons */
+.informations__wrapper{
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  /* background-color: #ff00ff; */
 }
 
-.copy_btn:hover {
-  background-color: #FFC107; /* Slightly lighter yellow on hover */
+.case__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 90%;
+  height: 45%;
+  /* background-color: #00f7ff; */
 }
 
-.del_btn {
-    background-color: #ff0d00; /* Red color for buttons */
+.criminal__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 90%;
+  height: 45%;
+  /* background-color: #ff6600; */
 }
 
-.del_btn:hover {
-    background-color: rgba(243, 30, 19, 0.808); /* Slightly lighter red on hover */
+.law_entry {
+  padding-top: 1rem;
+  width: 90%;
+  align-self: center;
+  padding-left: 1rem;
 }
 
-/* Add other Star Wars-themed styles as needed */
+.law_entry_colored {
+  padding-top: 1rem;
+  width: 90%;
+  align-self: center;
+  padding-left: 1rem;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  border: 1px solid gray;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+}
 
+.case_title {
+  /* padding-top: 1rem; */
+}
+
+textarea {
+  width: 90%;
+  height: 85%;
+  resize: none;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  border: 1px solid gray;
+  padding: 0.5rem;
+}
 </style>

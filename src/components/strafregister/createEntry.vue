@@ -194,23 +194,24 @@
 
     function addArticle() {
         //check if the article is empty
-        if (document.getElementById("article").value == "")
+        if (userArticle.value === "")
         {
             alert("Du kannst nicht nichts hinzufügen.")
             return
         }
         //check if the article name is already in selectedLaws
-        let getID = selectedLaws.value.find(entry => entry.name === document.getElementById("article").value)
+        let getID = selectedLaws.value.find(selected => selected.id === userArticle.value.id)
         if (getID !== undefined) {
             alert("Der Artikel existiert bereits!")
             return
         }
         //add the article as a object to the selectedLaws
-        let name = document.getElementById("article").value
+        let name = "§" + userArticle.value.Paragraph + " " + userArticle.value.Title
         //split the name by ' ' and get the second part
-        let Paragraph = name.split(' ')[0]
-        let Title = name.split(' ')[1]
-        let id = selectedLaws.value.length
+        let Paragraph = userArticle.value.Paragraph
+        let Title = userArticle.value.Title
+        let id = userArticle.value.id
+
         selectedLaws.value.push({id: id, name: name, paragraph: Paragraph, title: Title})
         userArticle.value = ""
     }
@@ -231,11 +232,10 @@
         console.log(selectedLaws.value) 
         //run through the selectedLaws and create a new file_law for each
         for (let i = 0; i < selectedLaws.value.length; i++) {
-            let formattedParagraph = selectedLaws.value[i].paragraph.replace("§", "")
             console.log(selectedLaws.value[i])
             let data = {
                 file_id: fileID,
-                paragraph: parseInt(formattedParagraph),
+                law_id: selectedLaws.value[i].id
             }
             console.log(data)
             await createFileLaw(data)
@@ -282,7 +282,7 @@
                 <div class="article">
                 <select v-model="userArticle" id="article" class="article__select">
                     <option disabled value="">Please select one</option>
-                        <option id="article_item" v-for="article in laws" :key="article.id">
+                        <option id="article_item" v-for="article in laws" :key="article.id" :value="article">
                             §{{ article.Paragraph + ' ' + article.Title + ' ' + article.Category}}
                         </option>
             </select>
