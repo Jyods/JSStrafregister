@@ -34,6 +34,7 @@ import OrientationFileView from '../views/Orientation/FileView.vue'
 import OrientationNewView from '../views/Orientation/NewOrientation.vue'
 import OrientationEditView from '../views/Orientation/EditOrientation.vue'
 import OrientationPermissionView from '../views/Orientation/PermissionView.vue'
+import DatenschutzView from '../views/DatenschutzView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +45,14 @@ const router = createRouter({
       component: IndexView,
       meta: {
         requiresAuth: true
+      },
+    },
+    {
+      path: '/datenschutz',
+      name: 'Datenschutz',
+      component: DatenschutzView,
+      meta: {
+        requiresAuth: false
       },
     },
     {

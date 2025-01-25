@@ -134,10 +134,13 @@
         // const description = ref(null)
         // const punishment = ref(null)
 
+        // Should be like 2025-01-25 18:12:23
+        const dateTime = date.value + " " + time.value
+
         let data = {
             entry_id: getID.id,
             definition: definition.value,
-            date: date.value,
+            date: dateTime,
             description: description.value,
             fine: punishment.value,
             isRestricted: isRestricted.value,

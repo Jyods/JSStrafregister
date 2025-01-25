@@ -58,6 +58,11 @@
     }
 
     function formatDate(date) {
+
+      if (date == "Restricted") {
+        return "Kein Datum"
+      }
+
         return new Date(date).toLocaleDateString('de-DE', { 
           year: 'numeric', 
           month: 'long', 
@@ -65,7 +70,8 @@
           hour: 'numeric', 
           minute: 'numeric', 
           second: 'numeric' 
-        })    }
+        })    
+      }
 
 </script>
 <template>
@@ -103,6 +109,11 @@
               </div>
             </div>
           </div>
+          <div v-else>
+            <div class="law_restrict">
+              <p>RESTRICTED</p>
+            </div>
+          </div>
         </div>
         <div class="informations__wrapper">
           <div class="case__content">
@@ -113,15 +124,22 @@
               <p class="law_entry">
                 <b>Erstellt am:</b> {{ formatDate(entries.created_at) }}
               </p>
-              <p class="law_entry" v-if="entries.user.rank">
-                <b>Erstellt von:</b> {{ entries.user.rank.abbreviation }} {{ entries.user.name }}
+              <p class="law_entry" v-if="entries.user != 'Restricted'">
+                <b>Erstellt von: </b> 
+                <RouterLink 
+                  :to="{  name: 'Member', 
+                          query: { MemberID: entries.user.id }}"
+                          :user = "entries.user"
+                          >
+                  {{ entries.user.rank.abbreviation }} {{ entries.user.name }}
+                </RouterLink>
               </p>
-              <p class="law_entry">
+              <p class="law_entry" v-else>
                 <b>Erstellt von:</b> RESTRICTED {{ entries.user.name }}
               </p>
               <p class="law_entry">
                 <b>Sicherheitsstufe:</b> 
-                <span v-if="entries.isRestricted == 1">
+                <span v-if="entries.isRestricted"> 
                   {{ entries.restrictionClass }}
                 </span>
                 <span v-else>
@@ -136,16 +154,16 @@
             </b>
             <div class="law_entry">
               <p class="law_entry">
-                <b>Verdächtiger:</b> {{ entries.entry[0].identification }}
+                <b>Verdächtiger:</b> {{ entries.user != 'Restricted' ? entries.entry[0].identification : entries.user }}
               </p>
               <p class="law_entry">
-                <b>Tatzeit:</b> {{ entries.date }}
+                <b>Tatzeit:</b> {{ entries.user != 'Restricted' ?  formatDate(entries.date) : entries.user }}
               </p>
               <p class="law_entry">
-                <b>Strafe:</b> {{ entries.fine }} Hafteinheiten
+                <b>Strafe:</b> {{ entries.user != 'Restricted' ?  entries.fine : entries.user }} Hafteinheiten
               </p>
               <p class="law_entry">
-                <b>Rang zur Tatzeit:</b> {{ entries.rank[0].abbreviation }}
+                <b>Rang zur Tatzeit:</b> {{ entries.user != 'Restricted' ? entries.rank[0].abbreviation : entries.user }}
               </p>
             </div>
           </div>
@@ -254,6 +272,14 @@
   width: 90%;
   align-self: center;
   padding-left: 1rem;
+}
+
+.law_restrict {
+  padding-top: 1rem;
+  width: 90%;
+  align-self: center;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
 }
 
 .law_entry_colored {
