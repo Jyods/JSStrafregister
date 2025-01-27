@@ -89,7 +89,6 @@ async function switchWarrent() {
     display: flex;
     justify-content: center;
     align-items: center;
-    color:rgb(0, 0, 0);
     text-decoration: underline;
     font-weight: bold;
     padding: 50px;
@@ -111,7 +110,7 @@ async function switchWarrent() {
 }
 
 .redirect {
-    color: black;
+    color: white;
 }
 
 .redirect:hover {
@@ -139,7 +138,6 @@ async function switchWarrent() {
 }
 
 .link {
-    color: black;
     text-decoration: none;
 }
 
@@ -149,5 +147,9 @@ async function switchWarrent() {
 
 .isWanted {
     color: red;
+}
+
+h3 {
+    color: white;
 }
 </style>

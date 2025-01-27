@@ -92,10 +92,10 @@
         </div>
         <div class="articles__wrapper">
           <b class="case_title">Straftaten</b>
-          <div v-if="entries.laws != 'Restricted'">
+          <div v-if="entries.laws != 'Restricted'" class="law_entry_colored">
             <div v-for="law in entries.laws">
-              <div class="law_entry_colored">
-                <p>
+              <div class="">
+                <p class="law_title">
                   <RouterLink 
                   :to="{  name: 'Law', 
                           query: { ArticleID: law.law.id }}"
@@ -105,7 +105,9 @@
                   </RouterLink>
                   {{ law.law.Title }}
                 </p>
-                {{ law.law.Description }}
+                <p class="law_description">
+                  {{ law.law.Description }}
+                </p>
               </div>
             </div>
           </div>
@@ -287,24 +289,46 @@
   width: 90%;
   align-self: center;
   padding-left: 1rem;
-  background-color: #f0f0f0;
   border-radius: 4px;
-  border: 1px solid gray;
   padding: 0.5rem;
   margin: 0.5rem 0;
 }
 
 .case_title {
   /* padding-top: 1rem; */
+  color: white;
+  border-bottom: 1px solid gray;
+  width: 30%;
+  align-self: center;
+  display: flex;
+  justify-content: center;
 }
 
 textarea {
+  margin-top: 1rem;
   width: 90%;
   height: 85%;
   resize: none;
-  background-color: #f0f0f0;
+  background-color: transparent;
   border-radius: 4px;
   border: 1px solid gray;
   padding: 0.5rem;
+  color: #ffff;
 }
+
+.law_title {
+  color: white;
+  border-bottom: 1px solid gray;
+  width: 100%;
+  align-self: center;
+  padding: 2px 0px;
+  margin-bottom: 5px;
+  padding-top: 1rem;
+}
+
+.law_description {
+  color: white;
+  font-size: 1rem;
+}
+
 </style>

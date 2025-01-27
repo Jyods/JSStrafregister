@@ -108,3 +108,12 @@ function playsound() {
         </el-menu-item>
       </el-menu>
 </template>
+
+<style scoped>
+.el-menu {
+    background-color: var(--main-color);
+}
+.el-menu-item {
+    color: white;
+}
+</style>

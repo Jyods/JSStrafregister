@@ -45,3 +45,13 @@ onMounted(async() => {
     <el-menu-item>Security Level: {{ userInfo.rank.securityLevel.abbreviation || "loading" }} ({{ userInfo.rank.securityLevel.level || "loading" }})</el-menu-item>
   </el-menu>
 </template>
+
+<style scoped>
+.el-menu {
+  background-color: var(--main-color);
+  color: white;
+}
+.el-menu-item {
+  color: white;
+}
+</style>

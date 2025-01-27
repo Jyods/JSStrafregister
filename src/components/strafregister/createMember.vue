@@ -102,14 +102,14 @@ onMounted(() => {
         </Info>
         <p class="star-wars-info">RestrictionClass: <input type="number" v-model="member.restrictionClass"></p>
         <p class="star-wars-info">Aktives Mitglied: <input type="checkbox" v-model="member.isActive"></p>
-        <p class="star-wars-info">Einheit: 
+        <p class="star-wars-info">Rang Einheit: 
           <select v-model="activeUnit">
             <option v-for="unit in units" :value="unit">{{ unit }}</option>
           </select> </p>
         <p class="star-wars-info">Rank: <select v-model="member.rank">
             <option v-for="rank in ranksOfUnit" :key="rank.rank.id" :value="rank">{{ rank.rank }}</option>
           </select></p>
-          <p class="star-wars-info">Company: <select v-model="member.company_id">
+          <p class="star-wars-info">Einheit: <select v-model="member.company_id">
             <option v-for="company in companies" :key="company.id" :value="company.id">{{ company.abbreviation }}</option>
           </select></p>
         <Info info="Das Eintrittsdatum kann nicht geändert werden.">
@@ -129,7 +129,7 @@ onMounted(() => {
         .star-wars-card {
         padding: 20px;
         width: 300px;
-        background-color: #ffffff; /* Weißer Hintergrund */
+        background-color: #576957; /* Weißer Hintergrund */
         border-radius: 10px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Leichter Schatten */
     }
@@ -148,7 +148,6 @@ onMounted(() => {
     
     .star-wars-btn button {
         background-color: #4CAF50; /* Grüner Hintergrund */
-        color: white; /* Weißer Text */
         border: none;
         padding: 12px 24px; /* Mehr Innenabstand */
         border-radius: 5px; /* Abgerundete Ecken */
@@ -177,6 +176,15 @@ onMounted(() => {
     
     .star-wars-save-btn:hover {
         background-color: #388E3C; /* Dunkleres Grün beim Hover */
+    }
+
+    input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="date"], select {
+        width: 100%;
+        padding: 2px 4px;
+        margin: 1px 0;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
     }
   </style>
   

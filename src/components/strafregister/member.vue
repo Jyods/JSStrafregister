@@ -159,7 +159,7 @@ onMounted(() => {
           <p class="star-wars-info">Rank: {{ member.rank.rank }}</p>
           <p class="star-wars-info">Einheit: {{ company ? company : "Error" }}</p>
           <p class="star-wars-info">Eintritt: {{ member.entry }}</p>
-          <p @click="showPermissions = !showPermissions" v-if="!showPermissions">Permissions [Ausklappen]</p>
+          <!-- <p @click="showPermissions = !showPermissions" v-if="!showPermissions">Permissions [Ausklappen]</p>
           <p @click="showPermissions = !showPermissions" v-else>Permissions [Einklappen]</p>
           <div class="star-wars-permissions" v-if="showPermissions">
             <p class="star-wars-info">Allchat: {{ member.permissions.permission_allchat }}</p>
@@ -167,7 +167,7 @@ onMounted(() => {
             <p class="star-wars-info">Creator: {{ member.permissions.permission_creator }}</p>
             <p class="star-wars-info">Recruiter: {{ member.permissions.permission_recruiter }}</p>
             <p class="star-wars-info">Register: {{ member.permissions.permission_register }}</p>
-          </div>
+          </div> -->
           <div class="star-wars-btn">
             <button @click="editMember = true">Edit</button>
           </div>
@@ -190,7 +190,7 @@ onMounted(() => {
               <option v-for="company in companies" :key="company.id" :value="company">{{ company.company }}</option>
             </select></p>
           <p class="star-wars-info">Eintritt: <input type="date" v-model="member.entry" disabled></p>
-          <p @click="showPermissions = !showPermissions" v-if="!showPermissions">Permissions [Ausklappen]</p>
+          <!-- <p @click="showPermissions = !showPermissions" v-if="!showPermissions">Permissions [Ausklappen]</p>
           <p @click="showPermissions = !showPermissions" v-else>Permissions [Einklappen]</p>
           <div class="star-wars-permissions" v-if="showPermissions">
             <p class="star-wars-info">Allchat: <input type="checkbox" v-model="member.permissions.permission_allchat"> </p>
@@ -198,7 +198,7 @@ onMounted(() => {
             <p class="star-wars-info">Creator: <input type="checkbox" v-model="member.permissions.permission_creator"></p>
             <p class="star-wars-info">Recruiter: <input type="checkbox" v-model="member.permissions.permission_recruiter"></p>
             <p class="star-wars-info">Register: <input type="checkbox" v-model="member.permissions.permission_register"></p>
-          </div>
+          </div> -->
           <div class="star-wars-btn">
             <button @click="editMember = false">Abort</button>
             <button :disabled="isLoading" @click="save">Save</button>
