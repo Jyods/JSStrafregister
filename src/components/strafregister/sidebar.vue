@@ -116,4 +116,12 @@ function playsound() {
 .el-menu-item {
     color: white;
 }
+
+.el-menu-item:hover {
+    background-color: #2c3e50;
+}
+
+.el-menu-item.is-active {
+    background-color: #2c5049;
+}
 </style>
