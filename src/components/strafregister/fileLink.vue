@@ -25,6 +25,9 @@ const props = defineProps({
     margin: 3px;
     background-color: rgb(150, 150, 150);
 }
+.link:first-of-type {
+    margin-top: 5px; /* Abstand von 5px oben für das erste Link-Element */
+}
 .link:hover {
     background-color: rgb(200, 200, 200);
 }

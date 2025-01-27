@@ -113,7 +113,7 @@ function truncateDescription(desc) {
     color: #555; /* Dunklerer Text */
 }
 .law__wrapper {
-    background-color: #ffffff; /* Weißer Hintergrund */
+    background-color: #038daf; /* Weißer Hintergrund */
     width: 320px; /* Etwas breiter */
     height: 320px; /* Etwas höher */
     margin: 10px;
@@ -152,7 +152,7 @@ function truncateDescription(desc) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: rgb(255, 168, 168);
     border-radius: 10px; /* Abgerundete Ecken */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Schatten für Tiefe */
     padding: 24px; /* Mehr Innenabstand */
