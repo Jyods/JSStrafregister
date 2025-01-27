@@ -96,7 +96,7 @@ import { authenticateUser, auth } from '../../api/requests.js'
 
 <style scoped>
 .background_image {
-    background-image: url("../../assets/background.svg");
+    background-image: url("../../assets/Background.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
