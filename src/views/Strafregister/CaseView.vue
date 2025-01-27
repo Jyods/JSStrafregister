@@ -97,7 +97,7 @@
               <div class="">
                 <p class="law_title">
                   <RouterLink 
-                  :to="{  name: 'Law', 
+                  :to="{  name: 'LawArticle', 
                           query: { ArticleID: law.law.id }}"
                           :law = "law"
                           >
