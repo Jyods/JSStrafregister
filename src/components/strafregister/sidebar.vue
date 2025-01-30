@@ -2,7 +2,7 @@
 import { RouterLink, useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { getPermissions } from '../../api/requests.js'
-import {logout } from '../../api/requests.js'
+import { logout } from '../../api/requests.js'
 import Navbar from './navbar.vue'
 
 const permissions = ref([])
@@ -103,8 +103,8 @@ function playsound() {
             </el-menu-item>
         </RouterLink>
         -->
-        <el-menu-item index="8">
-            <span @click.prevent="logoutUser">Logout</span>
+        <el-menu-item index="8" @click.prevent="logoutUser">
+            <span>Logout</span>
         </el-menu-item>
       </el-menu>
 </template>
