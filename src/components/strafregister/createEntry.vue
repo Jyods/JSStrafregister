@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { getOnlyEntries, createFile, createEntry, createFileLaw, getLaws, getPermissions, getRanks } from '../../api/requests.js'
+import MultiSelect from '@/components/MultiSelect.vue'
 
 const isLoading = ref(true)
 const entries = ref([])
@@ -136,11 +137,11 @@ async function createFileLaws(fileID) {
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium">Tatdatum</label>
-            <Input type="date" required />
+            <Input type="date" v-model="date" required />
           </div>
           <div>
             <label class="block text-sm font-medium">Tatzeit</label>
-            <Input type="time" required />
+            <Input type="time" v-model="time" required />
           </div>
         </div>
 
@@ -163,16 +164,7 @@ async function createFileLaws(fileID) {
 
         <div>
           <label class="block text-sm font-medium">Gesetze</label>
-          <Select v-model="selectedLaws">
-            <SelectTrigger>
-              <SelectValue placeholder="Gesetze auswählen" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem v-for="law in laws" :key="law.id" :value="law">
-                §{{ law.Paragraph }} {{ law.Title }}
-              </SelectItem>
-            </SelectContent>
-          </Select>
+          <MultiSelect v-model="selectedLaws" :options="laws" />
         </div>
 
         <div>
