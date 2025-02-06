@@ -1,478 +1,206 @@
 <script setup>
-    import { onMounted, ref, computed } from 'vue'
-    import {getOnlyEntries, createFile, createEntry, createFileLaw, getLaws,getPermissions, getRanks} from '../../api/requests.js'
-    import Article from './article.vue'
-    import Tooltip from './tooltip.vue'
+import { ref, onMounted, computed } from 'vue'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { getOnlyEntries, createFile, createEntry, createFileLaw, getLaws, getPermissions, getRanks } from '../../api/requests.js'
 
-    const isLoading = ref(true)
+const isLoading = ref(true)
+const entries = ref([])
+const laws = ref([])
+const ranks = ref([])
+const selectedLaws = ref([])
+const userPermissions = ref(null)
+const permissions = ref(false)
+const newRestrictionClass = ref(0)
 
-    const entries = ref([])
+const userEntry = ref('')
+const definition = ref('')
+const date = ref('')
+const time = ref('')
+const place = ref('')
+const description = ref('')
+const punishment = ref('')
+const isRestricted = ref(false)
+const activeRank = ref(null)
 
-    const userEntry = ref(null)
-    const definition = ref(null)
-    const date = ref(null)
-    const time = ref(null)
-    const place = ref(null)
-    const description = ref(null)
-    const punishment = ref(null)
+const emit = defineEmits(['add-to-array'])
 
-    const isRestricted = ref(false)
+const checkRestrictionClass = computed(() => {
+  if (userPermissions.value === null) return false
+  if (newRestrictionClass.value > userPermissions.value) {
+    newRestrictionClass.value = userPermissions.value
+    return true
+  } else if (newRestrictionClass.value < 0) {
+    newRestrictionClass.value = 0
+    return true
+  }
+  return false
+})
 
-    const userArticle = ref(null)
+onMounted(async () => {
+  isLoading.value = true
+  let files = await getOnlyEntries()
+  entries.value = files.data
+  let lawsData = await getLaws()
+  laws.value = lawsData.data
+  let rankData = await getRanks()
+  ranks.value = rankData.data
 
-    const newRestrictionClass = ref(0)
+  let permData = await getPermissions()
+  userPermissions.value = permData.data
+  permissions.value = permData.data >= 10
 
-    const laws = ref([])
+  isLoading.value = false
+})
 
-    const selectedLaws = ref([])
+async function submitForm() {
+  if (!userEntry.value || !definition.value || !date.value || !time.value || !place.value || !description.value || !punishment.value) {
+    alert("All fields are required!")
+    return
+  }
 
-    const permissions = ref(false)
+  let entry = entries.value.find(entry => entry.identification === userEntry.value)
+  if (!entry) {
+    alert("Die Identifikation existiert nicht!")
+    return
+  }
 
-    const userPermissions = ref(null)
+  let data = {
+    entry_id: entry.id,
+    definition: definition.value,
+    date: `${date.value} ${time.value}`,
+    description: description.value,
+    fine: punishment.value,
+    isRestricted: isRestricted.value,
+    restrictionClass: newRestrictionClass.value || 0,
+    rank_id: activeRank.value?.id || null
+  }
 
-    const checkRestrictionClass = computed(() => {
-        if (userPermissions.value === null) {
-            return false
-        }
-        if (newRestrictionClass.value > userPermissions.value) {
-            newRestrictionClass.value = userPermissions.value
-            return true
-        } else if (newRestrictionClass.value < 0) {
-            newRestrictionClass.value = 0
-            return true
-        }
-        return false
-    })
+  await createFile(data)
+  await createFileLaws(data.entry_id)
 
-    const ranks = ref([])
+  resetForm()
+  emit('add-to-array', "Neue Straftat hinzugefügt")
+}
 
-    const activeRank = ref(null)
+function resetForm() {
+  userEntry.value = ''
+  definition.value = ''
+  date.value = ''
+  time.value = ''
+  place.value = ''
+  description.value = ''
+  punishment.value = ''
+  isRestricted.value = false
+  newRestrictionClass.value = 0
+  activeRank.value = null
+  selectedLaws.value = []
+}
 
-    const newEntryObj = ref(false)
-
-    const emit = defineEmits(['add-to-array'])
-
-    function addToArray(message) {
-        console.log("Add to array", message)
-        emit('add-to-array', message)
-    }
-
-    
-    //checks if the identification exists in the entries when not return set own const to true, when the document isn't loaded return false
-    const newEntry = computed(() => {
-        if (userEntry === null) {
-            console.log("Document not loaded")
-            return false
-        }
-        let getID = entries.value.find(entry => entry.identification === userEntry.value)
-        if (getID === undefined) {
-            console.log("New Entry")
-            return true
-        }
-        return false
-    })
-
-    onMounted(async() => {
-        isLoading.value = true
-        console.log("Home View")
-        //entries.value = props.entries
-        let files = await getOnlyEntries() 
-        entries.value = files.data
-        files = await getLaws()
-        laws.value = files.data
-        let rank = await getRanks()
-        ranks.value = rank.data
-        console.log(laws.value)
-        console.log(entries.value)
-        console.log(laws.value)
-        isLoading.value = false
-    let data = await getPermissions()
-    userPermissions.value = data.data
-    if (data.data >= 10)
-    {
-        permissions.value = true
-    }
-    else {
-        permissions.value = true
-        //permissions.value = false
-    }
-    })
-
-    async function submitForm(e) {
-
-        console.error(e)
-
-        let identification = document.getElementById("identification").value
-
-        isLoading.value = true
-        
-        if (newEntry.value === true) {
-            if(await createNewEntry(identification) == false) {
-                alert("Die Identifikation konnte nicht bearbeitet werden!")
-                return
-            }
-        }
-
-        let getID = entries.value.find(entry => entry.identification === identification)
-
-        if (getID === undefined) {
-            alert("Die Identifikation existiert nicht!")
-            return
-        }
-
-        //let formattedDate = document.getElementById("timeDate").value + " " + document.getElementById("timeTime").value
-
-        //timePlace: document.getElementById("timePlace").value,
-
-        //if restrictionClass is nu ll then set it to 0
-
-        // const userEntry = ref(null)
-        // const definition = ref(null)
-        // const date = ref(null)
-        // const time = ref(null)
-        // const place = ref(null)
-        // const description = ref(null)
-        // const punishment = ref(null)
-
-        // Should be like 2025-01-25 18:12:23
-        const dateTime = date.value + " " + time.value
-
-        let data = {
-            entry_id: getID.id,
-            definition: definition.value,
-            date: dateTime,
-            description: description.value,
-            fine: punishment.value,
-            isRestricted: isRestricted.value,
-            restrictionClass: newRestrictionClass.value === null ? 0 : newRestrictionClass.value,
-            rank_id: activeRank.value.id,
-        }
-        
-        console.warn("Data")
-        console.log(data)
-
-        newEntryObj.value = data
-
-        const response = await createFile(data)
-
-        await crateFileLaws(response.id)
-
-        console.log(response)
-        isLoading.value = false
-
-        resetForm()
-        addToArray("Neue Straftat hinzugefügt")
-
-    }
-
-    function resetForm()
-    {
-        userEntry.value = null
-        definition.value = null
-        date.value = null
-        time.value = null
-        place.value = null
-        description.value = null
-        punishment.value = null
-        isRestricted.value = false
-        userArticle.value = null
-        newRestrictionClass.value = 0
-        selectedLaws.value = []
-        activeRank.value = null
-    }
-
-    async function createNewEntry(identification) {
-        let data = {
-            identification: identification,
-        }
-
-        const response = await createEntry(data)
-
-        entries.value.push(response.data)
-
-        console.log(entries.value)
-
-        return true
-    }
-
-    function addArticle() {
-        //check if the article is empty
-        if (userArticle.value === "")
-        {
-            alert("Du kannst nicht nichts hinzufügen.")
-            return
-        }
-        //check if the article name is already in selectedLaws
-        let getID = selectedLaws.value.find(selected => selected.id === userArticle.value.id)
-        if (getID !== undefined) {
-            alert("Der Artikel existiert bereits!")
-            return
-        }
-        //add the article as a object to the selectedLaws
-        let name = "§" + userArticle.value.Paragraph + " " + userArticle.value.Title
-        //split the name by ' ' and get the second part
-        let Paragraph = userArticle.value.Paragraph
-        let Title = userArticle.value.Title
-        let id = userArticle.value.id
-
-        selectedLaws.value.push({id: id, name: name, paragraph: Paragraph, title: Title})
-        userArticle.value = ""
-    }
-
-    function removeArticle(id) {
-        console.warn("id: " + id)
-        //search the article by id and remove it
-        let getID = selectedLaws.value.find(entry => entry.id === id)
-        if (getID === undefined) {
-            alert("Der Artikel existiert nicht!")
-            return
-        }
-        selectedLaws.value.splice(selectedLaws.value.indexOf(getID), 1)
-    }
-
-    async function crateFileLaws(fileID)
-    {
-        console.log(selectedLaws.value) 
-        //run through the selectedLaws and create a new file_law for each
-        for (let i = 0; i < selectedLaws.value.length; i++) {
-            console.log(selectedLaws.value[i])
-            let data = {
-                file_id: fileID,
-                law_id: selectedLaws.value[i].id
-            }
-            console.log(data)
-            await createFileLaw(data)
-        }
-
-        
-    }
+async function createFileLaws(fileID) {
+  for (let law of selectedLaws.value) {
+    await createFileLaw({ file_id: fileID, law_id: law.id })
+  }
+}
 </script>
 
 <template>
-    <div class="loading" v-if="isLoading">
-        <img src="../../assets/Loading.svg" alt="loading"/>
-    </div>
-    <div class="wrapper" v-else>
-        <div class="form">
-            <h1>Neue File</h1>
-            <form @submit.prevent="submitForm">
-                <label for="identification">Identifikation</label>
-                <Tooltip info="Es wird ein neuer Straftäter erfasst" :show="newEntry">
-                    <input type="text" name="identification" v-model="userEntry" id="identification" placeholder="Identifikation" list="entry" required>
-                    <datalist id="entry">
-                        <option v-for="entry in entries" :key="entry.id" :value="entry.identification" />
-                    </datalist>
-                </Tooltip>
-                <label for="definition">Vergehen</label>
-                <input type="text" name="definition" id="definition" placeholder="Mord" v-model="definition" required>
-                <label for="timeDate">Tatdatum</label>
-                <input type="date" name="timeDate" id="timeDate" placeholder="03.04.2022" v-model="date" required>
-                <label for="timeTime">Tatzeit</label>
-                <input type="time" name="timeTime" id="timeTime" placeholder="12:00" v-model="time" required>
-                <label for="timePlace">Tatort</label>
-                <input type="text" name="timePlace" id="timePlace" placeholder="Zuhause" v-model="place" required>
-                <label for="description">Beschreibung</label>
-                <textarea name="description" id="description" placeholder="Beschreibung" v-model="description" required></textarea>
-                <label for="punishment">Hafteinheiten</label>
-                    <div class="punishment"><input type="number" name="punishment" id="punishment" placeholder="23" v-model="punishment" required>
-                    Einheiten</div>
-                <!--Multicheckbox with articles-->
-                <div class="article__wrapper">
-                <label for="articles">Gesetze</label>
-                <div class="article__input">
-                   <Article v-for="selectedLaw in selectedLaws" :key="selectedLaw.id" :article="selectedLaw" @removeArticle="removeArticle"/>
-                </div>
-                <div class="article">
-                <select v-model="userArticle" id="article" class="article__select">
-                    <option disabled value="">Please select one</option>
-                        <option id="article_item" v-for="article in laws" :key="article.id" :value="article">
-                            §{{ article.Paragraph + ' ' + article.Title + ' ' + article.Category}}
-                        </option>
-            </select>
-                    <button class="button__plus" @click.prevent="addArticle"><img src="../../assets/plus.svg" width="25" height="25" /> </button>
-                </div>
-            </div>
-            <h3>Rank: <select v-model="activeRank" id="article">
-                <option v-for="rank in ranks" :key="rank.id" :value="rank">{{ rank.rank }}</option>
-            </select> </h3>
-                <!--<input type="description" name="articles" id="articles" placeholder="Artikel" required>-->
-                <div class="checkbox-wrapper" v-if="permissions">
-                    <label for="isRestricted">Is Restricted</label>
-                    <input type="checkbox" v-model="isRestricted" name="isRestricted" id="isRestricted" class="checkbox">
-                </div>
-                <div class="isRestricted" v-if="isRestricted">
-                    <label for="restrictionClass">Restriction Class</label>
-                    <p v-if="checkRestrictionClass"></p>
-                        <input type="number" name="restrictionClass" v-model="newRestrictionClass" placeholder="1">
-                </div>
-                <button type="submit">Submit</button>
-            </form>
+  <div v-if="isLoading" class="flex justify-center items-center min-h-screen">
+    <span>Loading...</span>
+  </div>
+
+  <div v-else class="">
+    <CardHeader>
+      <CardTitle class="text-xl font-semibold">Neue Straftat Erstellen</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <form @submit.prevent="submitForm" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Identifikation</label>
+            <Input v-model="userEntry" placeholder="Identifikation" list="entry" required />
+            <datalist id="entry">
+              <option v-for="entry in entries" :key="entry.id" :value="entry.identification" />
+            </datalist>
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Vergehen</label>
+            <Input v-model="definition" placeholder="Mord" required />
+          </div>
         </div>
-    
-    </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium">Tatdatum</label>
+            <Input type="date" required />
+          </div>
+          <div>
+            <label class="block text-sm font-medium">Tatzeit</label>
+            <Input type="time" required />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Tatort</label>
+          <Input v-model="place" placeholder="Tatort" required />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Beschreibung</label>
+          <Textarea v-model="description" placeholder="Tatbeschreibung..." required />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Hafteinheiten</label>
+          <div class="flex items-center gap-2">
+            <Input type="number" v-model="punishment" placeholder="23" required />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Gesetze</label>
+          <Select v-model="selectedLaws">
+            <SelectTrigger>
+              <SelectValue placeholder="Gesetze auswählen" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem v-for="law in laws" :key="law.id" :value="law">
+                §{{ law.Paragraph }} {{ law.Title }}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium">Rank</label>
+          <Select v-model="activeRank">
+            <SelectTrigger>
+              <SelectValue placeholder="Rank auswählen" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem v-for="rank in ranks" :key="rank.id" :value="rank">
+                {{ rank.rank }}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <Checkbox v-model="isRestricted" />
+          <label for="isRestricted" class="text-sm font-medium">Eingeschränkter Zugriff</label>
+        </div>
+
+        <div v-if="isRestricted">
+          <label class="block text-sm font-medium">Beschränkungsklasse</label>
+          <Input type="number" v-model="newRestrictionClass" placeholder="1" />
+        </div>
+
+        <Button type="submit" class="bg-primary ">Einreichen</Button>
+      </form>
+    </CardContent>
+  </div>
 </template>
-
-<style scoped>
-.article {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-label {
-    padding-top: 15px;
-}
-#article {
-    width: max-content;
-    height: auto;
-    padding: 5px;
-    border-radius: 10px;
-    border: none;
-    font-size: larger;
-    cursor: pointer;
-    transition: 0.2s;
-}
-.article__wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.button__plus {
-    width: 50px;
-    height: 50px;
-    margin: 10px;
-    border-radius: 10px;
-    border: none;
-    background-color: transparent;
-    color: #f9f9f9;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.button__plus:hover {
-    background-color: transparent;
-}
-.button {
-    width: 100%;
-    height: 50px;
-    margin: 10px;
-    border-radius: 10px;
-    border: none;
-    background-color: #1e1e1e;
-    color: #f9f9f9;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-}
-.button:hover {
-    background-color: #3f3f3f;
-}
-input {
-    width: 75%;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    color: #333; /* Dunklerer Text */
-    background-color: #f9f9f9;
-    transition: background-color 0.2s;
-}
-input:hover {
-    background-color: #e9e9e9;
-}
-input::placeholder {
-    color: #6d6d6d; /* Graue Farbe für Vorschläge */
-}
-input[type='checkbox'] {
-    width: 15px;
-    height: 15px;
-    margin: 10px;
-}
-input[type='checkbox']:hover {
-    cursor: pointer;
-}
-.isRestricted {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.punishment {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-.form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-}
-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-input {
-    width: 75%;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-.checkbox {
-    width: 10%;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-textarea {
-    width: 75%;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    color: #333; /* Dunklerer Text */
-    background-color: #f9f9f9;
-    transition: background-color 0.2s;
-}
-textarea:hover {
-    background-color: #e9e9e9;
-}
-textarea::placeholder {
-    color: #6d6d6d; /* Graue Farbe für Vorschläge */
-}
-
-.checkbox-wrapper {
-    display: flex;
-    align-items: center;
-    padding-top: 10px;
-}
-.checkbox-wrapper label {
-    margin-right: 10px; /* Abstand zwischen Label und Checkbox */
-    padding: 0;
-    margin: 0;
-}
-
-button:hover {
-    background-color: #3f3f3f;
-}
-
-.article__select {
-    width: 50% !important;
-}
-
-</style>

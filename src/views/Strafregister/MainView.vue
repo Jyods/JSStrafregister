@@ -1,32 +1,36 @@
 <script setup>
-  import { ref, onMounted } from 'vue'
-  import sidebar from '../../components/strafregister/sidebar.vue'
-  import { RouterLink, RouterView } from 'vue-router'
+import { ref } from 'vue';
+import Sidebar from '../../components/strafregister/sidebar.vue';
 import Navbar from '../../components/strafregister/navbar.vue';
+import CreateEntry from '../../components/strafregister/createEntry.vue';
 
-  const emit = defineEmits(['add-to-array'])
+import { RouterView } from 'vue-router';
 
-  function addToArray(message) {
-    console.warn("Add toe array MAINVIEW")
-    emit('add-to-array', message)
-  }
+const emit = defineEmits(['add-to-array']);
 
+function addToArray(message) {
+  console.warn("Add to array MAINVIEW");
+  emit('add-to-array', message);
+}
 </script>
 
 <template>
-  <div class="common-layout">
-    <el-container>
-      <el-header>
-        <Navbar />
-      </el-header>
-      <el-container>
-        <el-aside width="210px">
-            <sidebar class="bg" @add-to-array="addToArray"/>
-        </el-aside>
-        <el-main>
-            <RouterView @add-to-array="addToArray"/>
-        </el-main>
-      </el-container>
-    </el-container>
+  <div class="flex flex-col min-h-screen">
+    <!-- Navbar at the top -->
+    <Navbar class="w-full" />
+    <div class="flex flex-1">
+      <!-- Sidebar -->
+    <Sidebar @add-to-array="addToArray" />
+      <!-- Main Content -->
+      <main class="flex-1">
+        <!-- Main Router View -->
+        <div>
+          <RouterView @add-to-array="addToArray" />
+        </div>
+      </main>
+    </div>
+    <footer class=" text-primary text-center py-4 text-sm">
+      <span>Redesign by <a class=" hover:underline text-blue-600" target="_blank" href="https://github.com/TheRealDzox">Dzox</a></span>
+    </footer>
   </div>
 </template>

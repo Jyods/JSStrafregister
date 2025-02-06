@@ -1,15 +1,14 @@
 <script setup>
-    import { ref, onMounted } from 'vue'
-    import { RouterLink, RouterView } from 'vue-router'
-    import { getMember } from '../../api/requests.js'
+import { ref, onMounted } from 'vue'
+import { getMember } from '../../api/requests.js'
 
-    const isLoading = ref(true)
-    const member = ref([])
+const isLoading = ref(true)
+const member = ref([])
 
-    const searchParams = new URLSearchParams(window.location.search);
-    const memberID = searchParams.get('MemberID');
+const searchParams = new URLSearchParams(window.location.search);
+const memberID = searchParams.get('MemberID');
 
-    const left = ref(false)
+const left = ref(false)
 
 onMounted(async() => {
     isLoading.value = true
@@ -22,43 +21,26 @@ onMounted(async() => {
     isLoading.value = false
     console.log(left.value)
 })
-
 </script>
 
-
 <template>
-
-<div class="loading" v-if="isLoading">
-    <img src="../../assets/Loading.svg" alt="loading"/>
-</div>
-<div v-else>
-    <div class="members">
-        <div class="member">
-            <h1>Members</h1>
-            <h2>Typ: {{ member.type }}</h2>
-            <h3>Identifikation: {{ member.identification }}</h3>
-            <h3>Einheit: {{ member.rank.unit }}</h3>
-            <h3>Rang: {{ member.rank.rank }}</h3>
-            <h3>Aktives Mitglied: {{ left }}</h3>
-            <h3>Beitritt: {{ member.entry }}</h3>
-            <h3 v-if="member.left == false">Austritt: {{ member.departure }}</h3>
-            <h3 v-if="member.left == false">Grund: {{ member.reason }}</h3>
+    <div class="flex justify-center items-center h-screen" v-if="isLoading">
+        <img src="../../assets/Loading.svg" alt="loading"/>
+    </div>
+    <div v-else class="container mx-auto p-4">
+        <div class="member-card p-6 dark:bg-neutral-900 rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold mb-4">Member Details</h1>
+            <p class="mb-2"><strong>Typ:</strong> {{ member.type }}</p>
+            <p class="mb-2"><strong>Identifikation:</strong> {{ member.identification }}</p>
+            <p class="mb-2"><strong>Einheit:</strong> {{ member.rank.unit }}</p>
+            <p class="mb-2"><strong>Rang:</strong> {{ member.rank.rank }}</p>
+            <p class="mb-2"><strong>Aktives Mitglied:</strong> {{ left }}</p>
+            <p class="mb-2"><strong>Beitritt:</strong> {{ member.entry }}</p>
+            <p v-if="member.left == false" class="mb-2"><strong>Austritt:</strong> {{ member.departure }}</p>
+            <p v-if="member.left == false" class="mb-2"><strong>Grund:</strong> {{ member.reason }}</p>
         </div>
     </div>
-</div>
-
 </template>
 
 <style scoped>
-.member {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: rgb(117, 117, 117);
-    border-radius: 10px;
-    padding: 20px;
-    margin: 50px 100px 50px 100px;
-    box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.75);
-}
 </style>

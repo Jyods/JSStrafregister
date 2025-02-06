@@ -1,6 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import {RouterLink} from 'vue-router'
+import { RouterLink } from 'vue-router'
 
 const props = defineProps({
     file: {
@@ -9,26 +8,16 @@ const props = defineProps({
     }
 })
 </script>
+
 <template>
-    <RouterLink :to="{ name: 'Case', query: { CaseID: props.file.id }}" class="link">
-    <img src="../../assets/Arrow.svg" alt="loading" height="15" width="15"/>
-    {{ props.file.definition }} 
-    {{ props.file.date }}
+    <RouterLink :to="{ name: 'Case', query: { CaseID: props.file.id }}" class="flex items-center p-4 mb-2 rounded-lg shadow-md dark:bg-neutral-800 dark:hover:bg-neutral-600 hover:bg-gray-100">
+        <img src="../../assets/Arrow.svg" alt="loading" class="mr-2" height="15" width="15"/>
+        <div class="flex flex-col">
+            <span class="font-semibold">{{ props.file.definition }}</span>
+            <span class="text-gray-500">{{ props.file.date }}</span>
+        </div>
     </RouterLink>
 </template>
+
 <style scoped>
-.link {
-    text-decoration: none;
-    color: black;
-    padding: 6px;
-    border-radius: 10px;
-    margin: 3px;
-    background-color: rgb(150, 150, 150);
-}
-.link:first-of-type {
-    margin-top: 5px; /* Abstand von 5px oben für das erste Link-Element */
-}
-.link:hover {
-    background-color: rgb(200, 200, 200);
-}
 </style>

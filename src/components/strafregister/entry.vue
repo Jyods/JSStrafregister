@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue'
 import Fall from './case.vue'
 import { switchWarrentState } from '../../api/requests.js'
 import { Files } from '@element-plus/icons-vue';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const props = defineProps({
     entry: {
@@ -48,36 +50,31 @@ async function switchWarrent() {
 </script>
 
 <template>
-    <div class="wrapper" >
-        <div class="entry flex" @click.prevent="extend">
-            <h3>{{props.entry.identification}}</h3>
-            <p :class="{isWanted : newIsWanted}">Gesucht: {{ newIsWanted ? "Ja" : "Nein" }}
-            <!-- <input type="checkbox" v-if="extended" v-model="newIsWanted" @click="switchWarrent" />
-            <input type="checkbox" v-else v-model="newIsWanted" disabled/> -->
-            <el-popconfirm
-                title="Wollen sie den Haftbefehl wirklich ändern?"
-                confirmButtonText="Ja"
-                cancelButtonText="Nein"
-                @confirm="switchWarrent"
-                @cancel=""
-                >
-                <template #reference>
-                    <!-- <el-button type="danger" slot="reference" v-if="extended" v-model="newIsWanted" :disabled="inProgress">Switch</el-button> -->
-                    <!-- <el-button type="danger" slot="reference" v-else v-model="newIsWanted" :disabled="inProgress">Switch</el-button> -->
-                </template>
-            </el-popconfirm>
-            </p>
-            <p>
-            <RouterLink :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" class="redirect">
-                <img src="../../assets/Arrow.svg" alt="loading" height="15" width="15"/>
-                Einsehen
-            </RouterLink>
-            </p>
+    <Card class="p-4">
+        <CardContent class="p-4 flex justify-between items-center">
+            <div class="flex flex-col gap-2">
+                <h3 class="text-lg font-semibold">{{ props.entry.identification }}</h3>
+                <p :class="{'text-red-500 font-bold': newIsWanted}">
+                    Gesucht: {{ newIsWanted ? "Ja" : "Nein" }}
+                </p>
+                <Button @click.prevent="switchWarrent" :disabled="inProgress" variant="destructive">
+                    Status wechseln
+                </Button>
+                <RouterLink 
+                    :to="{ name: 'Entry', query: { EntryID: props.entry.id }}" 
+                    class="text-blue-500 hover:underline">
+                    Einsehen →
+                </RouterLink>
+            </div>
+            <Button @click.prevent="extend" variant="outline">
+                {{ extended ? "Weniger anzeigen" : "Mehr anzeigen" }}
+            </Button>
+        </CardContent>
+        <div v-if="extended" class="p-4 border-t">
+            <Fall v-for="Case in entry.files" :case="Case" :key="Case.id" />
+            <p v-if="entry.files.length === 0" class="text-center text-gray-500">Keine Einträge</p>
         </div>
-        <el-divider class="divider" />
-        <Fall v-if="extended" v-for="Case in entry.files" :case="Case" :key="Case.id"/>
-        <p class="noEntry" v-if="extended && entry.files.length == 0">Keine Einträge</p>
-    </div>
+    </Card>
 </template>
 
 <style scoped>
@@ -97,20 +94,9 @@ async function switchWarrent() {
     display: flex;
     align-items: center;
 }
-.wrapper {
-    border-color: rgb(0, 0, 0);
-    border-radius: 5px;
-    border-style: solid;
-    margin-bottom: 5px;
-    padding-right: 10px;
-    padding-bottom: 8px;
-}
+
 .restricted {
     background-color: red;
-}
-
-.redirect {
-    color: white;
 }
 
 .redirect:hover {
@@ -147,9 +133,5 @@ async function switchWarrent() {
 
 .isWanted {
     color: red;
-}
-
-h3 {
-    color: white;
 }
 </style>

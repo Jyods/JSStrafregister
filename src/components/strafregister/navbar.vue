@@ -2,6 +2,9 @@
 import { ref, onMounted } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { getCurrentUser, logout } from '../../api/requests.js'
+import { Button } from '../ui/button/index.js'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import themeSwitch from './themeSwitch.vue';
 
   const userInfo = ref([])
 
@@ -30,21 +33,23 @@ onMounted(async() => {
 
 </script>
 <template>
-  <el-menu mode="horizontal" v-if="!loading">
-    <el-menu-item index="0">
-      <img
-        style="width: 150px"
-        src="../../assets/Strafregister.png"
-        alt="Strafregister"
-      />
-    </el-menu-item>
-    <div class="flex-grow justify-center" />
-    <el-menu-item>Identification: {{ userInfo.identification }}</el-menu-item>
-    <el-menu-item>Rank: {{ userInfo.rank.rank || "loading" }} ({{ userInfo.rank.level || "loading" }})</el-menu-item>
-    <el-menu-item>Entry: {{ formattedDate }}</el-menu-item>
-    <el-menu-item>Security Level: {{ userInfo.rank.securityLevel.abbreviation || "loading" }} ({{ userInfo.rank.securityLevel.level || "loading" }})</el-menu-item>
-  </el-menu>
-</template>
+    <nav v-if="!loading" class=" p-4 shadow-md">
+      <div class="container mx-auto flex items-center justify-between">
+        <RouterLink to="/"><h1 class="text-xl">Strafregister</h1></RouterLink>
+        <themeSwitch />
+        <div class="flex items-center space-x-6">
+          <span>Identification: {{ userInfo?.identification }}</span>
+          <span>Rank: {{ userInfo?.rank?.rank || 'loading' }} ({{ userInfo?.rank?.level || 'loading' }})</span>
+          <span>Entry: {{ formattedDate }}</span>
+          <span>Security Level: {{ userInfo?.rank?.securityLevel?.abbreviation || 'loading' }} ({{ userInfo?.rank?.securityLevel?.level || 'loading' }})</span>
+              <Avatar>
+                <AvatarImage src="/placeholder-avatar.png" alt="User Avatar" />
+                <AvatarFallback>{{ userInfo?.identification?.charAt(0) }}</AvatarFallback>
+              </Avatar>
+        </div>
+      </div>
+    </nav>
+  </template>
 
 <style scoped>
 .el-menu {

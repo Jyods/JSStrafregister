@@ -1,124 +1,70 @@
 <script setup>
-    import { onMounted, ref, computed } from 'vue';
-    import { getEntry,getFiles } from '../../api/requests.js';
-    import FileLink from '../../components/strafregister/fileLink.vue';
-    import { switchWarrentState } from '../../api/requests.js'
-  
-    const searchParams = new URLSearchParams(window.location.search);
-    const entryID = searchParams.get('EntryID');
+import { onMounted, ref } from 'vue';
+import { getEntry, switchWarrentState } from '../../api/requests.js';
+import FileLink from '../../components/strafregister/fileLink.vue';
 
-    const isLoading = ref(true)
+const searchParams = new URLSearchParams(window.location.search);
+const entryID = searchParams.get('EntryID');
 
-    const entries = ref([])
+const isLoading = ref(true);
+const entries = ref([]);
+const filesCount = ref('');
+const switching = ref(false);
 
-    const activeEntry = ref('');
+onMounted(async () => {
+    isLoading.value = true;
+    let files = await getEntry(entryID);
+    entries.value = files.data;
+    filesCount.value = entries.value.files.length;
+    isLoading.value = false;
+});
 
-    const filesCount = ref('')
-
-    // const lastRank = computed(() => {
-    //     let latestEntry = null;
-
-    //     console.log(entries.value.files)
-
-    //     if (entries.value.files == undefined) {
-    //         return "Keine Einträge vorhanden";
-    //     }
-
-    //     if (entries.value.files.length == 0) {
-    //         return "Keine Einträge vorhanden";
-    //     }
-
-    //     entries.value.files.forEach(file => {
-    //         if (!latestEntry || new Date(file.created_at) > new Date(latestEntry.created_at)) {
-    //             latestEntry = file;
-    //         }
-    //     });
-
-    //     console.log("Banane", latestEntry)
-
-    //     return latestEntry ? latestEntry.company.company : null;
-    // });
-
-    onMounted(async() => {
-        isLoading.value = true
-        let files = await getEntry(entryID) 
-        entries.value = files.data
-        filesCount.value = entries.value.files.length
-        isLoading.value = false
-    })
-
-    const switching = ref(false)
-
-    async function switchWarrent() {
-        switching.value = true
-        const res = await switchWarrentState(entryID)
-        entries.value.isWanted = res.data.isWanted  
-        switching.value = false
-    }
+async function switchWarrent() {
+    switching.value = true;
+    const res = await switchWarrentState(entryID);
+    entries.value.isWanted = res.data.isWanted;
+    switching.value = false;
+}
 </script>
-<template>
-    <div class="entry_wrapper" v-loading="isLoading">
-        <!-- <div class="wanted_toolbar">
-            <p :class="{gesucht : entries.isWanted}">{{ entries.isWanted ? "DAS SUBJEKT WIRD GESUCHT!!" : "Kein Haftbefehl" }}</p>
-            <el-popconfirm
-                title="Wollen sie den Haftbefehl wirklich ändern?"
-                confirmButtonText="Ja"
-                cancelButtonText="Nein"
-                :icon="InfoFilled"
-                icon-color="#626AEF"
-                width="220"
-                @confirm="switchWarrent"
-            >
-            <template #reference>
-                <el-button v-if="entries.isWanted" :disabled="switching">Haftbefehl entfernen</el-button>
-                <el-button v-else :disabled="switching">Haftbefehl hinzufügen</el-button>
-            </template>
-            </el-popconfirm>
-        </div>
-        <h1>Typ: {{ entries.type }}</h1>
-        <h2>Identifikation: {{ entries.identification }}</h2>
-        <h3>Verbrechen: {{ filesCount }}</h3>
-        <FileLink v-for="file in entries.files" :file="file" /> -->
 
-        <div class="entry_info_wrapper">
-            <p class="entry_info">
+<template>
+    <div class="flex flex-col items-center w-full h-screen p-4">
+        <div class="w-full mb-4 pb-4 border-b border-gray-300">
+            <p class="text-xl font-semibold">
                 Straftäter: {{ entries.identification }}
             </p>
         </div>
 
-        <div class="entry_content_wrapper">
-
-            <div class="entry_criminal_info">
-                <div class="entry_title">
-                    Informationen
-                </div>
-                <div class="entry_criminal_info_content">
-                    <p class="small_title">Status</p>
-                    <p :class="{gesucht : entries.isWanted}">{{ entries.isWanted ? "DAS SUBJEKT WIRD GESUCHT!!" : "Kein Haftbefehl" }}</p>
-                    <p class="small_title">Typ</p>
+        <div class="flex  justify-around items-start w-full h-full gap-4">
+            <div class="w-1/2 p-4 dark:bg-neutral-900 rounded-lg shadow-md">
+                <div class="text-lg font-bold mb-4 border-b pb-2">Informationen</div>
+                <div class="flex flex-col gap-2">
+                    <p>Status</p>
+                    <p :class="{ 'text-red-500 font-bold': entries.isWanted }">{{ entries.isWanted ? "DAS SUBJEKT WIRD GESUCHT!!" : "Kein Haftbefehl" }}</p>
+                    <p>Typ</p>
                     <p>{{ entries.type }}</p>
-                    <p class="small_title">Identifikation</p>
+                    <p>Identifikation</p>
                     <p>{{ entries.identification }}</p>
-                    <p class="small_title">Verbrechen</p>
-                    <p>{{ filesCount }} </p>
-                    <!-- <p class="small_title">Rang des letzten Eintrags</p>
-                    <p>{{ lastRank }}</p> -->
+                    <p>Verbrechen</p>
+                    <p>{{ filesCount }}</p>
+                </div>
+                <div class="mt-4">
+                    <button @click="switchWarrent" :disabled="switching" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                        {{ entries.isWanted ? "Haftbefehl entfernen" : "Haftbefehl hinzufügen" }}
+                    </button>
                 </div>
             </div>
 
-            <div class="entry_criminal_files_content">
-                <div class="entry_title">
-                    Straftaten
+            <div class="w-1/2 p-4 rounded-lg shadow-md dark:bg-neutral-900">
+                <div class="text-lg font-bold mb-4 border-b pb-2">Straftaten</div>
+                <div class="flex flex-col gap-2">
+                    <FileLink v-for="file in entries.files" :file="file" :key="file.id" class="mb-2" />
                 </div>
-                <FileLink v-for="file in entries.files" :file="file" class="entry_criminal_files" />
             </div>
-
         </div>
-
-
-        
     </div>
 </template>
+
 <style scoped>
 .entry_wrapper {
     display: flex;
