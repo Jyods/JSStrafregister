@@ -66,8 +66,8 @@ async function submitForm() {
 
   let entry = entries.value.find(entry => entry.identification === userEntry.value)
   if (!entry) {
-    alert("Die Identifikation existiert nicht!")
-    return
+    entry = await createEntry({ identification: userEntry.value })
+    entry = entry.data
   }
 
   let data = {
@@ -81,8 +81,8 @@ async function submitForm() {
     rank_id: activeRank.value?.id || null
   }
 
-  await createFile(data)
-  await createFileLaws(data.entry_id)
+  let newFile = await createFile(data)
+  await createFileLaws(newFile.id)
 
   resetForm()
   emit('add-to-array', "Neue Straftat hinzugefügt")
@@ -164,7 +164,7 @@ async function createFileLaws(fileID) {
 
         <div>
           <label class="block text-sm font-medium">Gesetze</label>
-          <MultiSelect v-model="selectedLaws" :options="laws" />
+          <MultiSelect v-model="selectedLaws" :options="laws" update:modelValue="selectedLaws" />
         </div>
 
         <div>
