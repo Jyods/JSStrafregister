@@ -120,8 +120,7 @@ async function pushMember(member) {
     isLoading.value = true
     console.log("Push Member")
     //Alert user with the new password
-    console.log(member.password)
-    alert("Das Passwort für " + member.identification + " lautet: " + member.password)
+    // alert("Das Passwort für " + member.identification + " lautet: " + member.password)
     member.rank_id = member.rank.id
     let currentUser = await getCurrentUser()
     console.log(currentUser)

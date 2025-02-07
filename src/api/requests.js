@@ -102,7 +102,6 @@ export async function createEntry(data) {
 
 
 export async function getCurrentUser() {
-    console.log(localStorage.getItem('token'))
     const response = await fetch(`${backend}/user`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -137,7 +136,6 @@ export async function auth(getAll = false) {
     // read document.cookie token
     const token = localStorage.getItem('token');
 
-    console.log(token)
     if (!token) {
       return false;
     }

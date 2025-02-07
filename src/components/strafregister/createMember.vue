@@ -34,7 +34,6 @@ const units = computed(() => {
             units.push(rank.unit)
         }
     });
-    console.log(units)
     return units
 })
 
@@ -60,7 +59,6 @@ function pushMember(member) {
     console.log(response)
     if(response)
     {
-        console.log("Push Member")
         emit('pushNewMember', member)
     }
     else {
@@ -69,7 +67,6 @@ function pushMember(member) {
 }
 
 function abort(memberID) {
-    console.log("Abort", memberID)
     emit('abortMember', memberID)
 }
 
@@ -86,7 +83,6 @@ function checkIfAllFieldsFilled() {
 
 onMounted(() => {
     console.log("Mounted")
-    console.log(member.value)
 })
 
 </script>
