@@ -64,12 +64,12 @@
     <img src="../../assets/Loading.svg" alt="loading"/>
   </div>
   <div v-else>
-    <el-input type="text" placeholder="Suche" class="search" v-model="search" />
+    <input type="text" placeholder="Suche" class="search" v-model="search" />
     <!-- Erstelle ein dropdown bei dem der user auswählen kann ob nach isWarrent gefiltert werden kann-->
     <div class="filter flex" style="justify-content: left;">
       <!--<p>Filter</p>--> 
-      <el-checkbox type="checkbox" v-model="isWarrent" size="large" />
-      {{ isWarrent ? "Gesucht" : "Nicht Gesucht" }}
+      <input type="checkbox" v-model="isWarrent" />
+      <p>{{ isWarrent ? "Nur gesuchte" : "Alle angezeigt" }}</p>
     </div>
     <Entry class="entries" v-for="entry in filteredEntries" :entry="entry" :key="entry.id" @changeWarrent="changewarrent"/>
   </div>
