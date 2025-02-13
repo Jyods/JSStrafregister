@@ -28,14 +28,12 @@ onMounted(async() => {
     console.log(data)
     if (data.data.restrictionClass >= 10)
     {
-        console.log("Member View")
         let fetch = await getMembers()
         members.value = fetch.data
         let fetchRanks = await getRanks()
         ranks.value = fetchRanks.data
         let fetchCompanies = await getCompanies()
         companies.value = fetchCompanies
-        console.error(companies.value)
         isLoading.value = false
     }
     else {
@@ -83,11 +81,11 @@ function addMember() {
         permissions: {
             'permission_register': true,
             'permission_creator': true,
-            'permission_recruiter': true,
-            'permission_broadcaster': true,
-            'permission_admin': true,
-            'permission_superadmin': true,
-            'permission_allchat': true,
+            'permission_recruiter': false,
+            'permission_broadcaster': false,
+            'permission_admin': false,
+            'permission_superadmin': false,
+            'permission_allchat': false,
         }
     })
     console.error(newMembers.value)
@@ -123,9 +121,7 @@ async function pushMember(member) {
     // alert("Das Passwort für " + member.identification + " lautet: " + member.password)
     member.rank_id = member.rank.id
     let currentUser = await getCurrentUser()
-    console.log(currentUser)
     member.creator_name = currentUser.data.identification || "CT-0000"
-    console.log(member)
     let fetch = await createUser(member)
     console.log("Return",fetch)
     members.value.unshift(member)

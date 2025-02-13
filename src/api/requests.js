@@ -247,12 +247,64 @@ export async function getLaws() {
     return await response.json();
 }
 
+export async function postLaw(data) {
+    const response = await fetch(`${backend}/law`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
+export async function deleteLaw(id) {
+    const response = await fetch(`${backend}/law/${id}`,{
+        method: 'DELETE',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+
+    if (response.status === 500) {
+        return false;
+    }
+
+    if (response.status === 401) {
+        return false;
+    }
+
+    if (response.status === 204) {
+        return true;
+    }
+
+    return await response.json();
+}
+
+export async function editLaw(id, data) {
+    const response = await fetch(`${backend}/law/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(data)
+    });
+    return await response.json();
+}
+
 export async function getLawID(id) {
     const response = await fetch(`${backend}/law/${id}`,{
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
+
+    if (response.status === 500) {
+        return false;
+    }
+
     return await response.json();
 }
 

@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue'
-import { getLawID, getLaws } from '../../api/requests.js'
+import { getLawID, getLaws, getPermissions } from '../../api/requests.js'
 import { useRouter } from 'vue-router'
 import { Button } from '@/components/ui/button'
 
@@ -12,6 +12,8 @@ const paragraph = ref("")
 const category = ref("")
 const severity = ref("")
 const description = ref("")
+const isAdmin = ref(false) // Beispielwert, passe dies an deine Authentifizierungslogik an
+
 const isLoading = ref(true)
 
 const sortedLaws = computed(() => {
@@ -24,6 +26,12 @@ const mode = ref(false)
 
 onMounted(async () => {
     mode.value = lawID != null ? true : false
+
+    let data = await getPermissions()
+    if (data.data.restrictionClass >= 10) {
+        isAdmin.value = true
+    }
+
     await getLaw()
     isLoading.value = false
 })
@@ -61,12 +69,15 @@ function truncateDescription(desc) {
             <h2 class="text-2xl font-bold">Gesetzesartikel</h2>
         </div>
         <div class="flex flex-wrap justify-center gap-4">
-            <div v-for="law in sortedLaws" :key="law.id" class="w-full md:w-1/3 p-4  rounded-lg shadow-md dark:bg-neutral-900">
+            <div v-for="law in sortedLaws" :key="law.id" class="w-full md:w-1/3 p-4 rounded-lg shadow-md dark:bg-neutral-900">
                 <div class="text-lg font-bold mb-2">{{ law.Title }}</div>
                 <p>Paragraph: §{{ law.Paragraph }} {{ law.Category }}</p>
                 <p>Kategorie: {{ law.Severity }}</p>
                 <p>Beschreibung: {{ truncateDescription(law.ShortDescription) }}</p>
                 <Button @click="gotoLaw(law.id)" class="bg-primary mt-4">Mehr</Button>
+            </div>
+            <div v-if="isAdmin" class="w-full md:w-1/3 p-4 rounded-lg shadow-md dark:bg-neutral-900 flex justify-center items-center cursor-pointer" @click="$router.push({ name: 'CreateLaw' })">
+                <div class="text-4xl text-gray-500">+</div>
             </div>
         </div>
     </div>

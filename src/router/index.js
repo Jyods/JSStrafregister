@@ -35,6 +35,7 @@ import OrientationNewView from '../views/Orientation/NewOrientation.vue'
 import OrientationEditView from '../views/Orientation/EditOrientation.vue'
 import OrientationPermissionView from '../views/Orientation/PermissionView.vue'
 import DatenschutzView from '../views/DatenschutzView.vue'
+import CreateLaw from '../views/Strafregister/LawArticleEditView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -245,6 +246,11 @@ const router = createRouter({
               path: '/case',
               name: 'CreateCase',
               component: CaseView,
+            },
+            {
+              path: 'law/:ArticleID?',
+              name: 'CreateLaw',
+              component: CreateLaw
             },
           ]
         },
