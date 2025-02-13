@@ -44,7 +44,7 @@ const hover = ref(false)
 
 .info__text {
         position: absolute;
-        background-color: white;
+        background-color: black;
         border-radius: 10px;
         padding: 10px;
         width: calc(max-content + 20px);

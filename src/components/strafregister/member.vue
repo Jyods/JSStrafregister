@@ -180,7 +180,7 @@ onMounted(() => {
           <h1>{{ member.type }}</h1>
           <p class="star-wars-info">Identifikation: <input type="text" v-model="member.identification"></p>
           <p class="star-wars-info">Email: <input type="email" v-model="member.email"></p>
-          <p class="star-wars-info">RestrictionClass: <input type="number" v-model="member.restrictionClass"></p>
+          <p class="star-wars-info">RestrictionClass: <input type="number" disabled v-model="member.restrictionClass"></p>
           <p class="star-wars-info">Aktives Mitglied: <input type="checkbox" v-model="member.isActive"></p>
           <p class="star-wars-info">Einheit: <input type="text" v-model="member.rank.unit" disabled> </p>
           <p class="star-wars-info">Rank: <select v-model="member.rank">

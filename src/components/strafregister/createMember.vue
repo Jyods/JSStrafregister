@@ -47,7 +47,6 @@ const ranksOfUnit = computed(() => {
             ranksOfUnit.push(rank)
         }
     });
-    console.log(ranksOfUnit)
     return ranksOfUnit
 })
 
@@ -56,7 +55,6 @@ const emit = defineEmits(['pushNewMember', 'abortMember'])
 
 function pushMember(member) {
     let response = checkIfAllFieldsFilled()
-    console.log(response)
     if(response)
     {
         emit('pushNewMember', member)
@@ -81,10 +79,6 @@ function checkIfAllFieldsFilled() {
 
 }
 
-onMounted(() => {
-    console.log("Mounted")
-})
-
 </script>
 <template>
     <div class="star-wars-edit-member star-wars-member">
@@ -96,7 +90,9 @@ onMounted(() => {
         <Info info="Der Benutzer erhält ein Passwort über die Email.">
           <p class="star-wars-info">Passwort: <input type="password" v-model="member.password" disabled></p>
         </Info>
-        <p class="star-wars-info">RestrictionClass: <input type="number" v-model="member.restrictionClass"></p>
+        <Info info="Die Restriction class ist nur über einen Admin zu vergeben.">
+            <p class="star-wars-info">RestrictionClass: <input disabled type="number" v-model="member.restrictionClass"></p>
+        </Info>
         <p class="star-wars-info">Aktives Mitglied: <input type="checkbox" v-model="member.isActive"></p>
         <p class="star-wars-info">Rang Einheit: 
           <select v-model="activeUnit">

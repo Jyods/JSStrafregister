@@ -57,7 +57,7 @@ function checkIfAllFieldsFilled() {
                 <input type="text" v-model="member.password">
             </h3>
             <h3>Restriction:
-                <input type="number" v-model="member.restrictionClass">
+                <input type="number" disabled v-model="member.restrictionClass">
             </h3>
             <h3>Eintritt: {{ member.entry }}</h3>
             <div class="wrapper">
